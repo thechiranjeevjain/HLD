@@ -42,6 +42,17 @@ Do not merge everything into one giant application. For interviews, it is strong
 | `mini-kv-storage-engine` | WAL-backed key-value store with TTL and compaction. |
 | `web-server-lab` | Minimal blocking HTTP server. |
 
+## Documentation Standard
+
+Each active project now has Markdown learning support. For most projects, start with:
+
+- `README.md`: business purpose, stack, run commands, and smoke test.
+- `docs/INTERVIEW_GUIDE.md`: two-minute pitch, tradeoffs, failure cases, and FAQ.
+- `docs/DIAGRAMS.md`: Mermaid architecture and request-flow diagrams.
+- `docs/DEMO_SCRIPT.md`: exact commands and talking points for a live interview demo.
+
+Flagship projects may include additional deeper material such as ADRs, incident drills, operations guides, technology deep dives, and appendices.
+
 ## Verification Notes
 
 Last local audit: 2026-08-05.

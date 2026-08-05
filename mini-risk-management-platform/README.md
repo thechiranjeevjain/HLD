@@ -134,6 +134,7 @@ Follow this order:
 - [Deployment Guide](docs/DEPLOYMENT_GUIDE.md)
 - [Docker Guide](docs/DOCKER_GUIDE.md)
 - [Kubernetes Guide](docs/KUBERNETES_GUIDE.md)
+- [Demo Script](docs/DEMO_SCRIPT.md)
 - [Technology Deep Dives](docs/TECHNOLOGY_DEEP_DIVES.md)
 - [Linux Internals](docs/LINUX_INTERNALS.md)
 - [Debugging Guide](docs/DEBUGGING_GUIDE.md)
@@ -141,5 +142,5 @@ Follow this order:
 - [Hands-On Labs](docs/HANDS_ON_LABS.md)
 - [Production Guide](docs/PRODUCTION_GUIDE.md)
 - [Interview Guide](docs/INTERVIEW_GUIDE.md)
+- [FAQ](docs/FAQ.md)
 - [Learning Guide](docs/LEARNING_GUIDE.md)
-
