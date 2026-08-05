@@ -6,7 +6,7 @@ This folder is organized for hands-on backend learning and interview explanation
 
 Do not merge everything into one giant application. For interviews, it is stronger to have one or two deep flagship projects plus smaller focused labs you can explain quickly.
 
-1. `mini-nasdaq-risk-platform`
+1. `trading-risk-platform`
    - Best live interview demo for risk/exchange discussion.
    - Includes a standalone `pretrade-risk-engine` with accepted/rejected orders, FIX input, fail-closed checks, market-data freshness, kill switch, circuit breaker, audit trail, race-condition demo, and P&L.
 2. `exchange-lite`
@@ -35,7 +35,7 @@ Do not merge everything into one giant application. For interviews, it is strong
 | `hotel-booking-service` | Hotel read/search/delete API, basic auth, browser UI, OpenAPI, metrics. |
 | `employee-document-upload-system` | Signed upload intent, document review policy, security roles, infra docs. |
 | `exchange-lite` | Matching engine, risk checks, binary protocol, engine/sidecar/CLI runtime. |
-| `mini-nasdaq-risk-platform` | Nasdaq-style risk platform plus live pre-trade risk engine demo. |
+| `trading-risk-platform` | Venue-neutral risk platform plus live pre-trade risk engine demo. |
 | `mini-risk-management-platform` | Java 21 microservices risk platform with Docker/Kubernetes/observability. |
 | `cache-lab` | LRU plus TTL cache behavior and metrics. |
 | `message-queue-lab` | Queue retry, acknowledgement, and dead-letter behavior. |
@@ -81,7 +81,7 @@ mvn "-Dnet.bytebuddy.experimental=true" "-DskipTests" package
 For the fast live pre-trade demo:
 
 ```powershell
-cd G:\TechStudyNotes\SystemDesignProjects\mini-nasdaq-risk-platform
+cd G:\TechStudyNotes\SystemDesignProjects\trading-risk-platform
 mvn -pl pretrade-risk-engine spring-boot:run
 ```
 
