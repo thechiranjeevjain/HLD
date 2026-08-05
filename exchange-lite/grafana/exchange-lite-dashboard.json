@@ -1,0 +1,34 @@
+{
+  "title": "ExchangeLite",
+  "schemaVersion": 39,
+  "version": 1,
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Accepted Orders",
+      "targets": [
+        {
+          "expr": "exchange_orders_accepted_total"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Rejected Orders",
+      "targets": [
+        {
+          "expr": "exchange_orders_rejected_total"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Executed Trades",
+      "targets": [
+        {
+          "expr": "exchange_trades_executed_total"
+        }
+      ]
+    }
+  ]
+}

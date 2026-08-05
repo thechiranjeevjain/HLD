@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mini-risk-config
+  namespace: mini-risk
+data:
+  ORDER_EVENTS_TOPIC: order-events
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+  SPRING_DATA_REDIS_HOST: redis
+  SPRING_DATA_REDIS_PORT: "6379"
+  ORDER_SERVICE_URL: http://order-service:8081
+  RISK_SERVICE_URL: http://risk-service:8082
+  HISTORY_SERVICE_URL: http://history-service:8083
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init
+  namespace: mini-risk
+data:
+  init.sql: |
+    CREATE DATABASE orders;
+    CREATE DATABASE risk;
+    CREATE DATABASE history;
+    GRANT ALL PRIVILEGES ON DATABASE orders TO risk;
+    GRANT ALL PRIVILEGES ON DATABASE risk TO risk;
+    GRANT ALL PRIVILEGES ON DATABASE history TO risk;
+

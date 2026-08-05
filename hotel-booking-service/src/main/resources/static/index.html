@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Booking Admin</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: #f6f7f9;
+            --panel: #ffffff;
+            --text: #17202a;
+            --muted: #5b6572;
+            --line: #d9dee5;
+            --accent: #0f766e;
+            --danger: #b42318;
+            --shadow: 0 12px 30px rgba(18, 28, 45, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        header {
+            border-bottom: 1px solid var(--line);
+            background: var(--panel);
+        }
+
+        main,
+        .topbar {
+            width: min(1180px, calc(100% - 32px));
+            margin: 0 auto;
+        }
+
+        .topbar {
+            min-height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 24px;
+            line-height: 1.2;
+        }
+
+        main {
+            padding: 28px 0 48px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 18px;
+            align-items: start;
+        }
+
+        section {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .panel {
+            padding: 18px;
+        }
+
+        h2 {
+            margin: 0 0 14px;
+            font-size: 18px;
+        }
+
+        label {
+            display: grid;
+            gap: 6px;
+            margin-bottom: 12px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        input {
+            width: 100%;
+            min-height: 40px;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 8px 10px;
+            font: inherit;
+            color: var(--text);
+            background: #fff;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        button,
+        a.button {
+            min-height: 38px;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            padding: 8px 12px;
+            background: var(--accent);
+            color: #fff;
+            font: inherit;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button.secondary,
+        a.button.secondary {
+            background: #fff;
+            border-color: var(--line);
+            color: var(--text);
+        }
+
+        button.danger {
+            background: var(--danger);
+        }
+
+        .status {
+            margin-top: 14px;
+            min-height: 24px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .result {
+            overflow: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 760px;
+        }
+
+        th,
+        td {
+            border-bottom: 1px solid var(--line);
+            padding: 11px 12px;
+            text-align: left;
+            vertical-align: top;
+            font-size: 14px;
+        }
+
+        th {
+            color: var(--muted);
+            font-weight: 700;
+            background: #fbfcfd;
+        }
+
+        pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        @media (max-width: 860px) {
+            .topbar {
+                align-items: flex-start;
+                flex-direction: column;
+                padding: 16px 0;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="topbar">
+        <h1>Booking Admin</h1>
+        <a class="button secondary" href="/openapi.yaml">OpenAPI YAML</a>
+    </div>
+</header>
+<main>
+    <div class="grid">
+        <section class="panel">
+            <h2>Credentials</h2>
+            <label>
+                Username
+                <input id="username" autocomplete="username" value="admin">
+            </label>
+            <label>
+                Password
+                <input id="password" type="password" autocomplete="current-password" value="admin">
+            </label>
+            <h2>Actions</h2>
+            <label>
+                Hotel ID
+                <input id="hotelId" type="number" min="1" value="1">
+            </label>
+            <label>
+                City ID
+                <input id="cityId" type="number" min="1" value="1">
+            </label>
+            <div class="actions">
+                <button id="getHotel">Get Hotel</button>
+                <button id="searchCity" class="secondary">Search City</button>
+                <button id="deleteHotel" class="danger">Delete Hotel</button>
+            </div>
+            <div id="status" class="status" role="status" aria-live="polite"></div>
+        </section>
+        <section class="result">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>City</th>
+                    <th>Address</th>
+                    <th>Distance KM</th>
+                    <th>Deleted</th>
+                </tr>
+                </thead>
+                <tbody id="rows">
+                <tr>
+                    <td colspan="6"><pre id="raw">No data loaded.</pre></td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</main>
+<script>
+    const statusEl = document.querySelector("#status");
+    const rowsEl = document.querySelector("#rows");
+    const rawEl = document.querySelector("#raw");
+
+    function authHeader() {
+        const username = document.querySelector("#username").value;
+        const password = document.querySelector("#password").value;
+        return "Basic " + btoa(`${username}:${password}`);
+    }
+
+    async function request(path, options = {}) {
+        statusEl.textContent = "Loading...";
+        const response = await fetch(path, {
+            ...options,
+            headers: {
+                Authorization: authHeader(),
+                Accept: "application/json",
+                ...(options.headers || {})
+            }
+        });
+
+        if (response.status === 204) {
+            statusEl.textContent = "Done.";
+            renderRaw({status: 204, message: "Deleted"});
+            return null;
+        }
+
+        const text = await response.text();
+        const body = text ? JSON.parse(text) : null;
+        if (!response.ok) {
+            throw new Error(body?.message || `${response.status} ${response.statusText}`);
+        }
+
+        statusEl.textContent = "Loaded.";
+        return body;
+    }
+
+    function renderRaw(value) {
+        rowsEl.innerHTML = `<tr><td colspan="6"><pre id="raw">${escapeHtml(JSON.stringify(value, null, 2))}</pre></td></tr>`;
+    }
+
+    function renderHotels(value) {
+        const hotels = Array.isArray(value) ? value : [value];
+        rowsEl.innerHTML = hotels.map(hotel => `
+            <tr>
+                <td>${hotel.id ?? ""}</td>
+                <td>${escapeHtml(hotel.name ?? "")}</td>
+                <td>${escapeHtml(hotel.cityName ?? "")}</td>
+                <td>${escapeHtml(hotel.address ?? "")}</td>
+                <td>${hotel.distanceFromCityCenterKm === undefined ? "" : Number(hotel.distanceFromCityCenterKm).toFixed(3)}</td>
+                <td>${hotel.deleted === undefined ? "" : hotel.deleted}</td>
+            </tr>
+        `).join("");
+    }
+
+    function escapeHtml(value) {
+        return String(value)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll("\"", "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+    async function run(action) {
+        try {
+            const data = await action();
+            if (data) {
+                renderHotels(data);
+            }
+        } catch (error) {
+            statusEl.textContent = error.message;
+            renderRaw({error: error.message});
+        }
+    }
+
+    document.querySelector("#getHotel").addEventListener("click", () => run(async () => {
+        const id = document.querySelector("#hotelId").value;
+        return request(`/hotel/${id}`);
+    }));
+
+    document.querySelector("#searchCity").addEventListener("click", () => run(async () => {
+        const id = document.querySelector("#cityId").value;
+        return request(`/search/${id}`);
+    }));
+
+    document.querySelector("#deleteHotel").addEventListener("click", () => run(async () => {
+        const id = document.querySelector("#hotelId").value;
+        await request(`/hotel/${id}`, {method: "DELETE"});
+        return {id, deleted: true};
+    }));
+</script>
+</body>
+</html>

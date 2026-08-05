@@ -1,0 +1,23 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: risk-service
+
+services:
+  history:
+    base-url: ${HISTORY_SERVICE_BASE_URL:http://localhost:8082}
+
+risk:
+  limits:
+    max-order-notional: ${RISK_MAX_ORDER_NOTIONAL:500000}
+    max-daily-exposure: ${RISK_MAX_DAILY_EXPOSURE:2500000}
+    max-order-quantity: ${RISK_MAX_ORDER_QUANTITY:10000}
+    allowed-symbols: ${RISK_ALLOWED_SYMBOLS:AAPL,AMZN,GOOG,MSFT,NVDA,TSLA}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

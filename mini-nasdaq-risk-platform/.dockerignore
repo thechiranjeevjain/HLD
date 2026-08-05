@@ -1,0 +1,11 @@
+.git
+.github
+target
+*/target
+.idea
+.vscode
+*.iml
+*.log
+data
+tmp
+docker-compose.override.yml

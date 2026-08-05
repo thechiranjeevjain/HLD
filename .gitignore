@@ -1,0 +1,19 @@
+# Java and Maven build outputs
+target/
+**/target/
+.m2repo/
+**/.m2repo/
+
+# IDE metadata
+.idea/
+*.iml
+
+# Runtime logs and local demo data
+*.log
+data/
+**/data/
+wal.log
+
+# Local-only cleanup/archive metadata
+_archive/
+_meta/
