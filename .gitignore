@@ -4,6 +4,21 @@ target/
 .m2repo/
 **/.m2repo/
 
+# Frontend and Gradle generated outputs
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+build/
+**/build/
+.gradle/
+**/.gradle/
+.gradle-local*/
+**/.gradle-local*/
+*.tsbuildinfo
+.gradle-local*.zip
+**/.gradle-local*.zip
+
 # IDE metadata
 .idea/
 *.iml
