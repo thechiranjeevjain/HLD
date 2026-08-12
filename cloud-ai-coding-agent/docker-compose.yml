@@ -1,0 +1,36 @@
+services:
+ postgres:
+  image: postgres:17-alpine
+  environment: { POSTGRES_DB: agent, POSTGRES_USER: agent, POSTGRES_PASSWORD: agent }
+  volumes: [agent-db:/var/lib/postgresql/data]
+  healthcheck: { test: [CMD-SHELL, "pg_isready -U agent"], interval: 5s, timeout: 3s, retries: 20 }
+ redis:
+  image: redis:7.4-alpine
+  command: redis-server --save 60 1
+  healthcheck: { test: [CMD, redis-cli, ping], interval: 5s, timeout: 3s, retries: 10 }
+ sandbox-image:
+  image: cloud-agent-sandbox:local
+  build: ./sandbox
+  command: ["true"]
+ backend:
+  container_name: cloud-agent-backend
+  build:
+   context: .
+   dockerfile: backend/Dockerfile
+  ports: ["8080:8080"]
+  environment:
+   DATABASE_URL: jdbc:postgresql://postgres:5432/agent
+   DATABASE_USER: agent
+   DATABASE_PASSWORD: agent
+   LLM_PROVIDER: ${LLM_PROVIDER:-fake}
+   OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+   OPENAI_MODEL: ${OPENAI_MODEL:-gpt-5-mini}
+   WORKSPACE_ROOT: /workspaces
+  volumes: [agent-workspaces:/workspaces, //var/run/docker.sock:/var/run/docker.sock]
+  depends_on: { postgres: { condition: service_healthy }, sandbox-image: { condition: service_completed_successfully } }
+  healthcheck: { test: [CMD-SHELL, "curl -f http://localhost:8080/actuator/health || exit 1"], interval: 10s, timeout: 5s, retries: 12 }
+ frontend:
+  build: ./frontend
+  ports: ["3000:3000"]
+  depends_on: [backend]
+volumes: { agent-db: {}, agent-workspaces: {} }

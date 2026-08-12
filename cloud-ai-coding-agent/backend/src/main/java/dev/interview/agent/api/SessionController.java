@@ -1,0 +1,8 @@
+package dev.interview.agent.api;
+import dev.interview.agent.session.*; import jakarta.validation.Valid; import jakarta.validation.constraints.*; import org.springframework.http.*; import org.springframework.web.bind.annotation.*; import java.util.*;
+@RestController @RequestMapping("/api") public class SessionController {private final SessionService service;public SessionController(SessionService s){service=s;}
+ @PostMapping("/sessions") @ResponseStatus(HttpStatus.ACCEPTED) public AgentSession create(@RequestHeader(value="X-User-Id",defaultValue="local-user")String owner,@Valid @RequestBody CreateSession r){return service.create(owner,r.repositoryUrl(),r.branch(),r.task());}
+ @GetMapping("/sessions/{id}") public AgentSession get(@PathVariable UUID id){return service.get(id);}@GetMapping("/sessions/{id}/steps")public List<AgentStep> steps(@PathVariable UUID id){return service.steps(id);}@GetMapping("/sessions/{id}/diff")public Map<String,String>diff(@PathVariable UUID id){return Map.of("diff",Optional.ofNullable(service.get(id).getFinalDiff()).orElse(""));}
+ @PostMapping("/sessions/{id}/cancel")public AgentSession cancel(@PathVariable UUID id){return service.cancel(id);}@PostMapping("/sessions/{id}/retry")public AgentSession retry(@PathVariable UUID id){return service.retry(id);}@PostMapping("/sessions/{id}/pull-request")public ResponseEntity<?>pr(@PathVariable UUID id){return ResponseEntity.status(501).body(Map.of("message","Configure the GitHub App adapter; local mode never publishes implicitly"));}
+ @GetMapping("/health")public Map<String,String>health(){return Map.of("status","UP");} public record CreateSession(@NotBlank @Size(max=1000)String repositoryUrl,@Size(max=255)String branch,@NotBlank @Size(max=10000)String task){}
+}
