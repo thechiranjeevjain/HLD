@@ -39,6 +39,12 @@ Prerequisites: Java 21, Docker Desktop, and Docker Compose.
 docker compose up --build
 ```
 
+On Windows, the quickest evidence-based demo starts the stack and verifies JWT authentication, order persistence, Kafka fulfillment, health, and metrics:
+
+```powershell
+.\scripts\demo.ps1
+```
+
 Request a development token, then create and read an order:
 
 ```bash

@@ -37,7 +37,8 @@ services:
       DATABASE_PASSWORD: orders
       REDIS_HOST: redis
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
-      OIDC_ISSUER_URI: http://keycloak:8080/realms/orders
+      OIDC_ISSUER_URI: http://localhost:8081/realms/orders
+      OIDC_JWK_SET_URI: http://keycloak:8080/realms/orders/protocol/openid-connect/certs
     ports: ["8080:8080"]
     depends_on:
       postgres: { condition: service_healthy }
@@ -48,6 +49,7 @@ services:
     image: prom/prometheus:v3.2.1
     volumes: ["./ops/prometheus.yml:/etc/prometheus/prometheus.yml:ro"]
     ports: ["9090:9090"]
+    depends_on: [app]
   grafana:
     image: grafana/grafana:11.5.2
     environment: { GF_SECURITY_ADMIN_PASSWORD: admin }

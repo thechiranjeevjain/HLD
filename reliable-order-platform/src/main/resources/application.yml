@@ -21,7 +21,9 @@ spring:
       properties:
         enable.idempotence: true
         delivery.timeout.ms: 10000
-  security.oauth2.resourceserver.jwt.issuer-uri: ${OIDC_ISSUER_URI:http://localhost:8081/realms/orders}
+  security.oauth2.resourceserver.jwt:
+    issuer-uri: ${OIDC_ISSUER_URI:http://localhost:8081/realms/orders}
+    jwk-set-uri: ${OIDC_JWK_SET_URI:http://localhost:8081/realms/orders/protocol/openid-connect/certs}
 server:
   shutdown: graceful
   tomcat.threads.max: ${HTTP_MAX_THREADS:100}

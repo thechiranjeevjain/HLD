@@ -10,6 +10,7 @@ data:
   REDIS_HOST: redis.example
   KAFKA_BOOTSTRAP_SERVERS: kafka.example:9092
   OIDC_ISSUER_URI: https://identity.example/realms/orders
+  OIDC_JWK_SET_URI: https://identity.example/realms/orders/protocol/openid-connect/certs
 ---
 apiVersion: v1
 kind: Secret
