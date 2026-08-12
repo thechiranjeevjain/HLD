@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://postgres:5432/fraud}
+    username: ${DATABASE_USERNAME:fraud}
+    password: ${DATABASE_PASSWORD:fraud}
+app.kafka-enabled: true
+spring.kafka.listener.auto-startup: true

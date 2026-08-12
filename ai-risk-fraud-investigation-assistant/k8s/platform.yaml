@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Namespace
+metadata: {name: fraud-platform}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: fraud-assistant, namespace: fraud-platform}
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: fraud-assistant}}
+  template:
+    metadata: {labels: {app: fraud-assistant}}
+    spec:
+      containers:
+        - name: backend
+          image: REPLACE_WITH_ECR_IMAGE
+          ports: [{containerPort: 8080}]
+          envFrom: [{secretRef: {name: fraud-assistant-secrets}}]
+          readinessProbe: {httpGet: {path: /actuator/health/readiness, port: 8080}, initialDelaySeconds: 20}
+          resources: {requests: {cpu: 250m, memory: 512Mi}, limits: {cpu: "1", memory: 1Gi}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: fraud-assistant, namespace: fraud-platform}
+spec: {selector: {app: fraud-assistant}, ports: [{port: 80, targetPort: 8080}]}
