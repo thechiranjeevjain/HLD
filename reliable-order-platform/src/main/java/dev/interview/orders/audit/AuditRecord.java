@@ -1,0 +1,3 @@
+package dev.interview.orders.audit;
+import jakarta.persistence.*; import java.time.Instant; import java.util.UUID;
+@Entity @Table(name="audit_records") public class AuditRecord { @Id private UUID id; @Column(nullable=false) private String actor; @Column(nullable=false) private String action; @Column(nullable=false) private String resourceType; @Column(nullable=false) private String resourceId; @Column(nullable=false) private Instant occurredAt; protected AuditRecord(){} public AuditRecord(String actor,String action,String type,String resource){id=UUID.randomUUID();this.actor=actor;this.action=action;resourceType=type;resourceId=resource;occurredAt=Instant.now();}}
