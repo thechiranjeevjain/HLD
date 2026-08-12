@@ -1,68 +1,31 @@
-# Pre-Trade Risk Engine Demo
+# PTR-Inspired Pre-Trade Risk Engine
 
-Runnable single-service demo for explaining a venue-neutral pre-trade risk engine.
+A compact Java 21/Spring Boot simulation of a low-latency pre-trade risk system. Orders enter through an in-process DSF-like message bus, **not REST**. One event-loop owns mutable risk state; the REST control plane only manages versioned configuration and operations.
 
-## What It Shows
-
-- FIX `NewOrderSingle` parsing into an internal order model.
-- In-memory account, open-order, position, and market-data state.
-- Sub-millisecond risk check pipeline measured in microseconds.
-- Atomic check plus reservation under an account lock to prevent races.
-- Firm, account, symbol, and account-symbol kill switches.
-- Circuit breaker fail-closed behavior.
-- Immutable audit events for every state-changing decision.
-- Real-time P&L from fills and market price updates.
-
-## Run Locally
+## Run
 
 ```powershell
-mvn -pl pretrade-risk-engine spring-boot:run
+$env:JAVA_HOME='C:\Users\Chiranjeev Jain\.jdks\openjdk-25' # or any JDK 21+
+mvn -pl pretrade-risk-engine -am test
+mvn -pl pretrade-risk-engine spring-boot:run -Dspring-boot.run.profiles=demo
 ```
 
-Open:
-
-```text
-http://localhost:8090
-```
-
-## Useful API Calls
-
-Submit JSON:
+Or use reproducible Java 21 containers:
 
 ```powershell
-Invoke-RestMethod -Method Post `
-  -Uri http://localhost:8090/api/orders `
-  -ContentType 'application/json' `
-  -Body '{"clOrdId":"JSON-1001","account":"ACCT-DEMO","symbol":"MSFT","side":"BUY","quantity":100,"price":410.25,"autoFill":false}'
+cd pretrade-risk-engine
+docker compose up --build
+Invoke-RestMethod http://localhost:8091/runtime
+Invoke-WebRequest http://localhost:8090/actuator/prometheus
 ```
 
-Submit FIX:
+Grafana is at `http://localhost:3000` (admin/admin), Prometheus at `http://localhost:9090`, engine health at `http://localhost:8090/actuator/health`, and the NFF-like sidecar at `http://localhost:8091/runtime`.
 
-```powershell
-Invoke-RestMethod -Method Post `
-  -Uri http://localhost:8090/api/fix/orders `
-  -ContentType 'application/json' `
-  -Body '{"message":"8=FIX.4.4|35=D|11=FIX-1001|1=ACCT-DEMO|55=MSFT|54=1|38=100|40=2|44=410.25|10=000|"}'
-```
+## Important boundaries
 
-Run the race-condition demo:
+- `PtrRuntime.submit(Order)` represents DSF ingress. It is intentionally not a controller method.
+- `POST /api/config` and `GET /api/operations/runtime` are JWT/RBAC-protected control-plane operations.
+- `/api/internal/runtime` is pod-internal input for the sidecar in this local simulation; Kubernetes exposes only the sidecar service.
+- The event bus, journal, lease store, and configuration distribution are local substitutes for proprietary infrastructure.
 
-```powershell
-Invoke-RestMethod -Method Post http://localhost:8090/api/scenarios/race
-```
-
-Run the production-failure drill:
-
-```powershell
-Invoke-RestMethod -Method Post http://localhost:8090/api/scenarios/failure
-```
-
-## Interview Talk Track
-
-Use the dashboard from left to right:
-
-1. Submit a normal FIX order and show the parser, check timings, in-memory reservation, and audit event.
-2. Run the race scenario. Explain that both orders independently look valid, but account-level locking makes check plus reserve atomic, so only one order consumes the available limit.
-3. Turn on the account kill switch. Explain that kill switches sit at the front of the hot path because they must reject immediately.
-4. Run the failure drill. Explain fail-closed behavior when market data sequence gaps or dependency health makes risk state unsafe.
-5. Run the P&L scenario. Explain how fills update position state and market ticks update unrealized P&L.
+See [INTERVIEW_GUIDE.md](INTERVIEW_GUIDE.md) for the walkthrough and [DEMO.md](DEMO.md) for the ten-step demonstration.
