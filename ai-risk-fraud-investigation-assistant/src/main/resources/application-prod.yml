@@ -5,3 +5,4 @@ spring:
     password: ${DATABASE_PASSWORD:fraud}
 app.kafka-enabled: true
 spring.kafka.listener.auto-startup: true
+management.health.redis.enabled: true

@@ -16,6 +16,7 @@ spring:
 management:
   endpoints.web.exposure.include: health,info,prometheus
   tracing.sampling.probability: 1.0
+  health.redis.enabled: false
 app:
   jwt-secret: ${JWT_SECRET:local-interview-secret-key-that-is-at-least-32-bytes}
   mock-llm: ${MOCK_LLM:true}

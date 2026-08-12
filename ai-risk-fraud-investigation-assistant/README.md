@@ -7,13 +7,16 @@ Interview-grade Java 21 + React modular monolith for deterministic fraud detecti
 Fast mode needs Java 21, Maven, Node 22:
 
 ```powershell
-mvn spring-boot:run
-cd frontend
-npm.cmd install
-npm.cmd run dev
+.\scripts\start-demo.cmd
 ```
 
 Open `http://localhost:5173`. Demo accounts: `analyst / analyst-demo`, `senior / senior-demo`, `admin / admin-demo`, `auditor / auditor-demo`.
+
+Stop it with:
+
+```powershell
+.\scripts\stop-demo.cmd
+```
 
 Full infrastructure mode:
 
