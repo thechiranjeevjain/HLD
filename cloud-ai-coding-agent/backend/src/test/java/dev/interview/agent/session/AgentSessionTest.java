@@ -1,0 +1,2 @@
+package dev.interview.agent.session; import org.junit.jupiter.api.Test; import java.time.Instant; import java.util.UUID; import static org.assertj.core.api.Assertions.*;
+class AgentSessionTest{@Test void terminalStateIsMonotonic(){var s=new AgentSession(UUID.randomUUID(),"u","https://github.com/a/b","main","task",Instant.EPOCH);s.complete("d","s",Instant.now());assertThatThrownBy(()->s.transition(SessionState.EXECUTING,Instant.now())).isInstanceOf(IllegalStateException.class);}}
