@@ -1,12 +1,16 @@
 server:
   port: 8090
 
-spring:
-  application:
-    name: pretrade-risk-engine
-
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
+        include: health,info,prometheus,metrics
+  metrics:
+    distribution:
+      percentiles-histogram:
+        ptr.order.latency: true
+
+spring:
+  application:
+    name: pretrade-risk-engine
