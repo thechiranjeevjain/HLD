@@ -5,6 +5,7 @@
   "description": "Shared documentation tooling for all SystemDesignProjects subdirectories.",
   "scripts": {
     "diagram:example": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/render-mermaid.ps1 -Source docs/mermaid-example.mmd -Output docs/mermaid-example.svg",
+    "docs:code-flow": "node scripts/generate-code-flow.mjs",
     "docs:standardize": "node scripts/standardize-diagrams.mjs",
     "docs:format": "node scripts/format-docs.mjs",
     "docs:audit": "node scripts/audit-docs.mjs"
