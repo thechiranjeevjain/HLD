@@ -1,0 +1,22 @@
+server:
+  port: 8095
+spring:
+  application.name: stripe-ledger-reconciliation
+  datasource:
+    url: jdbc:h2:file:./.data/ledger;MODE=PostgreSQL;AUTO_SERVER=TRUE
+    username: sa
+    password:
+  sql.init.mode: always
+  jackson.serialization.write-dates-as-timestamps: false
+management:
+  endpoints.web.exposure.include: health,info,metrics,prometheus
+  tracing.sampling.probability: 1.0
+logging.pattern.level: "%5p [traceId=%X{traceId:-},spanId=%X{spanId:-}]"
+app:
+  reconciliation:
+    poll-ms: 500
+    shard-count: 4
+    max-attempts: 5
+  adjustments:
+    approval-threshold: 10000
+    max-daily-amount: 1000000
