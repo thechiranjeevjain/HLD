@@ -1,50 +1,102 @@
-# AI Risk Fraud Investigation Assistant Diagrams
+# Secure AI Risk Analyst Agent diagrams
 
-## Product Architecture
+## Security architecture and trust boundaries
 
 ```mermaid
 flowchart LR
-    UI["React analyst console"] --> API["Spring Boot modular monolith"]
-    API --> Security["RBAC and session policy"]
-    API --> Transactions["Transaction ingestion"]
-    API --> Rules["Deterministic fraud rules"]
-    API --> Cases["Case workflow"]
-    Cases --> AI["Guarded AI orchestrator"]
-    AI --> Tools["Allowlisted evidence tools"]
-    AI --> RAG["Policy RAG citations"]
-    Transactions --> DB["PostgreSQL or local H2"]
-    Rules --> DB
-    Cases --> DB
-    AI --> DB
-    DB --> Outbox["Transactional outbox seam"]
+    subgraph U["Untrusted zone"]
+        User["Analyst prompt"]
+        Doc["Retrieved document"]
+    end
+    subgraph C["Deterministic control plane"]
+        Auth["Authentication and RBAC"]
+        Guard["Injection inspection"]
+        Policy["Risk and policy engine"]
+        Gateway["Read-tool allowlist"]
+        DLP["Output schema and DLP"]
+        Approval["Human approval gate"]
+    end
+    subgraph M["Untrusted compute"]
+        LLM["LLM planner"]
+    end
+    subgraph D["Protected data plane"]
+        Evidence[("Masked evidence")]
+        CaseDB[("Case database")]
+        Audit[("Append-only audit")]
+    end
+    User --> Auth --> Guard
+    Doc --> Guard
+    Guard -->|safe content only| LLM
+    Guard -->|deny| Audit
+    LLM --> Policy --> Gateway --> Evidence
+    Evidence --> LLM
+    LLM --> DLP
+    DLP -->|recommendation only| Approval
+    DLP -->|deny| Audit
+    Approval -->|authorized action| CaseDB
+    Gateway --> Audit
+    Approval --> Audit
 ```
 
-## Investigation Flow
+## Investigation and privileged-action sequence
 
 ```mermaid
 sequenceDiagram
     actor Analyst
     participant API as Case API
-    participant Rules as Rule engine
-    participant AI as AI orchestrator
-    participant Tools as Tool allowlist
-    participant RAG as Policy RAG
+    participant Guard as Security guard
+    participant AI as LLM orchestrator
+    participant Policy as Risk/policy engine
+    participant Tools as Read-only gateway
+    participant Audit as Durable audit
     participant Senior as Senior analyst
-    Analyst->>API: ingest transaction
-    API->>Rules: score deterministic signals
-    Rules-->>API: risk score and reasons
-    API->>API: create case and audit record
-    Analyst->>AI: investigate case
+    Analyst->>API: investigate(case, prompt, document)
+    API->>Guard: inspect untrusted content
+    alt injection detected
+        Guard->>Audit: commit denial independently
+        Guard-->>Analyst: 403 BLOCK
+    else content accepted
+    Guard->>AI: sanitized context
+    AI->>Policy: evaluate risk and permitted operations
+    Policy->>Tools: approved read calls
     AI->>Tools: read approved evidence
     Tools-->>AI: masked evidence
-    AI->>RAG: retrieve cited policy chunks
-    RAG-->>AI: citations
-    AI-->>Analyst: recommendation with evidence
-    Analyst->>Senior: request sensitive action
-    Senior-->>API: approve or reject with rationale
+    AI->>Guard: validate structured output and secrets
+    Guard-->>Analyst: recommendation and citations
+    Analyst->>Senior: request privileged action
+    Senior->>API: approve with rationale and version
+    API->>Audit: record named approver and decision
+    end
 ```
 
-## Boundary Against The Smaller Fraud Platform
+## Unauthorized tool-call path
+
+```mermaid
+flowchart TD
+    Model["Model requests a tool"] --> Match{"Exact allowlist match?"}
+    Match -->|yes| Read["Execute scoped read"]
+    Read --> Mask["Mask result"]
+    Mask --> Log["Audit tool result"]
+    Match -->|no| Deny["Throw SecurityException"]
+    Deny --> DenialLog["Commit UNAUTHORIZED_TOOL_CALL_BLOCKED"]
+    DenialLog --> NoWrite["No privileged side effect"]
+```
+
+## Adversarial evaluation matrix
+
+```mermaid
+flowchart LR
+    Tests["AdversarialAgentSecurityTest"] --> P["Prompt injection"]
+    Tests --> D["Malicious document"]
+    Tests --> T["Unauthorized write tool"]
+    Tests --> E["Secret exfiltration"]
+    P --> Block["Blocked and audited"]
+    D --> Block
+    T --> Block
+    E --> Block
+```
+
+## Portfolio boundary
 
 ```mermaid
 flowchart TB
