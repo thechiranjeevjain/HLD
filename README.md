@@ -53,6 +53,7 @@ The current layout should stay as separate runnable projects, not one giant appl
 | `mini-risk-management-platform` | Java 21 microservices risk platform with Docker/Kubernetes/observability. |
 | `reliable-order-platform` | Java 21 reliability project for idempotent order creation, transactional outbox, consumer dedupe, JWT, Redis, Kafka, and ops. |
 | `real-time-inventory-platform` | Versioned retail inventory visibility, latest-state stream reduction, and exact/time-window transaction deduplication. |
+| `amazon-order-tracking` | Event-first multi-carrier tracking with idempotent ingest, out-of-order replay, projections, caching, buyer/support authorization, audit, and a live dashboard. |
 | `cloud-ai-coding-agent` | Cloud coding-agent demo with React, Spring Boot, WebSockets, provider-neutral LLM boundary, and Docker sandboxing. |
 | `java-concurrency-lab` | Java 21 backend concurrency lab with failure demos, bounded executors, locks, atomics, JMH, and JFR. |
 | `cache-lab` | LRU plus TTL cache behavior and metrics. |
