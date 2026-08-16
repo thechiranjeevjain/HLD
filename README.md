@@ -72,6 +72,36 @@ Each active project now has Markdown learning support. For most projects, start 
 
 Flagship projects may include additional deeper material such as ADRs, incident drills, operations guides, technology deep dives, and appendices.
 
+### Shared Mermaid tooling
+
+The repository root contains one Mermaid CLI setup shared by every project. Install it once from `G:\TechStudyNotes\SystemDesignProjects`:
+
+```powershell
+npm install
+```
+
+Render the included flowchart example:
+
+```powershell
+npm run diagram:example
+```
+
+Render any `.mmd` file from the root or a subdirectory. If `-Output` is omitted, an SVG is created next to the source file:
+
+```powershell
+.\scripts\render-mermaid.ps1 -Source .\url-shortener\docs\architecture.mmd
+.\scripts\render-mermaid.ps1 -Source .\url-shortener\docs\architecture.mmd -Output .\url-shortener\docs\architecture.png
+```
+
+Markdown files on GitHub can also display Mermaid without generating an image:
+
+````markdown
+```mermaid
+flowchart LR
+    Client --> API --> Database
+```
+````
+
 ## Verification Notes
 
 Last portfolio audit: 2026-08-05. Focused consolidation re-audit: 2026-08-13. Real-time inventory platform added and verified: 2026-08-16.

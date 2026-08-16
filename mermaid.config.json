@@ -1,0 +1,11 @@
+{
+  "theme": "default",
+  "flowchart": {
+    "curve": "basis",
+    "htmlLabels": true
+  },
+  "sequence": {
+    "useMaxWidth": true,
+    "wrap": true
+  }
+}

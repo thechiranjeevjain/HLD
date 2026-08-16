@@ -1,0 +1,6 @@
+flowchart LR
+    Client[Client] --> Gateway[API Gateway]
+    Gateway --> Service[Domain Service]
+    Service --> Database[(Database)]
+    Service --> Queue[[Event Queue]]
+    Queue --> Worker[Background Worker]

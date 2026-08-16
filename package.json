@@ -1,0 +1,12 @@
+{
+  "name": "system-design-projects-tooling",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Shared documentation tooling for all SystemDesignProjects subdirectories.",
+  "scripts": {
+    "diagram:example": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/render-mermaid.ps1 -Source docs/mermaid-example.mmd -Output docs/mermaid-example.svg"
+  },
+  "devDependencies": {
+    "@mermaid-js/mermaid-cli": "11.16.0"
+  }
+}
