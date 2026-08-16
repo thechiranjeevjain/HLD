@@ -52,6 +52,7 @@ The current layout should stay as separate runnable projects, not one giant appl
 | `trading-risk-platform` | Venue-neutral risk platform plus live pre-trade risk engine demo. |
 | `mini-risk-management-platform` | Java 21 microservices risk platform with Docker/Kubernetes/observability. |
 | `reliable-order-platform` | Java 21 reliability project for idempotent order creation, transactional outbox, consumer dedupe, JWT, Redis, Kafka, and ops. |
+| `real-time-inventory-platform` | Versioned retail inventory visibility, latest-state stream reduction, and exact/time-window transaction deduplication. |
 | `cloud-ai-coding-agent` | Cloud coding-agent demo with React, Spring Boot, WebSockets, provider-neutral LLM boundary, and Docker sandboxing. |
 | `java-concurrency-lab` | Java 21 backend concurrency lab with failure demos, bounded executors, locks, atomics, JMH, and JFR. |
 | `cache-lab` | LRU plus TTL cache behavior and metrics. |
@@ -72,7 +73,7 @@ Flagship projects may include additional deeper material such as ADRs, incident 
 
 ## Verification Notes
 
-Last portfolio audit: 2026-08-05. Focused consolidation re-audit: 2026-08-13.
+Last portfolio audit: 2026-08-05. Focused consolidation re-audit: 2026-08-13. Real-time inventory platform added and verified: 2026-08-16.
 
 - Java 17 and Maven 3.9 are available as the default toolchain.
 - JDK 21 is not installed locally. `mini-risk-management-platform` targets Java 21; it was verified with the installed IntelliJ JDK 25 using `-Dnet.bytebuddy.experimental=true`.
@@ -81,6 +82,7 @@ Last portfolio audit: 2026-08-05. Focused consolidation re-audit: 2026-08-13.
 - The 2026-08-13 re-audit found no project that should be merged immediately. It updated the active list and documentation standard for the newer tracked projects.
 - Docker Compose structural validation passed for 17 files. Kubernetes offline checks passed for four kustomization directories and 41 raw resource files, but Kubernetes runtime apply tests are not confirmed without a cluster.
 - Focused runtime checks passed for `dropbox-file-sync-demo`, `java-concurrency-lab`, `ai-risk-fraud-investigation-assistant`, `reliable-order-platform`, and the frontend part of `cloud-ai-coding-agent`. The cloud-agent backend Gradle test was not run locally because Gradle is not installed and the project has no wrapper; its Dockerfile builds through a Gradle image once Docker Desktop is working.
+- `real-time-inventory-platform` passed all six Maven unit/integration tests and a live H2-backed HTTP smoke test. Its PostgreSQL Compose topology is provided but was not runtime-validated in that check.
 
 ## Common Verification Commands
 

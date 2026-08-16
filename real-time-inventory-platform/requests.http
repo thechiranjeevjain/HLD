@@ -1,0 +1,30 @@
+### Apply a newer update
+POST http://localhost:8080/api/v1/inventory/updates
+Content-Type: application/json
+
+{"updateId":"update-1002","sku":"SKU-RED-SHOE-42","storeId":"STORE-101","quantity":17,"version":2,"eventTime":"2026-08-16T10:02:00Z"}
+
+### Send an older event (ignored)
+POST http://localhost:8080/api/v1/inventory/updates
+Content-Type: application/json
+
+{"updateId":"update-1001","sku":"SKU-RED-SHOE-42","storeId":"STORE-101","quantity":9,"version":1,"eventTime":"2026-08-16T10:01:00Z"}
+
+### Read cross-store summary
+GET http://localhost:8080/api/v1/inventory/SKU-RED-SHOE-42/summary
+
+### Detect near-duplicate payments within five minutes
+POST http://localhost:8080/api/v1/transactions/duplicates?windowSeconds=300
+Content-Type: application/json
+
+[
+  {"transactionId":"T-1","accountId":"A-9","merchantId":"M-2","amountInCents":2599,"currency":"USD","timestamp":"2026-08-16T10:00:00Z"},
+  {"transactionId":"T-2","accountId":"A-9","merchantId":"M-2","amountInCents":2599,"currency":"USD","timestamp":"2026-08-16T10:03:00Z"},
+  {"transactionId":"T-3","accountId":"A-9","merchantId":"M-2","amountInCents":4000,"currency":"USD","timestamp":"2026-08-16T10:04:00Z"}
+]
+
+### Health and Prometheus metrics
+GET http://localhost:8080/actuator/health
+
+###
+GET http://localhost:8080/actuator/prometheus
