@@ -32,34 +32,34 @@ The current layout should stay as separate runnable projects, not one giant appl
 
 ## Active Projects
 
-| Folder | Purpose |
-| --- | --- |
-| `product-catalog-api` | CRUD API with product lifecycle, validation, duplicate SKU handling, PostgreSQL/Flyway shape. |
-| `authentication-service` | Registration, login, JWT, roles, mock OAuth2 flow. |
-| `url-shortener` | Short-code generation, redirects, hit tracking, Redis-style rate limiting. |
-| `distributed-database` | TCP key-value cluster with replication, quorum behavior, consistent hashing, recovery. |
-| `distributed-database/labs/replicated-log-simulation` | Focused replicated log and partition/slowness simulation. |
-| `ecommerce-backend` | Inventory reservation, order creation, payments, order events. |
-| `notification-platform` | Multi-channel notification, retry, dead-letter behavior. |
-| `distributed-task-scheduler` | Job scheduling, retries, worker flow, leader/lock concept. |
-| `ride-sharing-backend` | Driver location, nearby search, ride request/status flow. |
-| `fraud-detection-platform` | Transaction event ingestion and risk scoring. |
-| `ai-risk-fraud-investigation-assistant` | Guarded AI fraud casework with deterministic rules, RAG citations, RBAC, approvals, audit, and outbox seams. |
-| `hotel-booking-service` | Hotel read/search/delete API, basic auth, browser UI, OpenAPI, metrics. |
-| `employee-document-upload-system` | Signed upload intent, document review policy, security roles, infra docs. |
-| `dropbox-file-sync-demo` | Dropbox-style sync invariants with chunk upload, version commits, conflict copies, tombstones, and cursor replay. |
-| `exchange-lite` | Matching engine, risk checks, binary protocol, engine/sidecar/CLI runtime. |
-| `trading-risk-platform` | Venue-neutral risk platform plus live pre-trade risk engine demo. |
-| `mini-risk-management-platform` | Java 21 microservices risk platform with Docker/Kubernetes/observability. |
-| `reliable-order-platform` | Java 21 reliability project for idempotent order creation, transactional outbox, consumer dedupe, JWT, Redis, Kafka, and ops. |
-| `real-time-inventory-platform` | Versioned retail inventory visibility, latest-state stream reduction, and exact/time-window transaction deduplication. |
-| `amazon-order-tracking` | Event-first multi-carrier tracking with idempotent ingest, out-of-order replay, projections, caching, buyer/support authorization, audit, and a live dashboard. |
-| `cloud-ai-coding-agent` | Cloud coding-agent demo with React, Spring Boot, WebSockets, provider-neutral LLM boundary, and Docker sandboxing. |
-| `java-concurrency-lab` | Java 21 backend concurrency lab with failure demos, bounded executors, locks, atomics, JMH, and JFR. |
-| `cache-lab` | LRU plus TTL cache behavior and metrics. |
-| `message-queue-lab` | Queue retry, acknowledgement, and dead-letter behavior. |
-| `mini-kv-storage-engine` | WAL-backed key-value store with TTL and compaction. |
-| `web-server-lab` | Minimal blocking HTTP server. |
+| Folder                                                | Purpose                                                                                                                                                         |
+| ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `product-catalog-api`                                 | CRUD API with product lifecycle, validation, duplicate SKU handling, PostgreSQL/Flyway shape.                                                                   |
+| `authentication-service`                              | Registration, login, JWT, roles, mock OAuth2 flow.                                                                                                              |
+| `url-shortener`                                       | Short-code generation, redirects, hit tracking, Redis-style rate limiting.                                                                                      |
+| `distributed-database`                                | TCP key-value cluster with replication, quorum behavior, consistent hashing, recovery.                                                                          |
+| `distributed-database/labs/replicated-log-simulation` | Focused replicated log and partition/slowness simulation.                                                                                                       |
+| `ecommerce-backend`                                   | Inventory reservation, order creation, payments, order events.                                                                                                  |
+| `notification-platform`                               | Multi-channel notification, retry, dead-letter behavior.                                                                                                        |
+| `distributed-task-scheduler`                          | Job scheduling, retries, worker flow, leader/lock concept.                                                                                                      |
+| `ride-sharing-backend`                                | Driver location, nearby search, ride request/status flow.                                                                                                       |
+| `fraud-detection-platform`                            | Transaction event ingestion and risk scoring.                                                                                                                   |
+| `ai-risk-fraud-investigation-assistant`               | Guarded AI fraud casework with deterministic rules, RAG citations, RBAC, approvals, audit, and outbox seams.                                                    |
+| `hotel-booking-service`                               | Hotel read/search/delete API, basic auth, browser UI, OpenAPI, metrics.                                                                                         |
+| `employee-document-upload-system`                     | Signed upload intent, document review policy, security roles, infra docs.                                                                                       |
+| `dropbox-file-sync-demo`                              | Dropbox-style sync invariants with chunk upload, version commits, conflict copies, tombstones, and cursor replay.                                               |
+| `exchange-lite`                                       | Matching engine, risk checks, binary protocol, engine/sidecar/CLI runtime.                                                                                      |
+| `trading-risk-platform`                               | Venue-neutral risk platform plus live pre-trade risk engine demo.                                                                                               |
+| `mini-risk-management-platform`                       | Java 21 microservices risk platform with Docker/Kubernetes/observability.                                                                                       |
+| `reliable-order-platform`                             | Java 21 reliability project for idempotent order creation, transactional outbox, consumer dedupe, JWT, Redis, Kafka, and ops.                                   |
+| `real-time-inventory-platform`                        | Versioned retail inventory visibility, latest-state stream reduction, and exact/time-window transaction deduplication.                                          |
+| `amazon-order-tracking`                               | Event-first multi-carrier tracking with idempotent ingest, out-of-order replay, projections, caching, buyer/support authorization, audit, and a live dashboard. |
+| `cloud-ai-coding-agent`                               | Cloud coding-agent demo with React, Spring Boot, WebSockets, provider-neutral LLM boundary, and Docker sandboxing.                                              |
+| `java-concurrency-lab`                                | Java 21 backend concurrency lab with failure demos, bounded executors, locks, atomics, JMH, and JFR.                                                            |
+| `cache-lab`                                           | LRU plus TTL cache behavior and metrics.                                                                                                                        |
+| `message-queue-lab`                                   | Queue retry, acknowledgement, and dead-letter behavior.                                                                                                         |
+| `mini-kv-storage-engine`                              | WAL-backed key-value store with TTL and compaction.                                                                                                             |
+| `web-server-lab`                                      | Minimal blocking HTTP server.                                                                                                                                   |
 
 ## Documentation Standard
 
@@ -84,6 +84,13 @@ Render the included flowchart example:
 
 ```powershell
 npm run diagram:example
+```
+
+Format and validate all tracked Markdown documentation, Mermaid blocks, JSON blocks, local links, and project HLD/LLD coverage:
+
+```powershell
+npm run docs:format
+npm run docs:audit
 ```
 
 Render any `.mmd` file from the root or a subdirectory. If `-Output` is omitted, an SVG is created next to the source file:

@@ -15,15 +15,15 @@ A Spring Boot ride-sharing backend with driver location updates, nearby-driver g
 
 ## Endpoints
 
-| Method | Path | Purpose |
-| --- | --- | --- |
-| `POST` | `/api/drivers` | Register a driver |
+| Method  | Path                         | Purpose                                 |
+| ------- | ---------------------------- | --------------------------------------- |
+| `POST`  | `/api/drivers`               | Register a driver                       |
 | `PATCH` | `/api/drivers/{id}/location` | Update driver location and availability |
-| `GET` | `/api/drivers/nearby` | Search available drivers by radius |
-| `POST` | `/api/rides` | Request a ride and match nearest driver |
-| `GET` | `/api/rides/{id}` | Read trip status |
-| `PATCH` | `/api/rides/{id}/status` | Move trip through lifecycle |
-| `GET` | `/actuator/health` | Health check |
+| `GET`   | `/api/drivers/nearby`        | Search available drivers by radius      |
+| `POST`  | `/api/rides`                 | Request a ride and match nearest driver |
+| `GET`   | `/api/rides/{id}`            | Read trip status                        |
+| `PATCH` | `/api/rides/{id}/status`     | Move trip through lifecycle             |
+| `GET`   | `/actuator/health`           | Health check                            |
 
 WebSocket clients can subscribe to `/topic/rides/{rideId}` after connecting to `/ws`.
 

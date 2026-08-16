@@ -7,9 +7,11 @@
 Imagine a toy box.
 
 When you put a toy in:
+
 - You also write its name in a notebook
 
 If the box breaks:
+
 - The notebook remembers
 
 Some toys are only for today.
@@ -32,4 +34,3 @@ This program is a careful toy box.
 
 Life works like systems:
 If you trust cache over truth, you break.
-

@@ -24,15 +24,15 @@ User code cannot directly read disks, open sockets, or allocate kernel objects. 
 
 Examples:
 
-| Syscall | Purpose |
-| --- | --- |
-| `clone` | Create a process or thread, optionally in new namespaces. |
-| `execve` | Replace current process image with a new program. |
-| `openat` | Open a file. |
-| `read` and `write` | Read or write file descriptors. |
-| `socket`, `bind`, `listen`, `accept` | Network server lifecycle. |
-| `mount` | Attach filesystems. |
-| `setns` | Join an existing namespace. |
+| Syscall                              | Purpose                                                   |
+| ------------------------------------ | --------------------------------------------------------- |
+| `clone`                              | Create a process or thread, optionally in new namespaces. |
+| `execve`                             | Replace current process image with a new program.         |
+| `openat`                             | Open a file.                                              |
+| `read` and `write`                   | Read or write file descriptors.                           |
+| `socket`, `bind`, `listen`, `accept` | Network server lifecycle.                                 |
+| `mount`                              | Attach filesystems.                                       |
+| `setns`                              | Join an existing namespace.                               |
 
 Docker and Kubernetes are mostly orchestration around these primitives.
 
@@ -275,4 +275,3 @@ Ask these questions:
 6. Is the application blocked on CPU, memory, disk, lock, or network?
 7. Is state stored on an ephemeral layer or a persistent volume?
 8. Are Kubernetes controllers making the state better or repeatedly restarting it?
-

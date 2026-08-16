@@ -125,4 +125,3 @@ Practice answering:
 - How do you prevent event loss?
 - How would you make this platform multi-region?
 - How do Docker and Kubernetes actually work under Linux?
-

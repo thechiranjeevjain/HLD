@@ -17,7 +17,17 @@ Reusing the key with the identical payload returns the stored response. Reusing 
 ## Stripe webhook
 
 ```json
-{"eventId":"evt_42","type":"balance.available","paymentIntentId":"pi_demo_x","stripeObjectId":"txn_42","amount":10000,"currency":"EUR","settlementAmount":10850,"settlementCurrency":"USD","fxRate":"1.085"}
+{
+  "eventId": "evt_42",
+  "type": "balance.available",
+  "paymentIntentId": "pi_demo_x",
+  "stripeObjectId": "txn_42",
+  "amount": 10000,
+  "currency": "EUR",
+  "settlementAmount": 10850,
+  "settlementCurrency": "USD",
+  "fxRate": "1.085"
+}
 ```
 
 Supported event types: `payment_intent.succeeded`, `charge.refunded`, `charge.dispute.created`, `charge.dispute.closed`, `fee.adjusted`, and `balance.available`.
@@ -49,8 +59,24 @@ The run call queues durable shards. Poll the GET resource until `COMPLETED` or `
 ## Compensating adjustment
 
 ```json
-{"reconciliationId":"rec_x","reason":"approved processor fee correction","entries":[{"accountId":"processor_fees","currency":"USD","amount":15000,"matchKey":"txn_1"},{"accountId":"reconciliation_suspense","currency":"USD","amount":-15000,"matchKey":"txn_1"}]}
+{
+  "reconciliationId": "rec_x",
+  "reason": "approved processor fee correction",
+  "entries": [
+    {
+      "accountId": "processor_fees",
+      "currency": "USD",
+      "amount": 15000,
+      "matchKey": "txn_1"
+    },
+    {
+      "accountId": "reconciliation_suspense",
+      "currency": "USD",
+      "amount": -15000,
+      "matchKey": "txn_1"
+    }
+  ]
+}
 ```
 
 Large requests return `PENDING_APPROVAL`; approve with `POST /api/adjustments/{id}/approve` and header `X-Approver: senior-ops`. Approval is replay-safe.
-

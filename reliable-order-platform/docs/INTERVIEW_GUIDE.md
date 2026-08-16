@@ -20,13 +20,13 @@ This project teaches reliable backend order processing. It uses one Java 21 Spri
 
 ## Tradeoffs
 
-| Decision | Benefit | Cost |
-| --- | --- | --- |
-| Modular monolith | One runnable deployable with clear package seams | Cannot scale modules independently |
-| Transactional outbox | Closes DB/event dual-write gap | Requires poller and cleanup policy |
-| At-least-once plus dedupe | Honest distributed-systems semantics | Consumers must be idempotent |
-| Cache-aside Redis | Faster repeated reads | Stale reads until eviction/TTL |
-| JWT/OIDC locally | Realistic auth story | Requires local Keycloak in full demo |
+| Decision                  | Benefit                                          | Cost                                 |
+| ------------------------- | ------------------------------------------------ | ------------------------------------ |
+| Modular monolith          | One runnable deployable with clear package seams | Cannot scale modules independently   |
+| Transactional outbox      | Closes DB/event dual-write gap                   | Requires poller and cleanup policy   |
+| At-least-once plus dedupe | Honest distributed-systems semantics             | Consumers must be idempotent         |
+| Cache-aside Redis         | Faster repeated reads                            | Stale reads until eviction/TTL       |
+| JWT/OIDC locally          | Realistic auth story                             | Requires local Keycloak in full demo |
 
 ## FAQ
 

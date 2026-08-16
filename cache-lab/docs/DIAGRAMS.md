@@ -1,6 +1,8 @@
 # Cache Lab Diagrams
 
-## Data Structure View
+## High-Level Design
+
+### Data Structure View
 
 ```mermaid
 flowchart LR
@@ -11,7 +13,9 @@ flowchart LR
     List --> Tail["tail = least recently used"]
 ```
 
-## Read Flow
+## Low-Level Design
+
+### Read Flow
 
 ```mermaid
 sequenceDiagram
@@ -33,7 +37,7 @@ sequenceDiagram
     end
 ```
 
-## Write Flow
+### Write Flow
 
 ```mermaid
 flowchart TB

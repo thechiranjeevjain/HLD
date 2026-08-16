@@ -18,14 +18,14 @@ Authorization happens before order data is returned: buyer ownership or a suppor
 
 ## Tradeoffs
 
-| Decision | Benefit | Cost / mitigation |
-| --- | --- | --- |
-| Immutable events + projection | audit, replay, bug repair | storage and backfill complexity |
-| Eventual consistency | scalable decoupled ingestion | show freshness; support raw view |
-| Shipment write partition | ordered independent processing | order reads need fanout index |
-| Short cache TTL | absorbs refresh bursts | stale seconds; invalidate on projection |
-| At-least-once processing | practical recovery | idempotent consumer and CAS required |
-| Carrier-specific adapters | stable internal schema | adapter ownership/schema metrics |
+| Decision                      | Benefit                        | Cost / mitigation                       |
+| ----------------------------- | ------------------------------ | --------------------------------------- |
+| Immutable events + projection | audit, replay, bug repair      | storage and backfill complexity         |
+| Eventual consistency          | scalable decoupled ingestion   | show freshness; support raw view        |
+| Shipment write partition      | ordered independent processing | order reads need fanout index           |
+| Short cache TTL               | absorbs refresh bursts         | stale seconds; invalidate on projection |
+| At-least-once processing      | practical recovery             | idempotent consumer and CAS required    |
+| Carrier-specific adapters     | stable internal schema         | adapter ownership/schema metrics        |
 
 ## Follow-up answers
 

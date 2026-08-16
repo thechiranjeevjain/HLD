@@ -1,6 +1,8 @@
 # Hotel Booking Service Diagrams
 
-## Component View
+## High-Level Design
+
+### Component View
 
 ```mermaid
 flowchart LR
@@ -15,7 +17,9 @@ flowchart LR
     App --> Metrics["Actuator + Prometheus"]
 ```
 
-## Search Flow
+## Low-Level Design
+
+### Search Flow
 
 ```mermaid
 sequenceDiagram
@@ -32,7 +36,7 @@ sequenceDiagram
     API-->>C: 200 OK
 ```
 
-## Delete Flow
+### Delete Flow
 
 ```mermaid
 flowchart LR

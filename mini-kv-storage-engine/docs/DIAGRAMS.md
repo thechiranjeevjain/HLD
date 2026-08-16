@@ -1,6 +1,8 @@
 # Mini KV Storage Engine Diagrams
 
-## Component View
+## High-Level Design
+
+### Component View
 
 ```mermaid
 flowchart LR
@@ -11,7 +13,9 @@ flowchart LR
     Cleaner["TTL cleaner"] --> Store
 ```
 
-## Write Path
+## Low-Level Design
+
+### Write Path
 
 ```mermaid
 sequenceDiagram
@@ -27,7 +31,7 @@ sequenceDiagram
     S-->>C: acknowledged
 ```
 
-## Recovery Flow
+### Recovery Flow
 
 ```mermaid
 flowchart TB

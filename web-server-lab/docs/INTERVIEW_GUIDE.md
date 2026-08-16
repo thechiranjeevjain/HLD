@@ -14,12 +14,12 @@ This lab implements a minimal blocking HTTP server without Spring. It shows what
 
 ## Tradeoffs
 
-| Decision | Benefit | Cost |
-| --- | --- | --- |
-| Blocking I/O | Easy to understand | Threads can be exhausted |
+| Decision            | Benefit                        | Cost                            |
+| ------------------- | ------------------------------ | ------------------------------- |
+| Blocking I/O        | Easy to understand             | Threads can be exhausted        |
 | Bounded worker pool | Avoids unlimited thread growth | Excess connections are rejected |
-| Manual parsing | Makes framing visible | Not HTTP-complete |
-| No shared state | Simple concurrency model | Only supports simple routes |
+| Manual parsing      | Makes framing visible          | Not HTTP-complete               |
+| No shared state     | Simple concurrency model       | Only supports simple routes     |
 
 ## FAQ
 

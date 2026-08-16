@@ -16,12 +16,12 @@ A Spring Boot URL shortener with PostgreSQL persistence, Redis-backed rate limit
 
 ## Endpoints
 
-| Method | Path | Purpose |
-| --- | --- | --- |
-| `POST` | `/api/links` | Create a short link |
-| `GET` | `/api/links/{code}` | Read short-link metadata and click count |
-| `GET` | `/{code}` | Redirect to the original URL |
-| `GET` | `/actuator/health` | Health check |
+| Method | Path                | Purpose                                  |
+| ------ | ------------------- | ---------------------------------------- |
+| `POST` | `/api/links`        | Create a short link                      |
+| `GET`  | `/api/links/{code}` | Read short-link metadata and click count |
+| `GET`  | `/{code}`           | Redirect to the original URL             |
+| `GET`  | `/actuator/health`  | Health check                             |
 
 ## Run
 

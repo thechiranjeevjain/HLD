@@ -1,6 +1,8 @@
 # Java Concurrency Lab Diagrams
 
-## Safe Processor Architecture
+## High-Level Design
+
+### Safe Processor Architecture
 
 ```mermaid
 flowchart LR
@@ -14,7 +16,9 @@ flowchart LR
     Processor --> Monitor["ExecutorMonitor"]
 ```
 
-## Order Admission Flow
+## Low-Level Design
+
+### Order Admission Flow
 
 ```mermaid
 sequenceDiagram
@@ -36,7 +40,7 @@ sequenceDiagram
     E-->>P: update metrics and snapshot
 ```
 
-## Failure-To-Fix Map
+### Failure-To-Fix Map
 
 ```mermaid
 flowchart TB

@@ -1,6 +1,8 @@
 # Message Queue Lab Diagrams
 
-## Component View
+## High-Level Design
+
+### Component View
 
 ```mermaid
 flowchart LR
@@ -12,7 +14,9 @@ flowchart LR
     Delivery --> DLQ["dead-letter log"]
 ```
 
-## Delivery Flow
+## Low-Level Design
+
+### Delivery Flow
 
 ```mermaid
 sequenceDiagram
@@ -30,7 +34,7 @@ sequenceDiagram
     end
 ```
 
-## Message State Flow
+### Message State Flow
 
 ```mermaid
 stateDiagram-v2

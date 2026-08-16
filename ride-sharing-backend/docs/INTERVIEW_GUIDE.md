@@ -23,12 +23,12 @@ This service models the backend core of a ride-sharing system: driver registrati
 
 ## Tradeoffs
 
-| Decision | Benefit | Cost |
-| --- | --- | --- |
-| Simple radius search | Easy to inspect and test | Does not scale like geohash or spatial index |
-| PostgreSQL persistence | Durable drivers and rides | Real-time location needs faster update paths |
-| WebSocket notifications | Better live UX | Requires connection management |
-| Single service | Clear interview walkthrough | Real systems split dispatch, pricing, maps, payments, and notifications |
+| Decision                | Benefit                     | Cost                                                                    |
+| ----------------------- | --------------------------- | ----------------------------------------------------------------------- |
+| Simple radius search    | Easy to inspect and test    | Does not scale like geohash or spatial index                            |
+| PostgreSQL persistence  | Durable drivers and rides   | Real-time location needs faster update paths                            |
+| WebSocket notifications | Better live UX              | Requires connection management                                          |
+| Single service          | Clear interview walkthrough | Real systems split dispatch, pricing, maps, payments, and notifications |
 
 ## FAQ
 

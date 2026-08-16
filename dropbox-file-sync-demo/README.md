@@ -61,31 +61,31 @@ Metadata is never published before its referenced bytes pass integrity checks.
 
 ## API summary
 
-| Operation | Endpoint | Important property |
-|---|---|---|
-| Plan upload | `POST /api/uploads/plan` | Deduplicates by chunk hash |
-| Upload chunk | `PUT /api/chunks/{sha256}` | Rejects hash mismatch |
-| Commit version | `POST /api/commits` | Base-version check and idempotency |
-| List state | `GET /api/files` | Current metadata and tombstones |
-| Read log | `GET /api/changes?cursor=N` | Ordered, replayable changes |
-| Download | `GET /api/files/{id}/download?version=N` | Integrity-verified assembly |
-| Rename | `POST /api/files/{id}/move` | Stable file ID; metadata-only |
-| Delete | `DELETE /api/files/{id}?baseVersion=N` | Durable tombstone |
+| Operation      | Endpoint                                 | Important property                 |
+| -------------- | ---------------------------------------- | ---------------------------------- |
+| Plan upload    | `POST /api/uploads/plan`                 | Deduplicates by chunk hash         |
+| Upload chunk   | `PUT /api/chunks/{sha256}`               | Rejects hash mismatch              |
+| Commit version | `POST /api/commits`                      | Base-version check and idempotency |
+| List state     | `GET /api/files`                         | Current metadata and tombstones    |
+| Read log       | `GET /api/changes?cursor=N`              | Ordered, replayable changes        |
+| Download       | `GET /api/files/{id}/download?version=N` | Integrity-verified assembly        |
+| Rename         | `POST /api/files/{id}/move`              | Stable file ID; metadata-only      |
+| Delete         | `DELETE /api/files/{id}?baseVersion=N`   | Durable tombstone                  |
 
 Mutation APIs require an `Idempotency-Key`. A retried commit returns the original result without producing another file version or event.
 
 ## What is real vs simulated
 
-| Demo implementation | Production Dropbox-style system |
-|---|---|
-| One process and per-store lock | Metadata service sharded by user ID |
-| Atomic replacement of `metadata.json` | Replicated transactional database plus outbox/log |
-| Local content-addressed directory | Multi-region object store with erasure coding/replication |
-| Browser polls every five seconds | WebSocket/long-poll invalidation plus cursor polling |
-| Client uses fixed 4 MiB chunks | Adaptive/content-defined chunks and resumable multipart transfer |
-| No authentication | OAuth/device tokens, ACL checks, scoped signed URLs |
-| Tombstones retained forever | Retention window plus snapshot resync for expired cursors |
-| Manual demo devices | Native filesystem watcher, durable device journal, atomic local replace |
+| Demo implementation                   | Production Dropbox-style system                                         |
+| ------------------------------------- | ----------------------------------------------------------------------- |
+| One process and per-store lock        | Metadata service sharded by user ID                                     |
+| Atomic replacement of `metadata.json` | Replicated transactional database plus outbox/log                       |
+| Local content-addressed directory     | Multi-region object store with erasure coding/replication               |
+| Browser polls every five seconds      | WebSocket/long-poll invalidation plus cursor polling                    |
+| Client uses fixed 4 MiB chunks        | Adaptive/content-defined chunks and resumable multipart transfer        |
+| No authentication                     | OAuth/device tokens, ACL checks, scoped signed URLs                     |
+| Tombstones retained forever           | Retention window plus snapshot resync for expired cursors               |
+| Manual demo devices                   | Native filesystem watcher, durable device journal, atomic local replace |
 
 This is an architecturally faithful vertical slice, not a claim that a single-process demo has production scale or durability.
 

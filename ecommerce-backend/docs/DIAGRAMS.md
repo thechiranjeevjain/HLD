@@ -1,6 +1,8 @@
 # E-Commerce Backend Diagrams
 
-## Component View
+## High-Level Design
+
+### Component View
 
 ```mermaid
 flowchart LR
@@ -15,7 +17,9 @@ flowchart LR
     OrderService --> Kafka["Kafka order-events"]
 ```
 
-## Checkout Flow
+## Low-Level Design
+
+### Checkout Flow
 
 ```mermaid
 sequenceDiagram
@@ -34,7 +38,7 @@ sequenceDiagram
     API-->>C: order response
 ```
 
-## Payment Flow
+### Payment Flow
 
 ```mermaid
 flowchart LR

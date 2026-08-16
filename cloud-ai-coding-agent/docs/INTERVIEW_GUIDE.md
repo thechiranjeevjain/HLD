@@ -15,13 +15,13 @@ This project is an interview-sized cloud coding agent. A React UI creates an age
 
 ## Tradeoffs
 
-| Decision | Benefit | Cost |
-| --- | --- | --- |
-| Modular monolith | Easy local demo and clear boundaries | Not independently scalable by component |
-| Fake planner by default | Repeatable safe demo | Does not prove general coding intelligence |
-| Docker sandbox | Stronger execution isolation than local shell | Requires Docker Desktop locally |
-| PostgreSQL session store | Recoverable session history | More setup than in-memory state |
-| WebSocket streaming | Good operator experience | Needs replay from database after disconnect |
+| Decision                 | Benefit                                       | Cost                                        |
+| ------------------------ | --------------------------------------------- | ------------------------------------------- |
+| Modular monolith         | Easy local demo and clear boundaries          | Not independently scalable by component     |
+| Fake planner by default  | Repeatable safe demo                          | Does not prove general coding intelligence  |
+| Docker sandbox           | Stronger execution isolation than local shell | Requires Docker Desktop locally             |
+| PostgreSQL session store | Recoverable session history                   | More setup than in-memory state             |
+| WebSocket streaming      | Good operator experience                      | Needs replay from database after disconnect |
 
 ## FAQ
 

@@ -12,4 +12,3 @@
 10. Open Prometheus and query `ptr_decisions_total`, `ptr_order_latency_seconds`, `ptr_queue_depth`, `ptr_pool_borrowed`, `ptr_breaches_total`, plus JVM GC/allocation metrics. Grafana can graph the same series.
 
 To simulate process restart manually, stop and start `engine`; the focused recovery test is deterministic and demonstrates the exact state/replay invariant without relying on shell timing.
-

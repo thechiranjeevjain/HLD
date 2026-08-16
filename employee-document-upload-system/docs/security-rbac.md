@@ -13,15 +13,15 @@ Application groups:
 
 ## RBAC Rules
 
-| Action | EMPLOYEE | HR_REVIEWER | AUDITOR | ADMIN |
-| --- | --- | --- | --- | --- |
-| Create upload intent for self | Yes | Yes | No | Yes |
-| Create upload intent for another user | No | Yes | No | Yes |
-| List own metadata | Yes | Yes | Yes | Yes |
-| List all metadata | No | Yes | Yes | Yes |
-| Approve/reject document | No | Yes | No | Yes |
-| Delete document | No | No | No | Yes, with audit trail |
-| Change roles | No | No | No | Outside app, through identity administration |
+| Action                                | EMPLOYEE | HR_REVIEWER | AUDITOR | ADMIN                                        |
+| ------------------------------------- | -------- | ----------- | ------- | -------------------------------------------- |
+| Create upload intent for self         | Yes      | Yes         | No      | Yes                                          |
+| Create upload intent for another user | No       | Yes         | No      | Yes                                          |
+| List own metadata                     | Yes      | Yes         | Yes     | Yes                                          |
+| List all metadata                     | No       | Yes         | Yes     | Yes                                          |
+| Approve/reject document               | No       | Yes         | No      | Yes                                          |
+| Delete document                       | No       | No          | No      | Yes, with audit trail                        |
+| Change roles                          | No       | No          | No      | Outside app, through identity administration |
 
 ## IAM Model
 
@@ -77,15 +77,15 @@ AWS audit events should include:
 
 ## Threats And Mitigations
 
-| Threat | Mitigation |
-| --- | --- |
-| Public document exposure | S3 public access block, private bucket, deny non-TLS policy |
-| Employee reads another employee document | API RBAC checks owner id against token subject |
-| Compromised app role accesses unrelated buckets | IAM policy scoped to one bucket ARN |
-| Secrets in CI logs | GitHub OIDC federation, no static AWS keys, masked secrets |
-| SQL injection | Parameterized JPA repository operations |
-| Accidental data deletion | S3 versioning, RDS backups, deletion protection in prod |
-| Missing evidence after incident | Application audit logs plus CloudTrail |
+| Threat                                          | Mitigation                                                  |
+| ----------------------------------------------- | ----------------------------------------------------------- |
+| Public document exposure                        | S3 public access block, private bucket, deny non-TLS policy |
+| Employee reads another employee document        | API RBAC checks owner id against token subject              |
+| Compromised app role accesses unrelated buckets | IAM policy scoped to one bucket ARN                         |
+| Secrets in CI logs                              | GitHub OIDC federation, no static AWS keys, masked secrets  |
+| SQL injection                                   | Parameterized JPA repository operations                     |
+| Accidental data deletion                        | S3 versioning, RDS backups, deletion protection in prod     |
+| Missing evidence after incident                 | Application audit logs plus CloudTrail                      |
 
 ## Source Notes
 

@@ -1,6 +1,8 @@
 # Authentication Service Diagrams
 
-## Component View
+## High-Level Design
+
+### Component View
 
 ```mermaid
 flowchart LR
@@ -15,7 +17,9 @@ flowchart LR
     Security --> UserApi
 ```
 
-## Login Flow
+## Low-Level Design
+
+### Login Flow
 
 ```mermaid
 sequenceDiagram
@@ -34,7 +38,7 @@ sequenceDiagram
     A-->>C: accessToken
 ```
 
-## Protected Request Flow
+### Protected Request Flow
 
 ```mermaid
 sequenceDiagram

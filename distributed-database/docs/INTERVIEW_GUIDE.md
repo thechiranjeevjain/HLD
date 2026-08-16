@@ -22,12 +22,12 @@ This is an interview-sized distributed key-value database. Three TCP nodes use l
 
 ## Tradeoffs
 
-| Decision | Benefit | Cost |
-| --- | --- | --- |
-| TCP text commands | Very easy to demo and debug | Not a production protocol |
-| First-live-node leader | Simple leader behavior | Not consensus-safe |
-| Quorum reads/writes | Teaches consistency tradeoffs | More latency than single-node reads |
-| WAL per node | Restart recovery | No compaction or snapshotting yet |
+| Decision               | Benefit                       | Cost                                |
+| ---------------------- | ----------------------------- | ----------------------------------- |
+| TCP text commands      | Very easy to demo and debug   | Not a production protocol           |
+| First-live-node leader | Simple leader behavior        | Not consensus-safe                  |
+| Quorum reads/writes    | Teaches consistency tradeoffs | More latency than single-node reads |
+| WAL per node           | Restart recovery              | No compaction or snapshotting yet   |
 
 ## FAQ
 

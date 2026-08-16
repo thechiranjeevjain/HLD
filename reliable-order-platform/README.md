@@ -60,18 +60,18 @@ Endpoints: API `8080`, Keycloak `8081`, Prometheus `9090`, Grafana `3000`. Devel
 
 ## Repository map
 
-| Path | Responsibility |
-|---|---|
-| `order` | REST API, aggregate, validation, idempotent application service |
-| `outbox` | reliable event publication and consumer deduplication |
-| `fulfillment` | asynchronous business reaction |
-| `audit` | durable actor/action trail |
-| `config` | JWT authorization and bounded Redis cache |
-| `db/migration` | reviewed, repeatable schema evolution |
-| `ops` | local identity and monitoring configuration |
-| `k8s` | deployment, probes, ingress, HPA, disruption budget |
-| `infra/terraform` | VPC, RDS, ElastiCache, MSK Serverless, ECR, audit bucket |
-| `.github/workflows` | Java 21 verification and image build |
+| Path                | Responsibility                                                  |
+| ------------------- | --------------------------------------------------------------- |
+| `order`             | REST API, aggregate, validation, idempotent application service |
+| `outbox`            | reliable event publication and consumer deduplication           |
+| `fulfillment`       | asynchronous business reaction                                  |
+| `audit`             | durable actor/action trail                                      |
+| `config`            | JWT authorization and bounded Redis cache                       |
+| `db/migration`      | reviewed, repeatable schema evolution                           |
+| `ops`               | local identity and monitoring configuration                     |
+| `k8s`               | deployment, probes, ingress, HPA, disruption budget             |
+| `infra/terraform`   | VPC, RDS, ElastiCache, MSK Serverless, ECR, audit bucket        |
+| `.github/workflows` | Java 21 verification and image build                            |
 
 ## API and data model
 

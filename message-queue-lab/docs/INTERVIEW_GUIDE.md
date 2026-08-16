@@ -14,12 +14,12 @@ This lab implements a simple in-memory message queue with producer append, offse
 
 ## Tradeoffs
 
-| Decision | Benefit | Cost |
-| --- | --- | --- |
-| In-memory log | Mechanics are easy to see | No crash recovery |
-| Single delivery thread | Deterministic retry order | Low throughput |
-| Fixed retry delay | Simple behavior | No exponential backoff |
-| DLQ after max attempts | Prevents infinite blocking | Needs operator review |
+| Decision               | Benefit                    | Cost                   |
+| ---------------------- | -------------------------- | ---------------------- |
+| In-memory log          | Mechanics are easy to see  | No crash recovery      |
+| Single delivery thread | Deterministic retry order  | Low throughput         |
+| Fixed retry delay      | Simple behavior            | No exponential backoff |
+| DLQ after max attempts | Prevents infinite blocking | Needs operator review  |
 
 ## FAQ
 

@@ -23,13 +23,13 @@ This service exposes a hotel lookup and city search API with a small browser UI,
 
 ## Tradeoffs
 
-| Decision | Benefit | Cost |
-| --- | --- | --- |
-| H2 local database | Simple local demo | Not production persistence |
-| Basic auth defaults | Easy local access control demo | Real deployments need external identity |
-| Redis-ready caching | Shows read optimization | Cache invalidation must be handled |
-| Kafka delete event | Decouples side effects | Needs broker operations |
-| EKS manifests | Interview-ready deployment story | Runtime requires a real cluster context |
+| Decision            | Benefit                          | Cost                                    |
+| ------------------- | -------------------------------- | --------------------------------------- |
+| H2 local database   | Simple local demo                | Not production persistence              |
+| Basic auth defaults | Easy local access control demo   | Real deployments need external identity |
+| Redis-ready caching | Shows read optimization          | Cache invalidation must be handled      |
+| Kafka delete event  | Decouples side effects           | Needs broker operations                 |
+| EKS manifests       | Interview-ready deployment story | Runtime requires a real cluster context |
 
 ## FAQ
 

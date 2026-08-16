@@ -16,4 +16,3 @@ Suggested alerts:
 - projection-versus-ledger invariant failure.
 
 The outbox is intentionally inspectable at `/api/outbox`. A production relay claims pending rows, publishes them, and marks publication metadata; consumers remain idempotent.
-

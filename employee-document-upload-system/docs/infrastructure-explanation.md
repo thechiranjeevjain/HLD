@@ -36,16 +36,16 @@ sequenceDiagram
 
 ## Component Responsibilities
 
-| Component | Responsibility | What it must not do |
-| --- | --- | --- |
-| Cognito | Authenticate users and issue tokens | Decide every business rule |
-| API | Enforce RBAC, create upload contracts, store metadata | Proxy large files unless required |
-| S3 | Store encrypted private document objects | Become a public file server |
-| RDS PostgreSQL | Store document metadata and review status | Store large binary files |
-| KMS | Manage encryption keys for S3 and RDS | Replace application authorization |
-| CloudWatch | Capture logs, metrics, alarms | Be the only audit trail |
-| CloudTrail | Record AWS API activity | Replace application-level audit records |
-| AWS Backup | Manage backup policy and recovery points | Prove restore works without testing |
+| Component      | Responsibility                                        | What it must not do                     |
+| -------------- | ----------------------------------------------------- | --------------------------------------- |
+| Cognito        | Authenticate users and issue tokens                   | Decide every business rule              |
+| API            | Enforce RBAC, create upload contracts, store metadata | Proxy large files unless required       |
+| S3             | Store encrypted private document objects              | Become a public file server             |
+| RDS PostgreSQL | Store document metadata and review status             | Store large binary files                |
+| KMS            | Manage encryption keys for S3 and RDS                 | Replace application authorization       |
+| CloudWatch     | Capture logs, metrics, alarms                         | Be the only audit trail                 |
+| CloudTrail     | Record AWS API activity                               | Replace application-level audit records |
+| AWS Backup     | Manage backup policy and recovery points              | Prove restore works without testing     |
 
 ## Network Design
 
@@ -84,14 +84,14 @@ Cognito authenticates users and places group claims in JWTs. The API maps those 
 
 ## Failure Modes To Explain
 
-| Failure | Expected behavior |
-| --- | --- |
-| Cognito unavailable | Existing requests with valid tokens can continue until token validation needs fresh keys; new sign-ins fail |
-| API task fails | ECS replaces the task; ALB routes only to healthy tasks |
-| Database unavailable | Upload intent creation fails because metadata cannot be committed |
-| S3 upload fails | Metadata may remain pending; cleanup job or status reconciliation should mark stale intents |
-| KMS access denied | S3/RDS encryption operations fail; alarm on application errors and CloudTrail denies |
-| High 5xx rate | CloudWatch alarm notifies operators |
+| Failure              | Expected behavior                                                                                           |
+| -------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Cognito unavailable  | Existing requests with valid tokens can continue until token validation needs fresh keys; new sign-ins fail |
+| API task fails       | ECS replaces the task; ALB routes only to healthy tasks                                                     |
+| Database unavailable | Upload intent creation fails because metadata cannot be committed                                           |
+| S3 upload fails      | Metadata may remain pending; cleanup job or status reconciliation should mark stale intents                 |
+| KMS access denied    | S3/RDS encryption operations fail; alarm on application errors and CloudTrail denies                        |
+| High 5xx rate        | CloudWatch alarm notifies operators                                                                         |
 
 ## What To Say In An Interview
 

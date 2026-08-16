@@ -8,15 +8,15 @@ Start an interview with estimates: peak requests/second, read/write ratio, event
 
 ## Why each technology exists
 
-| Choice | Problem solved | Alternative and trade-off | Do not use when |
-|---|---|---|---|
-| PostgreSQL | constraints, transactions, durable relational state | DynamoDB scales keys simply but shifts joins/constraints to code | ephemeral or append-only data needs no relational invariants |
-| Redis | removes repeated read latency/load | local Caffeine is faster but incoherent across pods | hit rate is low or stale data is unsafe |
-| Kafka | durable fan-out, replay, partition ordering | SQS is operationally simpler but has weaker stream/replay semantics | synchronous work is required to complete the request |
-| Outbox | atomically couples state and intent to publish | CDC/Debezium lowers polling but adds platform complexity | no event must follow a database commit |
-| Modular monolith | one deployment and transaction boundary | microservices give independent scaling/ownership at operational cost | teams/domains truly need independent release and scaling |
-| Kubernetes | scheduling, rollout, health, self-healing | ECS is simpler on AWS | a small team has no platform need or expertise |
-| Terraform | reviewable repeatable infrastructure | CloudFormation is AWS-native; Pulumi uses general languages | one-off experiments where teardown is immediate |
+| Choice           | Problem solved                                      | Alternative and trade-off                                            | Do not use when                                              |
+| ---------------- | --------------------------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------ |
+| PostgreSQL       | constraints, transactions, durable relational state | DynamoDB scales keys simply but shifts joins/constraints to code     | ephemeral or append-only data needs no relational invariants |
+| Redis            | removes repeated read latency/load                  | local Caffeine is faster but incoherent across pods                  | hit rate is low or stale data is unsafe                      |
+| Kafka            | durable fan-out, replay, partition ordering         | SQS is operationally simpler but has weaker stream/replay semantics  | synchronous work is required to complete the request         |
+| Outbox           | atomically couples state and intent to publish      | CDC/Debezium lowers polling but adds platform complexity             | no event must follow a database commit                       |
+| Modular monolith | one deployment and transaction boundary             | microservices give independent scaling/ownership at operational cost | teams/domains truly need independent release and scaling     |
+| Kubernetes       | scheduling, rollout, health, self-healing           | ECS is simpler on AWS                                                | a small team has no platform need or expertise               |
+| Terraform        | reviewable repeatable infrastructure                | CloudFormation is AWS-native; Pulumi uses general languages          | one-off experiments where teardown is immediate              |
 
 ## Consistency and failure semantics
 

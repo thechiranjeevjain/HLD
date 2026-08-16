@@ -14,11 +14,13 @@ Write each key directly to disk.
 Data always lives on disk.
 
 **What breaks**
+
 - Partial writes
 - Corrupted files
 - Crash mid-write leaves unreadable state
 
 **Why WAL wins**
+
 - Sequential writes are safer
 - Intent-first design
 - Deterministic recovery
@@ -40,10 +42,12 @@ Per-key locks, lock-free reads.
 High throughput.
 
 **What breaks**
+
 - WAL, store, cache divergence
 - Impossible intermediate states
 
 **Why coarse locking**
+
 - Atomicity across components
 - Simple reasoning
 
@@ -64,11 +68,13 @@ Timers or expiry heaps.
 Precise TTL.
 
 **What breaks**
+
 - Timer storms
 - Race conditions
 - Complex synchronization
 
 **Why lazy TTL**
+
 - Expired keys never returned
 - Cleanup is eventual
 
@@ -86,10 +92,12 @@ Simplicity and correctness.
 Crash on corruption.
 
 **What breaks**
+
 - Full outage
 - Data loss cascade
 
 **Why skip**
+
 - Partial recovery is better than none
 
 **Sacrifice**
@@ -106,10 +114,12 @@ System availability.
 Concurrent compaction.
 
 **What breaks**
+
 - Crash during rewrite corrupts state
 - Extremely complex logic
 
 **Why pause**
+
 - No partial states
 - Easy to reason about
 
@@ -140,6 +150,7 @@ Foundational understanding.
 ## Meta Principle
 
 MiniKV consistently chooses:
+
 - Correctness over speed
 - Visibility over abstraction
 - Recoverability over convenience

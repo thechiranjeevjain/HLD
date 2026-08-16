@@ -1,6 +1,8 @@
 # Cloud AI Coding Agent Diagrams
 
-## Runtime Architecture
+## High-Level Design
+
+### Runtime Architecture
 
 ```mermaid
 flowchart LR
@@ -15,7 +17,9 @@ flowchart LR
     API --> Redis["Redis coordination seam"]
 ```
 
-## Agent Session Flow
+## Low-Level Design
+
+### Agent Session Flow
 
 ```mermaid
 sequenceDiagram
@@ -37,7 +41,7 @@ sequenceDiagram
     UI->>API: GET session diff/status
 ```
 
-## Failure Boundaries
+### Failure Boundaries
 
 ```mermaid
 flowchart TB

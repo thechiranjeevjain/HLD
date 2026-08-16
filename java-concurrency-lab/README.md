@@ -33,14 +33,14 @@ The failure command is safe to run: deadlocked threads are daemon threads, waits
 
 ## The failures, and why each fix works
 
-| Failure | Broken mechanism | Fix | Why it works |
-|---|---|---|---|
-| Race/lost update | `read -> add -> write` and `long++` interleave | per-client `ReentrantLock`, `AtomicLong`, `LongAdder` | The compound invariant is serialized per client; counters use atomic/striped updates. |
-| `HashMap` corruption | concurrent structural mutation has no happens-before guarantee | `ConcurrentHashMap` and `merge` | Safe publication and atomic per-key remapping prevent lost map updates. |
-| Deadlock | two threads acquire the same locks in opposite order | one client lock per transaction, acquired once in a `try/finally` | No circular wait; `finally` guarantees release. In multi-lock code, impose a total lock order. |
-| Starvation | a pool task blocks waiting for another task submitted to the same saturated pool | compose `CompletableFuture` stages | Composition does not synchronously wait inside a worker; stages become runnable when dependencies finish. |
-| Executor overload | an unbounded queue hides overload until memory and latency explode | bounded `ArrayBlockingQueue` + `CallerRunsPolicy` | The producer executes work when saturated, slowing admission and creating backpressure. |
-| Lock contention | one global/long-held lock serializes unrelated clients | short per-client `ReentrantLock` critical section | Independent clients proceed concurrently; only invariant check plus update is locked. |
+| Failure              | Broken mechanism                                                                 | Fix                                                               | Why it works                                                                                              |
+| -------------------- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Race/lost update     | `read -> add -> write` and `long++` interleave                                   | per-client `ReentrantLock`, `AtomicLong`, `LongAdder`             | The compound invariant is serialized per client; counters use atomic/striped updates.                     |
+| `HashMap` corruption | concurrent structural mutation has no happens-before guarantee                   | `ConcurrentHashMap` and `merge`                                   | Safe publication and atomic per-key remapping prevent lost map updates.                                   |
+| Deadlock             | two threads acquire the same locks in opposite order                             | one client lock per transaction, acquired once in a `try/finally` | No circular wait; `finally` guarantees release. In multi-lock code, impose a total lock order.            |
+| Starvation           | a pool task blocks waiting for another task submitted to the same saturated pool | compose `CompletableFuture` stages                                | Composition does not synchronously wait inside a worker; stages become runnable when dependencies finish. |
+| Executor overload    | an unbounded queue hides overload until memory and latency explode               | bounded `ArrayBlockingQueue` + `CallerRunsPolicy`                 | The producer executes work when saturated, slowing admission and creating backpressure.                   |
+| Lock contention      | one global/long-held lock serializes unrelated clients                           | short per-client `ReentrantLock` critical section                 | Independent clients proceed concurrently; only invariant check plus update is locked.                     |
 
 ## Utilities: the interview-level model
 

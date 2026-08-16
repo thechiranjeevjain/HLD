@@ -1,6 +1,8 @@
 # Product Catalog API Diagrams
 
-## Component View
+## High-Level Design
+
+### Component View
 
 ```mermaid
 flowchart LR
@@ -12,7 +14,9 @@ flowchart LR
     Errors["GlobalExceptionHandler"] --> Client
 ```
 
-## Create Product Flow
+## Low-Level Design
+
+### Create Product Flow
 
 ```mermaid
 sequenceDiagram
@@ -30,7 +34,7 @@ sequenceDiagram
     API-->>C: 201 response
 ```
 
-## Read/Search Flow
+### Read/Search Flow
 
 ```mermaid
 flowchart LR

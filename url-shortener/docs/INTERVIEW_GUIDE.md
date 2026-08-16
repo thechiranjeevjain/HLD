@@ -22,12 +22,12 @@ This service converts long URLs into short codes, redirects users, tracks clicks
 
 ## Tradeoffs
 
-| Decision | Benefit | Cost |
-| --- | --- | --- |
-| Generated short code | Compact links and simple routing | Collision handling is required |
-| PostgreSQL metadata | Durable links and click counts | Very high redirect traffic may need caching |
-| Redis rate limiting | Fast abuse control | Redis outage needs a fail-open or fail-closed decision |
-| Optional expiry | Old links can be retired | Redirect path must check validity |
+| Decision             | Benefit                          | Cost                                                   |
+| -------------------- | -------------------------------- | ------------------------------------------------------ |
+| Generated short code | Compact links and simple routing | Collision handling is required                         |
+| PostgreSQL metadata  | Durable links and click counts   | Very high redirect traffic may need caching            |
+| Redis rate limiting  | Fast abuse control               | Redis outage needs a fail-open or fail-closed decision |
+| Optional expiry      | Old links can be retired         | Redirect path must check validity                      |
 
 ## FAQ
 

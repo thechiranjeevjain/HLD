@@ -24,14 +24,14 @@ This project models the core correctness rules behind Dropbox-style sync. Client
 
 ## Tradeoffs
 
-| Decision | Benefit | Cost |
-| --- | --- | --- |
-| Stable `fileId` | Rename does not re-upload bytes | Requires separate namespace metadata |
-| Immutable versions | Easy recovery and conflict handling | Storage grows until garbage collection |
-| Conflict copies | No acknowledged write is lost | Users may need to merge manually |
-| Fixed-size chunks | Simple deterministic demo | Less efficient than content-defined chunking |
-| Single metadata lock | Clear linearizable shard model | Not horizontally scalable as-is |
-| Local blob directory | Runnable without cloud services | No production durability guarantee |
+| Decision             | Benefit                             | Cost                                         |
+| -------------------- | ----------------------------------- | -------------------------------------------- |
+| Stable `fileId`      | Rename does not re-upload bytes     | Requires separate namespace metadata         |
+| Immutable versions   | Easy recovery and conflict handling | Storage grows until garbage collection       |
+| Conflict copies      | No acknowledged write is lost       | Users may need to merge manually             |
+| Fixed-size chunks    | Simple deterministic demo           | Less efficient than content-defined chunking |
+| Single metadata lock | Clear linearizable shard model      | Not horizontally scalable as-is              |
+| Local blob directory | Runnable without cloud services     | No production durability guarantee           |
 
 ## FAQ
 

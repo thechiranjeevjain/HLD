@@ -73,14 +73,14 @@ The local profile substitutes file-backed H2 and a deterministic mock LLM. Postg
 
 ## Security invariants
 
-| Invariant | Enforcement point |
-|---|---|
-| The LLM cannot write business state | `ApprovedToolRegistry` exposes exact-name read tools only |
-| Untrusted text cannot redefine agent policy | `AgentSecurityService` inspects prompts and retrieved documents before orchestration |
-| Model output cannot leak recognizable secrets | Output DLP validation rejects secret-bearing responses |
-| The model cannot approve its own recommendation | Separate `/approve` endpoint requires `SENIOR_ANALYST` or `ADMIN` |
-| Rejected attacks remain observable | `AuditService` writes denial events with `REQUIRES_NEW` |
-| Concurrent approvals cannot silently overwrite | Optimistic-lock version is required |
+| Invariant                                       | Enforcement point                                                                    |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------ |
+| The LLM cannot write business state             | `ApprovedToolRegistry` exposes exact-name read tools only                            |
+| Untrusted text cannot redefine agent policy     | `AgentSecurityService` inspects prompts and retrieved documents before orchestration |
+| Model output cannot leak recognizable secrets   | Output DLP validation rejects secret-bearing responses                               |
+| The model cannot approve its own recommendation | Separate `/approve` endpoint requires `SENIOR_ANALYST` or `ADMIN`                    |
+| Rejected attacks remain observable              | `AuditService` writes denial events with `REQUIRES_NEW`                              |
+| Concurrent approvals cannot silently overwrite  | Optimistic-lock version is required                                                  |
 
 ## Package boundaries
 

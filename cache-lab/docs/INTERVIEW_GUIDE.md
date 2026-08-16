@@ -14,12 +14,12 @@ This lab implements a bounded in-memory cache with LRU eviction and TTL expiry. 
 
 ## Tradeoffs
 
-| Decision | Benefit | Cost |
-| --- | --- | --- |
-| Manual list plus map | Makes LRU mechanics visible | More code than `LinkedHashMap` |
-| Single lock | Simple structural correctness | Lower throughput under contention |
-| TTL on read | Cheap cleanup behavior | Expired items may occupy space until read or eviction |
-| In-memory only | Fast and simple | Lost on process restart |
+| Decision             | Benefit                       | Cost                                                  |
+| -------------------- | ----------------------------- | ----------------------------------------------------- |
+| Manual list plus map | Makes LRU mechanics visible   | More code than `LinkedHashMap`                        |
+| Single lock          | Simple structural correctness | Lower throughput under contention                     |
+| TTL on read          | Cheap cleanup behavior        | Expired items may occupy space until read or eviction |
+| In-memory only       | Fast and simple               | Lost on process restart                               |
 
 ## FAQ
 

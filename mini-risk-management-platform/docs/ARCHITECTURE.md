@@ -37,10 +37,10 @@ The service fails closed if it cannot read history. In financial risk systems, a
 
 ## Data Ownership
 
-| Service | Database | Tables | Reason |
-| --- | --- | --- | --- |
-| `order-service` | `orders` | `orders` | Order intake and final decision audit trail. |
-| `risk-service` | `risk` | `risk_limits` | Risk configuration is owned by risk. |
+| Service           | Database  | Tables            | Reason                                         |
+| ----------------- | --------- | ----------------- | ---------------------------------------------- |
+| `order-service`   | `orders`  | `orders`          | Order intake and final decision audit trail.   |
+| `risk-service`    | `risk`    | `risk_limits`     | Risk configuration is owned by risk.           |
 | `history-service` | `history` | `exposure_events` | Exposure materialization from accepted orders. |
 
 Each service owns its schema. Other services call APIs or consume events instead of reading foreign tables directly.
@@ -58,13 +58,13 @@ Production tradeoff:
 
 ## Failure Policy
 
-| Failure | Behavior |
-| --- | --- |
-| `risk-service` unavailable | `order-service` rejects the order with a fail-closed reason. |
-| `history-service` unavailable during risk check | `risk-service` rejects the order. |
-| Kafka unavailable after DB save | The current implementation can lose the event. The production guide explains the outbox pattern fix. |
-| Redis unavailable | `risk-service` logs cache failure and falls back to PostgreSQL. |
-| PostgreSQL unavailable | Affected service becomes unready and request paths fail. |
+| Failure                                         | Behavior                                                                                             |
+| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `risk-service` unavailable                      | `order-service` rejects the order with a fail-closed reason.                                         |
+| `history-service` unavailable during risk check | `risk-service` rejects the order.                                                                    |
+| Kafka unavailable after DB save                 | The current implementation can lose the event. The production guide explains the outbox pattern fix. |
+| Redis unavailable                               | `risk-service` logs cache failure and falls back to PostgreSQL.                                      |
+| PostgreSQL unavailable                          | Affected service becomes unready and request paths fail.                                             |
 
 ## Production Gaps Kept Visible
 
@@ -75,4 +75,3 @@ The code intentionally leaves some senior-level discussion points visible:
 - Simple gateway. Discuss authentication, rate limits, circuit breakers, request IDs, and WAF.
 - No schema registry. Discuss event compatibility and versioning.
 - No real email provider. Discuss retry queues and dead-letter topics.
-

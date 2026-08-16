@@ -58,17 +58,17 @@ PersistentVolumes use `Retain`, so data may remain after deleting the app. That 
 
 ## Environment Variables
 
-| Variable | Owner | Meaning |
-| --- | --- | --- |
-| `SPRING_DATASOURCE_URL` | stateful services | JDBC URL for each service database. |
-| `SPRING_DATASOURCE_USERNAME` | stateful services | PostgreSQL username from Secret. |
-| `SPRING_DATASOURCE_PASSWORD` | stateful services | PostgreSQL password from Secret. |
-| `SPRING_KAFKA_BOOTSTRAP_SERVERS` | Kafka clients | Kafka broker address. |
-| `SPRING_DATA_REDIS_HOST` | risk-service | Redis host for cache. |
-| `ORDER_SERVICE_URL` | api-gateway | Downstream order service URL. |
-| `RISK_SERVICE_URL` | order-service | Downstream risk service URL. |
-| `HISTORY_SERVICE_URL` | api-gateway, risk-service | Downstream history service URL. |
-| `ORDER_EVENTS_TOPIC` | Kafka clients | Topic name for order events. |
+| Variable                         | Owner                     | Meaning                             |
+| -------------------------------- | ------------------------- | ----------------------------------- |
+| `SPRING_DATASOURCE_URL`          | stateful services         | JDBC URL for each service database. |
+| `SPRING_DATASOURCE_USERNAME`     | stateful services         | PostgreSQL username from Secret.    |
+| `SPRING_DATASOURCE_PASSWORD`     | stateful services         | PostgreSQL password from Secret.    |
+| `SPRING_KAFKA_BOOTSTRAP_SERVERS` | Kafka clients             | Kafka broker address.               |
+| `SPRING_DATA_REDIS_HOST`         | risk-service              | Redis host for cache.               |
+| `ORDER_SERVICE_URL`              | api-gateway               | Downstream order service URL.       |
+| `RISK_SERVICE_URL`               | order-service             | Downstream risk service URL.        |
+| `HISTORY_SERVICE_URL`            | api-gateway, risk-service | Downstream history service URL.     |
+| `ORDER_EVENTS_TOPIC`             | Kafka clients             | Topic name for order events.        |
 
 ## Smoke Test
 
@@ -87,4 +87,3 @@ Invoke-RestMethod "http://localhost:8080/api/exposures/CLIENT-A/AAPL"
 ```
 
 Expected result: order is `ACCEPTED`; exposure eventually shows net quantity `100`.
-

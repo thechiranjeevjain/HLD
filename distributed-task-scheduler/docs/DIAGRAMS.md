@@ -1,6 +1,8 @@
 # Distributed Task Scheduler Diagrams
 
-## Component View
+## High-Level Design
+
+### Component View
 
 ```mermaid
 flowchart LR
@@ -12,7 +14,9 @@ flowchart LR
     Worker --> Attempts[("job_execution records")]
 ```
 
-## Leader And Worker Flow
+## Low-Level Design
+
+### Leader And Worker Flow
 
 ```mermaid
 sequenceDiagram
@@ -29,7 +33,7 @@ sequenceDiagram
     W->>J: update status
 ```
 
-## Job State Flow
+### Job State Flow
 
 ```mermaid
 stateDiagram-v2

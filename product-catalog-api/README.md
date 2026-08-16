@@ -15,14 +15,14 @@ A Spring Boot product catalog API with PostgreSQL persistence, Flyway migrations
 
 ## Endpoints
 
-| Method | Path | Purpose |
-| --- | --- | --- |
-| `GET` | `/api/products` | List products with optional `search` and `active` filters |
-| `GET` | `/api/products/{id}` | Get one product |
-| `POST` | `/api/products` | Create a product |
-| `PUT` | `/api/products/{id}` | Replace a product |
-| `DELETE` | `/api/products/{id}` | Delete a product |
-| `GET` | `/actuator/health` | Health check |
+| Method   | Path                 | Purpose                                                   |
+| -------- | -------------------- | --------------------------------------------------------- |
+| `GET`    | `/api/products`      | List products with optional `search` and `active` filters |
+| `GET`    | `/api/products/{id}` | Get one product                                           |
+| `POST`   | `/api/products`      | Create a product                                          |
+| `PUT`    | `/api/products/{id}` | Replace a product                                         |
+| `DELETE` | `/api/products/{id}` | Delete a product                                          |
+| `GET`    | `/actuator/health`   | Health check                                              |
 
 ## Run With Docker Compose
 

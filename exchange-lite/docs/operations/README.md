@@ -35,15 +35,15 @@ java -cp "cli\target\exchange-lite-cli-0.1.0.jar;common\target\exchange-lite-com
 
 ## Incident Response Guide
 
-| Incident | Detection | Mitigation | Long-Term Fix |
-| --- | --- | --- | --- |
-| Engine crash | Sidecar `502`, pod restart, missing metrics | Restart pod, inspect previous logs | Add durable journal and crash replay |
-| Sidecar crash | HTTP health fails, engine still accepts TCP | Restart sidecar/pod | Add separate sidecar liveness and better readiness |
-| IPC timeout | Sidecar returns `502` | Check IPC port/socket, thread dump | Add timeout histograms and circuit breaker |
-| Message corruption | Data server returns `REJECT` | Inspect client encoder | Add packet capture and protocol conformance suite |
-| Memory pressure | Heap route and GC metrics rise | Reduce load, restart if needed | Add bounded queues and allocation profiling |
-| Deadlock | Thread dump shows blocked book locks | Drain traffic and restart | Move to event-loop-owned books |
-| Slow consumers | TCP sessions rise, latency rises | Disconnect bad clients | Add write timeouts and backpressure |
+| Incident           | Detection                                   | Mitigation                         | Long-Term Fix                                      |
+| ------------------ | ------------------------------------------- | ---------------------------------- | -------------------------------------------------- |
+| Engine crash       | Sidecar `502`, pod restart, missing metrics | Restart pod, inspect previous logs | Add durable journal and crash replay               |
+| Sidecar crash      | HTTP health fails, engine still accepts TCP | Restart sidecar/pod                | Add separate sidecar liveness and better readiness |
+| IPC timeout        | Sidecar returns `502`                       | Check IPC port/socket, thread dump | Add timeout histograms and circuit breaker         |
+| Message corruption | Data server returns `REJECT`                | Inspect client encoder             | Add packet capture and protocol conformance suite  |
+| Memory pressure    | Heap route and GC metrics rise              | Reduce load, restart if needed     | Add bounded queues and allocation profiling        |
+| Deadlock           | Thread dump shows blocked book locks        | Drain traffic and restart          | Move to event-loop-owned books                     |
+| Slow consumers     | TCP sessions rise, latency rises            | Disconnect bad clients             | Add write timeouts and backpressure                |
 
 ## Monitoring Guide
 
@@ -95,7 +95,7 @@ Recommended production direction:
 - Use a Deployment when the engine is stateless or only serves demo traffic.
 - Route market symbols to the owning pod through a gateway.
 - Avoid multiple writable replicas for the same market unless a leader election and replay model exists.
- 
+
 Rolling updates must drain data-plane sessions before terminating the old pod. Sidecar readiness should fail before data-plane shutdown so operators stop routing new traffic first.
 
 ## Upgrade Guide

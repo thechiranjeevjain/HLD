@@ -22,12 +22,12 @@ This service schedules jobs into PostgreSQL, elects one active scheduler through
 
 ## Tradeoffs
 
-| Decision | Benefit | Cost |
-| --- | --- | --- |
-| Database-backed queue | Simple durable scheduler | Less throughput than a broker |
+| Decision                      | Benefit                        | Cost                                 |
+| ----------------------------- | ------------------------------ | ------------------------------------ |
+| Database-backed queue         | Simple durable scheduler       | Less throughput than a broker        |
 | Database lock leader election | Easy local multi-instance demo | Requires careful lock timeout tuning |
-| Scheduled polling | Understandable control loop | Jobs may run slightly after due time |
-| Attempt records | Clear debugging and audit | More writes per job |
+| Scheduled polling             | Understandable control loop    | Jobs may run slightly after due time |
+| Attempt records               | Clear debugging and audit      | More writes per job                  |
 
 ## FAQ
 

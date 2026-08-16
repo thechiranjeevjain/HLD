@@ -15,14 +15,14 @@ A Spring Boot distributed task scheduler with database-backed leader election, p
 
 ## Endpoints
 
-| Method | Path | Purpose |
-| --- | --- | --- |
-| `POST` | `/api/jobs` | Schedule a job |
-| `GET` | `/api/jobs` | List jobs |
-| `GET` | `/api/jobs/{id}` | Read job status |
-| `POST` | `/api/jobs/{id}/run-now` | Requeue a job immediately |
-| `GET` | `/api/leader` | Inspect this instance's scheduler identity |
-| `GET` | `/actuator/health` | Health check |
+| Method | Path                     | Purpose                                    |
+| ------ | ------------------------ | ------------------------------------------ |
+| `POST` | `/api/jobs`              | Schedule a job                             |
+| `GET`  | `/api/jobs`              | List jobs                                  |
+| `GET`  | `/api/jobs/{id}`         | Read job status                            |
+| `POST` | `/api/jobs/{id}/run-now` | Requeue a job immediately                  |
+| `GET`  | `/api/leader`            | Inspect this instance's scheduler identity |
+| `GET`  | `/actuator/health`       | Health check                               |
 
 ## Run
 

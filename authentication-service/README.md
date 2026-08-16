@@ -16,14 +16,14 @@ A Spring Boot authentication service with user registration, BCrypt password has
 
 ## Endpoints
 
-| Method | Path | Purpose |
-| --- | --- | --- |
-| `POST` | `/api/auth/register` | Register a password user and return a JWT |
-| `POST` | `/api/auth/login` | Login with email/password and return a JWT |
+| Method | Path                    | Purpose                                                     |
+| ------ | ----------------------- | ----------------------------------------------------------- |
+| `POST` | `/api/auth/register`    | Register a password user and return a JWT                   |
+| `POST` | `/api/auth/login`       | Login with email/password and return a JWT                  |
 | `POST` | `/api/auth/oauth2/mock` | Provision or login an OAuth2 identity for local development |
-| `GET` | `/api/users/me` | Return the authenticated user |
-| `GET` | `/api/admin/users` | List users; requires `ADMIN` role |
-| `GET` | `/actuator/health` | Health check |
+| `GET`  | `/api/users/me`         | Return the authenticated user                               |
+| `GET`  | `/api/admin/users`      | List users; requires `ADMIN` role                           |
+| `GET`  | `/actuator/health`      | Health check                                                |
 
 ## Run
 

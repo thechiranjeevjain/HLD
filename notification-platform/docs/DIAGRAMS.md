@@ -1,6 +1,8 @@
 # Notification Platform Diagrams
 
-## Component View
+## High-Level Design
+
+### Component View
 
 ```mermaid
 flowchart LR
@@ -15,7 +17,9 @@ flowchart LR
     Service --> DLQ[("Dead-letter records")]
 ```
 
-## Retry Flow
+## Low-Level Design
+
+### Retry Flow
 
 ```mermaid
 sequenceDiagram
@@ -36,7 +40,7 @@ sequenceDiagram
     end
 ```
 
-## State Flow
+### State Flow
 
 ```mermaid
 stateDiagram-v2

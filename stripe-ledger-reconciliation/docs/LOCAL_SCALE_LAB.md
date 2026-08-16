@@ -12,4 +12,3 @@ The API caps a single request at one million payments, writes two balanced ledge
 To demonstrate region-like request races, run two application processes on different ports against the same PostgreSQL database and send the same payment key to both. The integration suite already launches 16 concurrent calls through the transactional service and proves one payment/journal owner.
 
 This demonstrates the correctness protocol, not geographic latency or a real million-events-per-day SLA. Those require representative infrastructure and sustained load tests.
-

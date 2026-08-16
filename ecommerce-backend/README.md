@@ -15,14 +15,14 @@ A Spring Boot e-commerce backend with inventory management, order placement, pay
 
 ## Endpoints
 
-| Method | Path | Purpose |
-| --- | --- | --- |
-| `POST` | `/api/inventory` | Create or replace inventory for a SKU |
-| `GET` | `/api/inventory` | List inventory |
-| `POST` | `/api/orders` | Place an order and reserve stock |
-| `GET` | `/api/orders/{id}` | Read an order |
+| Method | Path                        | Purpose                                |
+| ------ | --------------------------- | -------------------------------------- |
+| `POST` | `/api/inventory`            | Create or replace inventory for a SKU  |
+| `GET`  | `/api/inventory`            | List inventory                         |
+| `POST` | `/api/orders`               | Place an order and reserve stock       |
+| `GET`  | `/api/orders/{id}`          | Read an order                          |
 | `POST` | `/api/orders/{id}/payments` | Capture or decline a simulated payment |
-| `GET` | `/actuator/health` | Health check |
+| `GET`  | `/actuator/health`          | Health check                           |
 
 ## Run
 

@@ -1,6 +1,21 @@
 # URL Shortener Diagrams
 
-## Create Link Flow
+## High-Level Design
+
+### System Context
+
+```mermaid
+flowchart LR
+    Client["Web or mobile client"] --> API["URL Shortener API"]
+    API --> Links[("PostgreSQL links")]
+    API --> Limits[("Redis rate limits")]
+    Client --> Redirect["Redirect endpoint"]
+    Redirect --> Links
+```
+
+## Low-Level Design
+
+### Create Link Flow
 
 ```mermaid
 sequenceDiagram
@@ -18,7 +33,7 @@ sequenceDiagram
     API-->>C: short code
 ```
 
-## Redirect Flow
+### Redirect Flow
 
 ```mermaid
 flowchart LR
@@ -29,7 +44,7 @@ flowchart LR
     Service --> Redirect["302 Location: originalUrl"]
 ```
 
-## Abuse-Control View
+### Abuse-Control View
 
 ```mermaid
 flowchart LR

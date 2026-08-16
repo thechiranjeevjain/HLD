@@ -224,4 +224,3 @@ kubectl -n mini-risk rollout restart deployment/order-service deployment/risk-se
 ```
 
 Interview discussion: explain graceful degradation, dependency health, and fail-closed risk behavior.
-

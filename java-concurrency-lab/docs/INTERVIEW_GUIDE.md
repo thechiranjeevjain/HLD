@@ -25,14 +25,14 @@ This lab teaches backend concurrency through a stock-order processor. It first m
 
 ## Tradeoffs
 
-| Decision | Benefit | Cost |
-| --- | --- | --- |
-| Per-client lock | Serializes only the affected business invariant | Hot clients can still contend |
-| Bounded executor | Predictable capacity and failure mode | Callers feel backpressure under load |
-| Caller-runs rejection | Slows producers naturally | Request thread may spend time doing work |
-| Immutable `RiskState` | Readers never observe partial updates | More object allocation |
-| `LongAdder` metrics | High throughput counters | `sum()` is observational, not transactional |
-| Failure-first demos | Strong interview teaching value | Some demos intentionally print warnings |
+| Decision              | Benefit                                         | Cost                                        |
+| --------------------- | ----------------------------------------------- | ------------------------------------------- |
+| Per-client lock       | Serializes only the affected business invariant | Hot clients can still contend               |
+| Bounded executor      | Predictable capacity and failure mode           | Callers feel backpressure under load        |
+| Caller-runs rejection | Slows producers naturally                       | Request thread may spend time doing work    |
+| Immutable `RiskState` | Readers never observe partial updates           | More object allocation                      |
+| `LongAdder` metrics   | High throughput counters                        | `sum()` is observational, not transactional |
+| Failure-first demos   | Strong interview teaching value                 | Some demos intentionally print warnings     |
 
 ## FAQ
 

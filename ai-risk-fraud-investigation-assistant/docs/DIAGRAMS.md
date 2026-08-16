@@ -1,6 +1,8 @@
 # Secure AI Risk Analyst Agent diagrams
 
-## Security architecture and trust boundaries
+## High-Level Design
+
+### Security architecture and trust boundaries
 
 ```mermaid
 flowchart LR
@@ -38,7 +40,9 @@ flowchart LR
     Approval --> Audit
 ```
 
-## Investigation and privileged-action sequence
+## Low-Level Design
+
+### Investigation and privileged-action sequence
 
 ```mermaid
 sequenceDiagram
@@ -69,7 +73,7 @@ sequenceDiagram
     end
 ```
 
-## Unauthorized tool-call path
+### Unauthorized tool-call path
 
 ```mermaid
 flowchart TD
@@ -82,7 +86,7 @@ flowchart TD
     DenialLog --> NoWrite["No privileged side effect"]
 ```
 
-## Adversarial evaluation matrix
+### Adversarial evaluation matrix
 
 ```mermaid
 flowchart LR
@@ -96,7 +100,7 @@ flowchart LR
     E --> Block
 ```
 
-## Portfolio boundary
+### Portfolio boundary
 
 ```mermaid
 flowchart TB

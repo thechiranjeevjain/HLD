@@ -109,4 +109,3 @@ Production upgrades:
 - Every schema change needs migration and rollback thinking.
 - Every deploy needs a health gate and rollback command.
 - Every incident should produce a test, dashboard, or runbook improvement.
-

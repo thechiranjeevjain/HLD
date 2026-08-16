@@ -22,14 +22,14 @@ CloudWatch log groups:
 
 Minimum dashboard:
 
-| Area | Metric |
-| --- | --- |
-| Load balancer | Request count, target 5xx, target response time |
-| ECS | Running task count, CPU, memory |
-| API | Request latency, upload-intent count, authorization deny count |
-| RDS | CPU, free storage, connections, read/write latency |
-| S3 | 4xx/5xx errors, bucket size, object count |
-| Backups | Backup job success/failure |
+| Area          | Metric                                                         |
+| ------------- | -------------------------------------------------------------- |
+| Load balancer | Request count, target 5xx, target response time                |
+| ECS           | Running task count, CPU, memory                                |
+| API           | Request latency, upload-intent count, authorization deny count |
+| RDS           | CPU, free storage, connections, read/write latency             |
+| S3            | 4xx/5xx errors, bucket size, object count                      |
+| Backups       | Backup job success/failure                                     |
 
 ## Alarms
 

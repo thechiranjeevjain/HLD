@@ -23,12 +23,12 @@ This service models a small commerce workflow: inventory is created, an order re
 
 ## Tradeoffs
 
-| Decision | Benefit | Cost |
-| --- | --- | --- |
-| Synchronous stock reservation | Clear correctness in the demo | Hot SKUs can become contention points |
-| Simulated payments | Easy local workflow | No real payment provider callbacks |
-| Kafka events | Decoupled downstream processing | Requires idempotent consumers in real systems |
-| Single service | Easy to explain end to end | Real commerce systems often split catalog, order, payment, and fulfillment |
+| Decision                      | Benefit                         | Cost                                                                       |
+| ----------------------------- | ------------------------------- | -------------------------------------------------------------------------- |
+| Synchronous stock reservation | Clear correctness in the demo   | Hot SKUs can become contention points                                      |
+| Simulated payments            | Easy local workflow             | No real payment provider callbacks                                         |
+| Kafka events                  | Decoupled downstream processing | Requires idempotent consumers in real systems                              |
+| Single service                | Easy to explain end to end      | Real commerce systems often split catalog, order, payment, and fulfillment |
 
 ## FAQ
 

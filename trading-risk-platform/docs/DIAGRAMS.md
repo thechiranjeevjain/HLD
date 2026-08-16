@@ -1,6 +1,8 @@
 # Trading Risk Platform Diagrams
 
-## Microservice View
+## High-Level Design
+
+### Microservice View
 
 ```mermaid
 flowchart LR
@@ -14,7 +16,9 @@ flowchart LR
     History --> DB
 ```
 
-## Standalone Pre-Trade Hot Path
+## Low-Level Design
+
+### Standalone Pre-Trade Hot Path
 
 ```mermaid
 sequenceDiagram
@@ -34,7 +38,7 @@ sequenceDiagram
     API-->>C: accepted or rejected
 ```
 
-## Risk Decision Flow
+### Risk Decision Flow
 
 ```mermaid
 flowchart TB

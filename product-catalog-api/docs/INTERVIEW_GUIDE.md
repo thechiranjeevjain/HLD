@@ -22,12 +22,12 @@ This is a clean CRUD service for catalog data. It shows how a backend owns valid
 
 ## Tradeoffs
 
-| Decision | Benefit | Cost |
-| --- | --- | --- |
-| Single service | Easy interview demo and simple ownership | Not split for search, inventory, or pricing scale |
-| PostgreSQL | Strong consistency for catalog records | Requires migrations and DB lifecycle |
-| Service-layer validation | Testable business rules | More code than direct repository calls |
-| Docker Compose | Reproducible local runtime | Host Docker daemon must be healthy |
+| Decision                 | Benefit                                  | Cost                                              |
+| ------------------------ | ---------------------------------------- | ------------------------------------------------- |
+| Single service           | Easy interview demo and simple ownership | Not split for search, inventory, or pricing scale |
+| PostgreSQL               | Strong consistency for catalog records   | Requires migrations and DB lifecycle              |
+| Service-layer validation | Testable business rules                  | More code than direct repository calls            |
+| Docker Compose           | Reproducible local runtime               | Host Docker daemon must be healthy                |
 
 ## FAQ
 

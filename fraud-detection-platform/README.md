@@ -17,11 +17,11 @@ A Spring Boot fraud detection platform with synchronous transaction scoring, Kaf
 
 ## Endpoints
 
-| Method | Path | Purpose |
-| --- | --- | --- |
-| `POST` | `/api/events/transactions` | Ingest and score a transaction |
-| `GET` | `/api/risks/{transactionId}` | Read a fraud decision |
-| `GET` | `/actuator/health` | Health check |
+| Method | Path                         | Purpose                        |
+| ------ | ---------------------------- | ------------------------------ |
+| `POST` | `/api/events/transactions`   | Ingest and score a transaction |
+| `GET`  | `/api/risks/{transactionId}` | Read a fraud decision          |
+| `GET`  | `/actuator/health`           | Health check                   |
 
 Kafka listener consumes the same transaction schema from the `transaction-events` topic and is idempotent by `transactionId`.
 

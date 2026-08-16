@@ -1,6 +1,8 @@
 # Distributed Database Diagrams
 
-## Cluster View
+## High-Level Design
+
+### Cluster View
 
 ```mermaid
 flowchart LR
@@ -15,7 +17,9 @@ flowchart LR
     N3 --> WAL3[("node3 WAL")]
 ```
 
-## Follower Write Forwarding
+## Low-Level Design
+
+### Follower Write Forwarding
 
 ```mermaid
 sequenceDiagram
@@ -34,7 +38,7 @@ sequenceDiagram
     F-->>C: OK
 ```
 
-## Read Quorum And Repair
+### Read Quorum And Repair
 
 ```mermaid
 flowchart LR

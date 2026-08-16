@@ -23,12 +23,12 @@ This service models a notification pipeline with multiple channels, retry backof
 
 ## Tradeoffs
 
-| Decision | Benefit | Cost |
-| --- | --- | --- |
-| Scheduled worker | Simple local asynchronous behavior | Polling delay and less precise scheduling |
-| Channel router | Clear extension point for new channels | Each gateway needs channel-specific failure mapping |
-| DLQ table | Inspectable failure history | Operators must decide when and how to replay |
-| Simulated gateways | Deterministic local tests | No real provider reliability behavior |
+| Decision           | Benefit                                | Cost                                                |
+| ------------------ | -------------------------------------- | --------------------------------------------------- |
+| Scheduled worker   | Simple local asynchronous behavior     | Polling delay and less precise scheduling           |
+| Channel router     | Clear extension point for new channels | Each gateway needs channel-specific failure mapping |
+| DLQ table          | Inspectable failure history            | Operators must decide when and how to replay        |
+| Simulated gateways | Deterministic local tests              | No real provider reliability behavior               |
 
 ## FAQ
 

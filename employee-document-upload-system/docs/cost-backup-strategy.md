@@ -4,15 +4,15 @@ Pricing must be verified in the target AWS region before deployment. These notes
 
 ## Main Cost Drivers
 
-| Service | Why it costs money | Cost control |
-| --- | --- | --- |
-| ECS Fargate | vCPU and memory while tasks run | Right-size tasks, autoscale, stop non-prod after hours |
-| RDS PostgreSQL | Instance hours, storage, backups, Multi-AZ | Use small classes in dev, Multi-AZ only where required |
-| S3 | Stored GB, requests, retrieval, lifecycle transitions | Lifecycle old versions, avoid unnecessary duplicate files |
-| NAT Gateway | Hourly gateway charge and data processing | Prefer VPC endpoints for AWS APIs; use one NAT in dev |
-| CloudWatch | Logs ingestion/storage, custom metrics, alarms | Retention policies, avoid verbose debug logs in prod |
-| CloudTrail S3 data events | Per-event charges at volume | Enable selectively for sensitive prefixes |
-| AWS Backup | Backup storage, restore, cross-region copy | Tier retention by environment and compliance need |
+| Service                   | Why it costs money                                    | Cost control                                              |
+| ------------------------- | ----------------------------------------------------- | --------------------------------------------------------- |
+| ECS Fargate               | vCPU and memory while tasks run                       | Right-size tasks, autoscale, stop non-prod after hours    |
+| RDS PostgreSQL            | Instance hours, storage, backups, Multi-AZ            | Use small classes in dev, Multi-AZ only where required    |
+| S3                        | Stored GB, requests, retrieval, lifecycle transitions | Lifecycle old versions, avoid unnecessary duplicate files |
+| NAT Gateway               | Hourly gateway charge and data processing             | Prefer VPC endpoints for AWS APIs; use one NAT in dev     |
+| CloudWatch                | Logs ingestion/storage, custom metrics, alarms        | Retention policies, avoid verbose debug logs in prod      |
+| CloudTrail S3 data events | Per-event charges at volume                           | Enable selectively for sensitive prefixes                 |
+| AWS Backup                | Backup storage, restore, cross-region copy            | Tier retention by environment and compliance need         |
 
 ## Learning-Environment Cost Posture
 
@@ -40,12 +40,12 @@ For production:
 
 ## Backup Strategy
 
-| Data | Backup mechanism | Default retention | Restore test |
-| --- | --- | --- | --- |
-| RDS metadata | Automated backups plus AWS Backup plan | 7 days dev, 35 days prod candidate | Monthly restore to staging |
-| S3 documents | Versioning, optional replication, lifecycle | Keep current, expire noncurrent after policy window | Sample object restore and checksum |
-| Terraform state | Remote encrypted backend with locking | Keep versioned state bucket | Recover state from versioned object |
-| Container images | ECR lifecycle policy | Keep last 20 images | Redeploy previous image tag |
+| Data             | Backup mechanism                            | Default retention                                   | Restore test                        |
+| ---------------- | ------------------------------------------- | --------------------------------------------------- | ----------------------------------- |
+| RDS metadata     | Automated backups plus AWS Backup plan      | 7 days dev, 35 days prod candidate                  | Monthly restore to staging          |
+| S3 documents     | Versioning, optional replication, lifecycle | Keep current, expire noncurrent after policy window | Sample object restore and checksum  |
+| Terraform state  | Remote encrypted backend with locking       | Keep versioned state bucket                         | Recover state from versioned object |
+| Container images | ECR lifecycle policy                        | Keep last 20 images                                 | Redeploy previous image tag         |
 
 ## RPO And RTO
 

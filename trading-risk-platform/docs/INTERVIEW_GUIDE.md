@@ -24,12 +24,12 @@ This project demonstrates pre-trade risk from two angles. The microservice path 
 
 ## Tradeoffs
 
-| Decision | Benefit | Cost |
-| --- | --- | --- |
-| Standalone pre-trade engine | Fast, reliable interview demo | In-memory state is not durable |
-| Microservice version | Shows production boundaries | Heavier local runtime |
-| Fail-closed checks | Safer for risk | Can reject valid flow during dependency issues |
-| Account-level lock | Prevents double reservation | Limits parallelism for one account |
+| Decision                    | Benefit                       | Cost                                           |
+| --------------------------- | ----------------------------- | ---------------------------------------------- |
+| Standalone pre-trade engine | Fast, reliable interview demo | In-memory state is not durable                 |
+| Microservice version        | Shows production boundaries   | Heavier local runtime                          |
+| Fail-closed checks          | Safer for risk                | Can reject valid flow during dependency issues |
+| Account-level lock          | Prevents double reservation   | Limits parallelism for one account             |
 
 ## FAQ
 

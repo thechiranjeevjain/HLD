@@ -1,6 +1,8 @@
 # Fraud Detection Platform Diagrams
 
-## Component View
+## High-Level Design
+
+### Component View
 
 ```mermaid
 flowchart LR
@@ -14,7 +16,9 @@ flowchart LR
     Scoring --> DB[("PostgreSQL decisions")]
 ```
 
-## Scoring Flow
+## Low-Level Design
+
+### Scoring Flow
 
 ```mermaid
 sequenceDiagram
@@ -34,7 +38,7 @@ sequenceDiagram
     API-->>C: decision response
 ```
 
-## Decision Model
+### Decision Model
 
 ```mermaid
 flowchart TB

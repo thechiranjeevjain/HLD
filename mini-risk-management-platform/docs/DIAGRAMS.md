@@ -1,6 +1,8 @@
 # Mermaid Diagrams
 
-## Overall Architecture
+## High-Level Design
+
+### Overall Architecture
 
 ```mermaid
 flowchart LR
@@ -23,7 +25,9 @@ flowchart LR
   Grafana["Grafana"] --> Prometheus
 ```
 
-## Request Flow
+## Low-Level Design
+
+### Request Flow
 
 ```mermaid
 sequenceDiagram
@@ -49,7 +53,7 @@ sequenceDiagram
   G-->>C: 202 Accepted
 ```
 
-## Kafka Flow
+### Kafka Flow
 
 ```mermaid
 flowchart LR
@@ -60,7 +64,7 @@ flowchart LR
   Notify --> Logs["Simulated email log"]
 ```
 
-## Redis Flow
+### Redis Flow
 
 ```mermaid
 sequenceDiagram
@@ -78,7 +82,7 @@ sequenceDiagram
   end
 ```
 
-## Database Flow
+### Database Flow
 
 ```mermaid
 flowchart TB
@@ -96,7 +100,7 @@ flowchart TB
   HistorySvc["history-service"] --> Exposure
 ```
 
-## Docker Architecture
+### Docker Architecture
 
 ```mermaid
 flowchart TB
@@ -114,7 +118,7 @@ flowchart TB
   Redis --> RedisVolume["redis-data volume"]
 ```
 
-## Deployment Flow
+### Deployment Flow
 
 ```mermaid
 flowchart LR
@@ -128,7 +132,7 @@ flowchart LR
   Services --> Ingress["Ingress"]
 ```
 
-## Kubernetes Architecture
+### Kubernetes Architecture
 
 ```mermaid
 flowchart TB
@@ -151,7 +155,7 @@ flowchart TB
   PostgresSvc --> PostgresPod["postgres Pod"]
 ```
 
-## Networking
+### Networking
 
 ```mermaid
 flowchart LR
@@ -164,7 +168,7 @@ flowchart LR
   RiskName --> RiskContainer["risk-service:8082"]
 ```
 
-## Kubernetes Service Discovery
+### Kubernetes Service Discovery
 
 ```mermaid
 sequenceDiagram
@@ -179,7 +183,7 @@ sequenceDiagram
   SVC->>RiskPod: kube-proxy routes to endpoint
 ```
 
-## Ingress Flow
+### Ingress Flow
 
 ```mermaid
 flowchart LR
@@ -190,7 +194,7 @@ flowchart LR
   GatewayService --> GatewayPod["api-gateway Pod"]
 ```
 
-## Storage
+### Storage
 
 ```mermaid
 flowchart TB
@@ -200,7 +204,7 @@ flowchart TB
   PV --> HostPath["Host path or cloud disk"]
 ```
 
-## Volume Mounts
+### Volume Mounts
 
 ```mermaid
 flowchart LR
@@ -212,7 +216,7 @@ flowchart LR
   RedisMount --> RedisPvc["redis-pvc"]
 ```
 
-## Pod Lifecycle
+### Pod Lifecycle
 
 ```mermaid
 stateDiagram-v2
@@ -227,7 +231,7 @@ stateDiagram-v2
   Terminating --> [*]
 ```
 
-## Container Lifecycle
+### Container Lifecycle
 
 ```mermaid
 stateDiagram-v2
@@ -241,7 +245,7 @@ stateDiagram-v2
   Exited --> [*]
 ```
 
-## CI/CD
+### CI/CD
 
 ```mermaid
 flowchart LR
@@ -253,7 +257,7 @@ flowchart LR
   Images --> Review["Ready for deploy"]
 ```
 
-## Service Discovery
+### Service Discovery
 
 ```mermaid
 flowchart LR
@@ -263,4 +267,3 @@ flowchart LR
   Endpoints --> PodA["risk-service Pod A"]
   Endpoints --> PodB["risk-service Pod B"]
 ```
-

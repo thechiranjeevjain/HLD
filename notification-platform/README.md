@@ -15,13 +15,13 @@ A Spring Boot notification platform with email, SMS, and push channels; schedule
 
 ## Endpoints
 
-| Method | Path | Purpose |
-| --- | --- | --- |
-| `POST` | `/api/notifications` | Create and enqueue a notification |
-| `GET` | `/api/notifications/{id}` | Read notification status |
-| `POST` | `/api/notifications/{id}/retry` | Manually requeue a notification |
-| `GET` | `/api/dead-letter` | List dead-letter queue records |
-| `GET` | `/actuator/health` | Health check |
+| Method | Path                            | Purpose                           |
+| ------ | ------------------------------- | --------------------------------- |
+| `POST` | `/api/notifications`            | Create and enqueue a notification |
+| `GET`  | `/api/notifications/{id}`       | Read notification status          |
+| `POST` | `/api/notifications/{id}/retry` | Manually requeue a notification   |
+| `GET`  | `/api/dead-letter`              | List dead-letter queue records    |
+| `GET`  | `/actuator/health`              | Health check                      |
 
 ## Run
 

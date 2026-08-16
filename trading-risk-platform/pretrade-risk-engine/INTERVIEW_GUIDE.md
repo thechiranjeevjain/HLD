@@ -6,37 +6,37 @@ An order is converted into a pooled `Exposure`, keyed by `CompositeIdentity`, th
 
 ## File-by-file
 
-| File | What to explain |
-|---|---|
-| `ptr/PtrCore.java` | Domain chain, primitive state arrays, transaction, pool/reference count, DAG visit token, Strategy-based checks, DSF bus, registry, and thin handler. This is the latency-sensitive data plane. |
-| `ptr/ControlPlane.java` | Lifecycle, authoritative writer, monotonic versions, event idempotency, observable cache, listener-maintained limit store, ACL/ACE delegation, lease election, split-brain guard. |
-| `ptr/Recovery.java` | Snapshot sequence plus journal tail; recovery deliberately invokes the live `InputHandler`. |
-| `ptr/PtrRuntime.java` | Spring constructor composition, metrics, registry wiring, journal-before-publish ingress, recent decision view. |
-| `ApiController.java` | Config/operations REST only. The absence of an order endpoint is an architectural decision. |
-| `SecurityConfiguration.java` | JWT authentication and method-level role checks; entity authorization remains in `AclService`. |
-| `DemoScenario.java` | Executable narrative: lifecycle, concurrent publishers, limit change, breach, failover, metrics. |
-| `PtrArchitectureTest.java` | Executable invariants: rollback, pool lifecycle, partial/lost config, duplicate commit, replay, delegation, failover. |
-| `Dockerfile` / `docker-compose.yml` | Reproducible Java 21 runtime and a local four-service demo. |
-| `sidecar/*` | NFF-like process boundary: exposes management state without putting management work on the owner loop. |
-| `k8s/deployment.yaml` | Main container plus sidecar in one pod and a sidecar-only service. |
-| `observability/prometheus.yml` | Pull-based metrics wiring. JVM binders provide GC/allocation metrics. |
+| File                                | What to explain                                                                                                                                                                                 |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ptr/PtrCore.java`                  | Domain chain, primitive state arrays, transaction, pool/reference count, DAG visit token, Strategy-based checks, DSF bus, registry, and thin handler. This is the latency-sensitive data plane. |
+| `ptr/ControlPlane.java`             | Lifecycle, authoritative writer, monotonic versions, event idempotency, observable cache, listener-maintained limit store, ACL/ACE delegation, lease election, split-brain guard.               |
+| `ptr/Recovery.java`                 | Snapshot sequence plus journal tail; recovery deliberately invokes the live `InputHandler`.                                                                                                     |
+| `ptr/PtrRuntime.java`               | Spring constructor composition, metrics, registry wiring, journal-before-publish ingress, recent decision view.                                                                                 |
+| `ApiController.java`                | Config/operations REST only. The absence of an order endpoint is an architectural decision.                                                                                                     |
+| `SecurityConfiguration.java`        | JWT authentication and method-level role checks; entity authorization remains in `AclService`.                                                                                                  |
+| `DemoScenario.java`                 | Executable narrative: lifecycle, concurrent publishers, limit change, breach, failover, metrics.                                                                                                |
+| `PtrArchitectureTest.java`          | Executable invariants: rollback, pool lifecycle, partial/lost config, duplicate commit, replay, delegation, failover.                                                                           |
+| `Dockerfile` / `docker-compose.yml` | Reproducible Java 21 runtime and a local four-service demo.                                                                                                                                     |
+| `sidecar/*`                         | NFF-like process boundary: exposes management state without putting management work on the owner loop.                                                                                          |
+| `k8s/deployment.yaml`               | Main container plus sidecar in one pod and a sidecar-only service.                                                                                                                              |
+| `observability/prometheus.yml`      | Pull-based metrics wiring. JVM binders provide GC/allocation metrics.                                                                                                                           |
 
 ## Requirement â†’ constraint â†’ decision â†’ benefit â†’ trade-off
 
-| Requirement | Constraint | Decision | Benefit | Trade-off |
-|---|---|---|---|---|
-| Low-latency consistent exposure | Locks add contention and make ordering subtle | One owner event loop | Deterministic mutation with no hot locks | One partition has a throughput ceiling; shard by identity in production |
-| Rejection leaves no state | Checks need projected values | Apply in `Transaction`, then commit/rollback | Simple atomic invariant | Undo logic must cover every mutation |
-| Shared exposure graph | DAG may converge | Integer visit token per traversal | O(nodes + edges), no per-order `Set` allocation | Token wraparound needs rare array clear |
-| Low allocation | GC tail latency matters | Fixed-point longs, arrays, pooled Exposure | Compact cache-friendly working set | Less expressive than rich objects; pool misuse is dangerous |
-| Multiple consumers | Exposure lifetime crosses components | Atomic reference count | Explicit safe recycling | Atomic operations cost more than thread-confined counters |
-| Dynamic config | Half-applied limits are unsafe | NEW/ADDED/STAGED/COMMITTED; hot store sees only COMMITTED | Atomic activation and auditability | Slower operational workflow |
-| Exactly-once is unrealistic | Delivery can duplicate/reorder | Event ID dedupe plus monotonic version | Idempotent duplicate and stale-event rejection | Dedupe retention must be bounded in production |
-| Fast config lookup | Cache scans would pollute hot path | Observer-maintained secondary store | One volatile read | Listener correctness becomes critical |
-| Recovery matches live behavior | Separate replay code drifts | Replay through same handler | One transition implementation | Handler must be deterministic and side effects controlled |
-| HA without split brain | Two primaries corrupt state | Lease plus `assertPrimary` fail-fast | Safety over availability | Pauses when lease service is unavailable |
-| Fine-grained security | Roles alone are too broad | JWT/RBAC at API plus entity ACL/ACE | Coarse and fine authorization | More policy administration |
-| Operability without jitter | Management queries can allocate/lock | Sidecar reads immutable runtime view | Fault/resource isolation | Snapshot can be slightly stale |
+| Requirement                     | Constraint                                    | Decision                                                  | Benefit                                         | Trade-off                                                               |
+| ------------------------------- | --------------------------------------------- | --------------------------------------------------------- | ----------------------------------------------- | ----------------------------------------------------------------------- |
+| Low-latency consistent exposure | Locks add contention and make ordering subtle | One owner event loop                                      | Deterministic mutation with no hot locks        | One partition has a throughput ceiling; shard by identity in production |
+| Rejection leaves no state       | Checks need projected values                  | Apply in `Transaction`, then commit/rollback              | Simple atomic invariant                         | Undo logic must cover every mutation                                    |
+| Shared exposure graph           | DAG may converge                              | Integer visit token per traversal                         | O(nodes + edges), no per-order `Set` allocation | Token wraparound needs rare array clear                                 |
+| Low allocation                  | GC tail latency matters                       | Fixed-point longs, arrays, pooled Exposure                | Compact cache-friendly working set              | Less expressive than rich objects; pool misuse is dangerous             |
+| Multiple consumers              | Exposure lifetime crosses components          | Atomic reference count                                    | Explicit safe recycling                         | Atomic operations cost more than thread-confined counters               |
+| Dynamic config                  | Half-applied limits are unsafe                | NEW/ADDED/STAGED/COMMITTED; hot store sees only COMMITTED | Atomic activation and auditability              | Slower operational workflow                                             |
+| Exactly-once is unrealistic     | Delivery can duplicate/reorder                | Event ID dedupe plus monotonic version                    | Idempotent duplicate and stale-event rejection  | Dedupe retention must be bounded in production                          |
+| Fast config lookup              | Cache scans would pollute hot path            | Observer-maintained secondary store                       | One volatile read                               | Listener correctness becomes critical                                   |
+| Recovery matches live behavior  | Separate replay code drifts                   | Replay through same handler                               | One transition implementation                   | Handler must be deterministic and side effects controlled               |
+| HA without split brain          | Two primaries corrupt state                   | Lease plus `assertPrimary` fail-fast                      | Safety over availability                        | Pauses when lease service is unavailable                                |
+| Fine-grained security           | Roles alone are too broad                     | JWT/RBAC at API plus entity ACL/ACE                       | Coarse and fine authorization                   | More policy administration                                              |
+| Operability without jitter      | Management queries can allocate/lock          | Sidecar reads immutable runtime view                      | Fault/resource isolation                        | Snapshot can be slightly stale                                          |
 
 ## Exact explanations
 
@@ -93,17 +93,16 @@ For security, authentication and coarse roles live at the HTTP edge, while `AclS
 
 ## Real PTR concepts versus simulation
 
-| Faithful concept | Local simplification |
-|---|---|
-| Ordered message-driven risk evaluation | Bounded in-memory queue instead of proprietary DSF |
-| Composite identities and exposure-group DAG | Integer account identity and a two-node example DAG |
-| Transactional projected exposure | In-memory delta undo rather than proprietary transaction framework |
-| Staged/committed reference data | Local ListenableCache instead of RDM/distributed config |
-| Snapshot plus ordered replay | In-memory snapshot/journal rather than replicated durable storage |
-| Active/standby lease and fail-fast guard | Synchronized local lease instead of etcd and fencing tokens |
-| RBAC plus entity ACL/ACE/delegation | In-memory ACEs; JWT uses a demo symmetric key |
-| NFF-style management boundary | Tiny Python sidecar polling an internal endpoint |
-| Percentile and JVM telemetry | Micrometer/Prometheus rather than enterprise telemetry stack |
+| Faithful concept                            | Local simplification                                               |
+| ------------------------------------------- | ------------------------------------------------------------------ |
+| Ordered message-driven risk evaluation      | Bounded in-memory queue instead of proprietary DSF                 |
+| Composite identities and exposure-group DAG | Integer account identity and a two-node example DAG                |
+| Transactional projected exposure            | In-memory delta undo rather than proprietary transaction framework |
+| Staged/committed reference data             | Local ListenableCache instead of RDM/distributed config            |
+| Snapshot plus ordered replay                | In-memory snapshot/journal rather than replicated durable storage  |
+| Active/standby lease and fail-fast guard    | Synchronized local lease instead of etcd and fencing tokens        |
+| RBAC plus entity ACL/ACE/delegation         | In-memory ACEs; JWT uses a demo symmetric key                      |
+| NFF-style management boundary               | Tiny Python sidecar polling an internal endpoint                   |
+| Percentile and JVM telemetry                | Micrometer/Prometheus rather than enterprise telemetry stack       |
 
 The project is architecture-faithful at the boundaries and invariants, not a claim that the local implementations reproduce proprietary PTR infrastructure.
-

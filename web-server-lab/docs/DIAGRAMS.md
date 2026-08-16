@@ -1,6 +1,8 @@
 # Web Server Lab Diagrams
 
-## Component View
+## High-Level Design
+
+### Component View
 
 ```mermaid
 flowchart LR
@@ -12,7 +14,9 @@ flowchart LR
     Router --> Response["HTTP response"]
 ```
 
-## Request Flow
+## Low-Level Design
+
+### Request Flow
 
 ```mermaid
 sequenceDiagram
@@ -29,7 +33,7 @@ sequenceDiagram
     H->>H: close socket
 ```
 
-## Overload Flow
+### Overload Flow
 
 ```mermaid
 flowchart TB

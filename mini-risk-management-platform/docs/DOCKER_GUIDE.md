@@ -59,13 +59,13 @@ docker volume ls
 
 ## Common Failures
 
-| Failure | Why it happens | Debug command |
-| --- | --- | --- |
-| Port already in use | Host port is occupied. | `netstat -ano \| findstr :8080` |
-| Container exits immediately | Java process crashed or config missing. | `docker compose logs service-name` |
-| DB connection refused | PostgreSQL not healthy or wrong URL. | `docker compose ps postgres` |
-| DNS lookup fails | Wrong service name or network. | `docker compose exec order-service getent hosts risk-service` |
-| Data disappeared | Volume deleted with `down -v`. | `docker volume ls` |
+| Failure                     | Why it happens                          | Debug command                                                 |
+| --------------------------- | --------------------------------------- | ------------------------------------------------------------- |
+| Port already in use         | Host port is occupied.                  | `netstat -ano \| findstr :8080`                               |
+| Container exits immediately | Java process crashed or config missing. | `docker compose logs service-name`                            |
+| DB connection refused       | PostgreSQL not healthy or wrong URL.    | `docker compose ps postgres`                                  |
+| DNS lookup fails            | Wrong service name or network.          | `docker compose exec order-service getent hosts risk-service` |
+| Data disappeared            | Volume deleted with `down -v`.          | `docker volume ls`                                            |
 
 ## Best Practices
 
@@ -83,4 +83,3 @@ docker volume ls
 - Images improve reproducibility, but vulnerable base layers need patching.
 - Compose is excellent for local labs, but it is not a production orchestrator.
 - Health checks improve automation, but bad health checks cause false restarts.
-

@@ -2,7 +2,9 @@
 
 This file gives the fastest diagram entry point. Deeper maps are in `SYSTEM_MAP.md`, `CLASS_DEPENDENCY_MAP.md`, `REQUEST_LIFECYCLE.md`, and the ADRs.
 
-## System View
+## High-Level Design
+
+### System View
 
 ```mermaid
 flowchart LR
@@ -16,7 +18,9 @@ flowchart LR
     Prom["Prometheus"] --> Sidecar
 ```
 
-## Order Flow
+## Low-Level Design
+
+### Order Flow
 
 ```mermaid
 sequenceDiagram
@@ -38,7 +42,7 @@ sequenceDiagram
     TCP-->>C: encoded response
 ```
 
-## Control Plane Flow
+### Control Plane Flow
 
 ```mermaid
 flowchart LR

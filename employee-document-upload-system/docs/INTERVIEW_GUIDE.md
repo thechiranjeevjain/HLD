@@ -25,12 +25,12 @@ This project explains a secure employee document upload system. The API is inten
 
 ## Tradeoffs
 
-| Decision | Benefit | Cost |
-| --- | --- | --- |
-| Direct S3 upload | API avoids large file transfer load | Client must handle signed URL upload correctly |
-| PostgreSQL metadata | Queryable review state | Requires schema and backup operations |
-| Cognito groups | Managed identity and role mapping | Cloud provider coupling |
-| Terraform | Repeatable infra and reviewable plans | State management and cost discipline are required |
+| Decision            | Benefit                               | Cost                                              |
+| ------------------- | ------------------------------------- | ------------------------------------------------- |
+| Direct S3 upload    | API avoids large file transfer load   | Client must handle signed URL upload correctly    |
+| PostgreSQL metadata | Queryable review state                | Requires schema and backup operations             |
+| Cognito groups      | Managed identity and role mapping     | Cloud provider coupling                           |
+| Terraform           | Repeatable infra and reviewable plans | State management and cost discipline are required |
 
 ## FAQ
 

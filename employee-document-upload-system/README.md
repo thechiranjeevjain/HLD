@@ -47,27 +47,27 @@ employee-document-upload-system/
 
 ## Roles
 
-| Role | Purpose | Allowed examples |
-| --- | --- | --- |
-| `EMPLOYEE` | Upload and view their own documents | Create own upload intent, list own metadata |
-| `HR_REVIEWER` | Review employee documents | List metadata, approve, reject |
-| `AUDITOR` | Read-only compliance access | List metadata and review state |
-| `ADMIN` | Break-glass/application administration | Manage all document metadata |
+| Role          | Purpose                                | Allowed examples                            |
+| ------------- | -------------------------------------- | ------------------------------------------- |
+| `EMPLOYEE`    | Upload and view their own documents    | Create own upload intent, list own metadata |
+| `HR_REVIEWER` | Review employee documents              | List metadata, approve, reject              |
+| `AUDITOR`     | Read-only compliance access            | List metadata and review state              |
+| `ADMIN`       | Break-glass/application administration | Manage all document metadata                |
 
 ## Infrastructure Services Covered
 
-| Requirement | AWS service or pattern |
-| --- | --- |
-| Authentication | Amazon Cognito User Pool |
-| Authorization | Cognito groups for app RBAC, IAM roles for AWS access |
+| Requirement     | AWS service or pattern                                                |
+| --------------- | --------------------------------------------------------------------- |
+| Authentication  | Amazon Cognito User Pool                                              |
+| Authorization   | Cognito groups for app RBAC, IAM roles for AWS access                 |
 | Private storage | S3 bucket with public access blocked, KMS encryption, lifecycle rules |
-| Database | RDS PostgreSQL in private subnets |
-| Logging | CloudWatch Logs, ALB access logs pattern, CloudTrail |
-| Monitoring | CloudWatch metrics and alarms for API, ALB, RDS |
-| CI/CD | GitHub Actions build, test, image publish, Terraform validate/plan |
-| IaC | Terraform |
-| Cost | Service-by-service cost model and tradeoffs |
-| Backup | RDS automated backups plus AWS Backup vault and restore runbook |
+| Database        | RDS PostgreSQL in private subnets                                     |
+| Logging         | CloudWatch Logs, ALB access logs pattern, CloudTrail                  |
+| Monitoring      | CloudWatch metrics and alarms for API, ALB, RDS                       |
+| CI/CD           | GitHub Actions build, test, image publish, Terraform validate/plan    |
+| IaC             | Terraform                                                             |
+| Cost            | Service-by-service cost model and tradeoffs                           |
+| Backup          | RDS automated backups plus AWS Backup vault and restore runbook       |
 
 ## Local App Commands
 
@@ -86,12 +86,12 @@ mvn spring-boot:run
 
 The app exposes:
 
-| Endpoint | Purpose |
-| --- | --- |
-| `GET /actuator/health` | Health check for load balancer and operators |
+| Endpoint                             | Purpose                                           |
+| ------------------------------------ | ------------------------------------------------- |
+| `GET /actuator/health`               | Health check for load balancer and operators      |
 | `POST /api/documents/upload-intents` | Create metadata and return an upload URL contract |
-| `GET /api/documents` | List visible document metadata |
-| `POST /api/documents/{id}/review` | Approve or reject a document |
+| `GET /api/documents`                 | List visible document metadata                    |
+| `POST /api/documents/{id}/review`    | Approve or reject a document                      |
 
 ## Terraform Commands
 

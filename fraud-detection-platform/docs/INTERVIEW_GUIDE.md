@@ -22,12 +22,12 @@ This service scores transaction events using deterministic rules, Redis velocity
 
 ## Tradeoffs
 
-| Decision | Benefit | Cost |
-| --- | --- | --- |
-| Rule engine | Easy to explain and test | Less adaptive than ML |
-| Redis velocity state | Fast repeated-activity checks | Requires expiry and outage policy |
-| PostgreSQL audit | Decisions are explainable later | Additional write latency |
-| Kafka listener | Async ingestion path | Requires idempotency and replay handling |
+| Decision             | Benefit                         | Cost                                     |
+| -------------------- | ------------------------------- | ---------------------------------------- |
+| Rule engine          | Easy to explain and test        | Less adaptive than ML                    |
+| Redis velocity state | Fast repeated-activity checks   | Requires expiry and outage policy        |
+| PostgreSQL audit     | Decisions are explainable later | Additional write latency                 |
+| Kafka listener       | Async ingestion path            | Requires idempotency and replay handling |
 
 ## FAQ
 

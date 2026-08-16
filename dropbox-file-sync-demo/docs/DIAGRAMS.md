@@ -12,7 +12,9 @@ flowchart LR
     Metadata --> ChangeLog["Ordered change log"]
 ```
 
-## Upload And Commit Flow
+## Low-Level Design
+
+### Upload And Commit Flow
 
 ```mermaid
 sequenceDiagram
@@ -34,7 +36,7 @@ sequenceDiagram
     API-->>C: committed version or conflict copy
 ```
 
-## Offline Conflict Flow
+### Offline Conflict Flow
 
 ```mermaid
 flowchart TB

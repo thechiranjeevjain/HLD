@@ -1,6 +1,8 @@
 # Ride-Sharing Backend Diagrams
 
-## Component View
+## High-Level Design
+
+### Component View
 
 ```mermaid
 flowchart LR
@@ -14,7 +16,9 @@ flowchart LR
     RideService --> WS["WebSocket /topic/rides/{id}"]
 ```
 
-## Matching Flow
+## Low-Level Design
+
+### Matching Flow
 
 ```mermaid
 sequenceDiagram
@@ -32,7 +36,7 @@ sequenceDiagram
     API-->>R: ride response
 ```
 
-## Ride State Flow
+### Ride State Flow
 
 ```mermaid
 stateDiagram-v2

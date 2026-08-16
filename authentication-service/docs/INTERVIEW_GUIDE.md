@@ -23,12 +23,12 @@ This service demonstrates the authentication boundary for a backend system. User
 
 ## Tradeoffs
 
-| Decision | Benefit | Cost |
-| --- | --- | --- |
-| JWT bearer tokens | Stateless API authentication | Token revocation needs extra design |
-| BCrypt | Slow password hashing resists brute force | Login is intentionally CPU heavier |
-| Mock OAuth2 endpoint | Easy local demo of federated identity | Not a real provider integration |
-| Database-backed users | Durable accounts and admin queries | Requires migrations and DB operations |
+| Decision              | Benefit                                   | Cost                                  |
+| --------------------- | ----------------------------------------- | ------------------------------------- |
+| JWT bearer tokens     | Stateless API authentication              | Token revocation needs extra design   |
+| BCrypt                | Slow password hashing resists brute force | Login is intentionally CPU heavier    |
+| Mock OAuth2 endpoint  | Easy local demo of federated identity     | Not a real provider integration       |
+| Database-backed users | Durable accounts and admin queries        | Requires migrations and DB operations |
 
 ## Failure Cases To Discuss
 

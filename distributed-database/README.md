@@ -4,28 +4,28 @@ An interview-sized distributed key-value database. It deliberately avoids RocksD
 
 ## What It Implements
 
-| Phase | Included behavior |
-| --- | --- |
-| 1. TCP server and multiple nodes | Each node is a Java TCP server. A local cluster runs as three independent processes on ports `9101`, `9102`, and `9103`. |
-| 2. Leader election | Nodes heartbeat each configured peer and elect the first live node in the configured peer list as leader. Followers forward writes to the current leader. |
-| 3. Replication | The leader writes each key to its replica set. Internal replication commands apply versioned records on peer nodes. |
-| 4. Consistent hashing | A SHA-256 hash ring with virtual nodes maps keys to replica sets. |
-| 5. Failure recovery | Each node persists an append-only WAL and can run `RECOVER` to sync missed replica records from peers after restart. |
-| 6. Read/write quorum | Defaults to replication factor `3`, read quorum `2`, and write quorum `2`. Reads choose the newest version and repair stale replicas reached during the read. |
+| Phase                            | Included behavior                                                                                                                                             |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1. TCP server and multiple nodes | Each node is a Java TCP server. A local cluster runs as three independent processes on ports `9101`, `9102`, and `9103`.                                      |
+| 2. Leader election               | Nodes heartbeat each configured peer and elect the first live node in the configured peer list as leader. Followers forward writes to the current leader.     |
+| 3. Replication                   | The leader writes each key to its replica set. Internal replication commands apply versioned records on peer nodes.                                           |
+| 4. Consistent hashing            | A SHA-256 hash ring with virtual nodes maps keys to replica sets.                                                                                             |
+| 5. Failure recovery              | Each node persists an append-only WAL and can run `RECOVER` to sync missed replica records from peers after restart.                                          |
+| 6. Read/write quorum             | Defaults to replication factor `3`, read quorum `2`, and write quorum `2`. Reads choose the newest version and repair stale replicas reached during the read. |
 
 This is a learning database, not a production database. There is no compaction, snapshotting, membership gossip, Merkle tree repair, TLS, authentication, or consensus log.
 
 ## TCP Commands
 
-| Command | Purpose |
-| --- | --- |
-| `PUT <key> <value>` | Store a value through the leader and write quorum. Values may contain spaces. |
-| `GET <key>` | Read from the key's replica set using read quorum. |
-| `DELETE <key>` | Write a tombstone through the leader and write quorum. |
-| `STATUS` | Show node id, role, leader, live peers, quorum settings, and local record count. |
-| `RING` | Show configured ring members. |
-| `RECOVER` | Pull missed records for this node from peers. |
-| `HELP` | Show command summary. |
+| Command             | Purpose                                                                          |
+| ------------------- | -------------------------------------------------------------------------------- |
+| `PUT <key> <value>` | Store a value through the leader and write quorum. Values may contain spaces.    |
+| `GET <key>`         | Read from the key's replica set using read quorum.                               |
+| `DELETE <key>`      | Write a tombstone through the leader and write quorum.                           |
+| `STATUS`            | Show node id, role, leader, live peers, quorum settings, and local record count. |
+| `RING`              | Show configured ring members.                                                    |
+| `RECOVER`           | Pull missed records for this node from peers.                                    |
+| `HELP`              | Show command summary.                                                            |
 
 Responses are single-line text responses such as:
 

@@ -14,12 +14,12 @@ This project implements the core mechanics behind a storage engine: write-ahead 
 
 ## Tradeoffs
 
-| Decision | Benefit | Cost |
-| --- | --- | --- |
-| Single WAL file | Simple durability story | Replay time grows without segmentation |
-| Coarse write lock | Atomic WAL/store/cache updates | Lower write concurrency |
-| In-memory map | Fast reads | Dataset limited by heap |
-| Simple compaction | Reduces stale WAL entries | Crash-safe compaction needs more work |
+| Decision          | Benefit                        | Cost                                   |
+| ----------------- | ------------------------------ | -------------------------------------- |
+| Single WAL file   | Simple durability story        | Replay time grows without segmentation |
+| Coarse write lock | Atomic WAL/store/cache updates | Lower write concurrency                |
+| In-memory map     | Fast reads                     | Dataset limited by heap                |
+| Simple compaction | Reduces stale WAL entries      | Crash-safe compaction needs more work  |
 
 ## FAQ
 

@@ -61,13 +61,13 @@ scripts/                    readable live-demo event generator
 
 ## Local versus production
 
-| Concern | Runnable local slice | Production mapping |
-| --- | --- | --- |
-| Ingest | Spring REST transaction | API Gateway → Kafka/Kinesis |
-| Event store | H2 `tracking_event` | DynamoDB/Cassandra or Kafka + object archive |
-| Projection | deterministic synchronous replay | partitioned stream processor + checkpoints/watermarks |
-| Read model | indexed H2 tables | DynamoDB/Cassandra keyed by order/shipment |
-| Hot cache | Caffeine, 10 s TTL | Redis cluster + distributed single-flight |
-| Auth | explicit demo headers | OIDC/JWT and policy enforcement point |
+| Concern     | Runnable local slice             | Production mapping                                    |
+| ----------- | -------------------------------- | ----------------------------------------------------- |
+| Ingest      | Spring REST transaction          | API Gateway → Kafka/Kinesis                           |
+| Event store | H2 `tracking_event`              | DynamoDB/Cassandra or Kafka + object archive          |
+| Projection  | deterministic synchronous replay | partitioned stream processor + checkpoints/watermarks |
+| Read model  | indexed H2 tables                | DynamoDB/Cassandra keyed by order/shipment            |
+| Hot cache   | Caffeine, 10 s TTL               | Redis cluster + distributed single-flight             |
+| Auth        | explicit demo headers            | OIDC/JWT and policy enforcement point                 |
 
 This repo proves the domain behavior locally. It does not claim a running Kafka, Redis, DynamoDB, multi-region, or carrier integration.

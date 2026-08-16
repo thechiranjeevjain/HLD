@@ -1,6 +1,8 @@
 # Reliable Order Platform Diagrams
 
-## Architecture
+## High-Level Design
+
+### Architecture
 
 ```mermaid
 flowchart LR
@@ -16,7 +18,9 @@ flowchart LR
     Grafana["Grafana"] --> Prom
 ```
 
-## Create Order Flow
+## Low-Level Design
+
+### Create Order Flow
 
 ```mermaid
 sequenceDiagram
@@ -40,7 +44,7 @@ sequenceDiagram
     F->>DB: transition order state
 ```
 
-## Duplicate Handling
+### Duplicate Handling
 
 ```mermaid
 flowchart TB

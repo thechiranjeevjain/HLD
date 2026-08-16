@@ -1,6 +1,8 @@
 # Employee Document Upload System Diagrams
 
-## Cloud Architecture
+## High-Level Design
+
+### Cloud Architecture
 
 ```mermaid
 flowchart LR
@@ -17,7 +19,9 @@ flowchart LR
     Backup["AWS Backup"] --> RDS
 ```
 
-## Upload Intent Flow
+## Low-Level Design
+
+### Upload Intent Flow
 
 ```mermaid
 sequenceDiagram
@@ -34,7 +38,7 @@ sequenceDiagram
     U->>S3: PUT file bytes
 ```
 
-## Review Flow
+### Review Flow
 
 ```mermaid
 flowchart LR

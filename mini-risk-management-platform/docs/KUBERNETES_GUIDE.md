@@ -6,17 +6,17 @@ Docker can run containers on one machine. Production systems need scheduling, se
 
 ## Objects In This Project
 
-| Object | Where | Why |
-| --- | --- | --- |
-| `Namespace` | `k8s/base/namespace.yaml` | Isolates all lab resources under `mini-risk`. |
-| `ConfigMap` | `k8s/base/configmap.yaml` | Non-secret runtime configuration. |
-| `Secret` | `k8s/base/secret.yaml` | Passwords and admin credentials. |
-| `PersistentVolume` | `k8s/data/*.yaml` | Cluster storage backing for stateful services. |
-| `PersistentVolumeClaim` | `k8s/data/*.yaml` | Namespaced storage request consumed by Pods. |
-| `Deployment` | `k8s/apps/*.yaml` | Desired state and rollout controller for Pods. |
-| `Service` | `k8s/apps/*.yaml` | Stable virtual IP and DNS name for Pods. |
-| `Ingress` | `k8s/base/ingress.yaml` | External HTTP routing into `api-gateway`. |
-| `HorizontalPodAutoscaler` | `k8s/apps/*.yaml` | Scales stateless workloads using CPU utilization. |
+| Object                    | Where                     | Why                                               |
+| ------------------------- | ------------------------- | ------------------------------------------------- |
+| `Namespace`               | `k8s/base/namespace.yaml` | Isolates all lab resources under `mini-risk`.     |
+| `ConfigMap`               | `k8s/base/configmap.yaml` | Non-secret runtime configuration.                 |
+| `Secret`                  | `k8s/base/secret.yaml`    | Passwords and admin credentials.                  |
+| `PersistentVolume`        | `k8s/data/*.yaml`         | Cluster storage backing for stateful services.    |
+| `PersistentVolumeClaim`   | `k8s/data/*.yaml`         | Namespaced storage request consumed by Pods.      |
+| `Deployment`              | `k8s/apps/*.yaml`         | Desired state and rollout controller for Pods.    |
+| `Service`                 | `k8s/apps/*.yaml`         | Stable virtual IP and DNS name for Pods.          |
+| `Ingress`                 | `k8s/base/ingress.yaml`   | External HTTP routing into `api-gateway`.         |
+| `HorizontalPodAutoscaler` | `k8s/apps/*.yaml`         | Scales stateless workloads using CPU utilization. |
 
 ## Deployment Internals
 
@@ -115,4 +115,3 @@ kubectl -n mini-risk scale deployment/order-service --replicas=4
 - Ingress centralizes routing but becomes an important failure domain.
 - Secrets need external secret management in serious environments.
 - Local `hostPath` PVs are useful for labs but unsafe for multi-node production.
-

@@ -47,16 +47,16 @@ kubectl -n mini-risk rollout history deployment/order-service
 
 ## Symptom To Boundary
 
-| Symptom | First boundary to check |
-| --- | --- |
-| Client gets 503 | `api-gateway` downstream call. |
-| Order rejected with risk unavailable | `order-service` to `risk-service` HTTP path. |
-| Order rejected with history unavailable | `risk-service` to `history-service` HTTP path. |
-| Exposure not changing | Kafka event path and `history-service` consumer. |
-| Notifications missing | Kafka consumer group and notification logs. |
-| Pod keeps restarting | liveness probe, JVM crash, OOMKilled, bad config. |
-| Service has no traffic | Service selector and readiness endpoints. |
-| Ingress returns 404 | Ingress class, host header, path, backend Service. |
+| Symptom                                 | First boundary to check                            |
+| --------------------------------------- | -------------------------------------------------- |
+| Client gets 503                         | `api-gateway` downstream call.                     |
+| Order rejected with risk unavailable    | `order-service` to `risk-service` HTTP path.       |
+| Order rejected with history unavailable | `risk-service` to `history-service` HTTP path.     |
+| Exposure not changing                   | Kafka event path and `history-service` consumer.   |
+| Notifications missing                   | Kafka consumer group and notification logs.        |
+| Pod keeps restarting                    | liveness probe, JVM crash, OOMKilled, bad config.  |
+| Service has no traffic                  | Service selector and readiness endpoints.          |
+| Ingress returns 404                     | Ingress class, host header, path, backend Service. |
 
 ## Debugging A Failed Order
 
@@ -144,4 +144,3 @@ Interpretation:
 - DNS fails: CoreDNS or wrong name.
 - DNS succeeds but connect fails: Service, endpoints, NetworkPolicy, or port.
 - Connect succeeds but HTTP 500: application or dependency.
-
