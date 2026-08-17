@@ -1,0 +1,2 @@
+{"id":"safe-domestic","input":{"amount":85,"merchant":"GROCERY-1","country":"US","hourUtc":14},"expected":{"riskLevel":"LOW","humanApprovalRequired":false}}
+{"id":"high-risk-cross-border","input":{"amount":7200,"merchant":"CRYPTO-9","country":"SG","hourUtc":2},"expected":{"riskLevel":"HIGH","requiredCitations":["FRP-4.2","FRP-7.3"],"humanApprovalRequired":true}}

@@ -1,0 +1,54 @@
+services:
+  db-node-1:
+    build: .
+    command:
+      - --node-id
+      - node1
+      - --bind-host
+      - 0.0.0.0
+      - --port
+      - "9101"
+      - --peers
+      - node1=db-node-1:9101,node2=db-node-2:9102,node3=db-node-3:9103
+      - --data-dir
+      - /data
+    ports:
+      - "9101:9101"
+    volumes:
+      - ./data/node1:/data
+
+  db-node-2:
+    build: .
+    command:
+      - --node-id
+      - node2
+      - --bind-host
+      - 0.0.0.0
+      - --port
+      - "9102"
+      - --peers
+      - node1=db-node-1:9101,node2=db-node-2:9102,node3=db-node-3:9103
+      - --data-dir
+      - /data
+    ports:
+      - "9102:9102"
+    volumes:
+      - ./data/node2:/data
+
+  db-node-3:
+    build: .
+    command:
+      - --node-id
+      - node3
+      - --bind-host
+      - 0.0.0.0
+      - --port
+      - "9103"
+      - --peers
+      - node1=db-node-1:9101,node2=db-node-2:9102,node3=db-node-3:9103
+      - --data-dir
+      - /data
+    ports:
+      - "9103:9103"
+    volumes:
+      - ./data/node3:/data

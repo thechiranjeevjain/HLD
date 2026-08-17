@@ -1,0 +1,26 @@
+server:
+  port: ${SERVER_PORT:8084}
+
+spring:
+  application:
+    name: notification-platform
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5436/notifications}
+    username: ${SPRING_DATASOURCE_USERNAME:capstone}
+    password: ${SPRING_DATASOURCE_PASSWORD:capstone}
+  flyway:
+    enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+app:
+  worker:
+    fixed-delay-ms: ${APP_WORKER_FIXED_DELAY_MS:5000}

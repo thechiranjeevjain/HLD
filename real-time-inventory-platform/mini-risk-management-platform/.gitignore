@@ -1,0 +1,11 @@
+.idea/
+.vscode/
+target/
+*.iml
+*.log
+.env
+.DS_Store
+docker-compose.override.yml
+data/
+tmp/
+

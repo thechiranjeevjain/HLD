@@ -1,0 +1,3 @@
+package com.interview.fraud.risk;
+import static org.assertj.core.api.Assertions.assertThat; import com.interview.fraud.transaction.*; import java.math.BigDecimal; import java.time.Instant; import org.junit.jupiter.api.Test;
+class FraudRuleEngineTest {@Test void scoresExplainableHighRiskSignals(){var r=new TransactionRequest("T1","C1","CRYPTO-9","D1",new BigDecimal("7200"),"USD","SG",Instant.parse("2026-08-12T02:00:00Z"));var result=new FraudRuleEngine().evaluate(new TransactionEntity(r),5);assertThat(result.score()).isEqualTo(100);assertThat(result.signals()).extracting(FraudRuleEngine.Signal::code).contains("HIGH_AMOUNT","RISKY_MERCHANT","UNUSUAL_HOUR","CROSS_BORDER","VELOCITY");}}

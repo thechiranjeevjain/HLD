@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: rideshare
+      POSTGRES_USER: capstone
+      POSTGRES_PASSWORD: capstone
+    ports:
+      - "5438:5432"
+    volumes:
+      - rideshare-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U capstone -d rideshare"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: .
+    environment:
+      SERVER_PORT: 8086
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/rideshare
+      SPRING_DATASOURCE_USERNAME: capstone
+      SPRING_DATASOURCE_PASSWORD: capstone
+    ports:
+      - "8086:8086"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  rideshare-data:

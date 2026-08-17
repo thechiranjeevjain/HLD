@@ -1,0 +1,31 @@
+server:
+  port: ${SERVER_PORT:8083}
+
+spring:
+  application:
+    name: ecommerce-backend
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5435/ecommerce}
+    username: ${SPRING_DATASOURCE_USERNAME:capstone}
+    password: ${SPRING_DATASOURCE_PASSWORD:capstone}
+  flyway:
+    enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+app:
+  kafka:
+    order-events-topic: ${APP_KAFKA_ORDER_EVENTS_TOPIC:order-events}

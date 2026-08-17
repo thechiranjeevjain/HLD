@@ -1,7 +1,34 @@
+# Java and Maven build outputs
 target/
+**/target/
+.m2repo/
+**/.m2repo/
+
+# Frontend and Gradle generated outputs
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+build/
+**/build/
+.gradle/
+**/.gradle/
+.gradle-local*/
+**/.gradle-local*/
+*.tsbuildinfo
+.gradle-local*.zip
+**/.gradle-local*.zip
+
+# IDE metadata
 .idea/
-.vscode/
 *.iml
-data/
+
+# Runtime logs and local demo data
 *.log
-.env
+data/
+**/data/
+wal.log
+
+# Local-only cleanup/archive metadata
+_archive/
+_meta/

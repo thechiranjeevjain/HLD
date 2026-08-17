@@ -1,0 +1,37 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: employee-document-upload-system
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/employee_docs}
+    username: ${DATABASE_USERNAME:employee_docs}
+    password: ${DATABASE_PASSWORD:employee_docs}
+  flyway:
+    enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${COGNITO_ISSUER_URI:http://localhost:9999/mock-issuer}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+app:
+  storage:
+    bucket: ${DOCUMENT_BUCKET:employee-documents-local}
+    region: ${AWS_REGION:us-east-1}
+    upload-url-ttl: ${UPLOAD_URL_TTL:PT10M}

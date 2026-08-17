@@ -1,0 +1,3 @@
+package com.interview.fraud.casework;
+import java.math.BigDecimal; import java.time.Instant; import java.util.UUID;
+public record CaseView(UUID id,String caseNumber,String transactionId,String customerId,String merchantId,String deviceId,BigDecimal amount,String currency,String country,int deterministicScore,String riskLevel,String status,String recommendedAction,String approvedAction,long version,Instant createdAt){public static CaseView from(CaseEntity c){var t=c.transaction;return new CaseView(c.id,c.caseNumber,t.externalId,t.customerId,t.merchantId,t.deviceId,t.amount,t.currency,t.country,c.deterministicScore,c.riskLevel,c.status,c.recommendedAction,c.approvedAction,c.version,c.createdAt);}}

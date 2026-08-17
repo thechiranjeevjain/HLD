@@ -1,0 +1,15 @@
+resources:
+  - base/namespace.yaml
+  - base/configmap.yaml
+  - base/secret.yaml
+  - data/postgres.yaml
+  - data/redis.yaml
+  - data/kafka.yaml
+  - apps/api-gateway.yaml
+  - apps/order-service.yaml
+  - apps/risk-service.yaml
+  - apps/history-service.yaml
+  - apps/notification-service.yaml
+  - base/ingress.yaml
+  - observability/prometheus.yaml
+

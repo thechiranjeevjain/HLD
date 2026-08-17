@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: exchange-lite-config
+  namespace: exchange-lite
+data:
+  EXCHANGE_DATA_PORT: "9090"
+  EXCHANGE_IPC_PORT: "9191"
+  EXCHANGE_SIDECAR_PORT: "8080"
+  EXCHANGE_IPC_HOST: "127.0.0.1"
+  EXCHANGE_MAX_ORDER_QTY: "1000000"
+  EXCHANGE_MAX_ORDER_NOTIONAL: "1000000000000"

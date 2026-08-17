@@ -1,0 +1,40 @@
+server:
+  port: ${SERVER_PORT:8087}
+
+spring:
+  application:
+    name: fraud-detection-platform
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5439/fraud_detection}
+    username: ${SPRING_DATASOURCE_USERNAME:capstone}
+    password: ${SPRING_DATASOURCE_PASSWORD:capstone}
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST:localhost}
+      port: ${SPRING_DATA_REDIS_PORT:6380}
+  flyway:
+    enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
+    consumer:
+      group-id: ${SPRING_KAFKA_CONSUMER_GROUP_ID:fraud-detection}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+app:
+  kafka:
+    transaction-events-topic: ${APP_KAFKA_TRANSACTION_EVENTS_TOPIC:transaction-events}

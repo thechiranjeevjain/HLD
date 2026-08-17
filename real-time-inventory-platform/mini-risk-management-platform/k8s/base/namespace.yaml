@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mini-risk
+  labels:
+    app.kubernetes.io/name: mini-risk-management-platform
+

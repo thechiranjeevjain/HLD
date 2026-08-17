@@ -1,0 +1,10 @@
+resources:
+  - namespace.yaml
+  - configmap.yaml
+  - secret.example.yaml
+  - redis.yaml
+  - kafka.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+  - hpa.yaml

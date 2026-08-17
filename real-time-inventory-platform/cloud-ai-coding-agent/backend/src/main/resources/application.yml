@@ -1,0 +1,11 @@
+server: { port: 8080 }
+spring:
+ datasource: { url: "${DATABASE_URL:jdbc:postgresql://localhost:5432/agent}", username: "${DATABASE_USER:agent}", password: "${DATABASE_PASSWORD:agent}" }
+ jpa: { hibernate: { ddl-auto: validate }, open-in-view: false }
+ flyway: { enabled: true }
+ task.execution.pool: { core-size: 2, max-size: 8, queue-capacity: 100 }
+management.endpoints.web.exposure.include: health,info,prometheus,metrics
+agent:
+ llm.provider: "${LLM_PROVIDER:fake}"
+ workspace-root: "${WORKSPACE_ROOT:./workspaces}"
+ sandbox-image: "${SANDBOX_IMAGE:cloud-agent-sandbox:local}"

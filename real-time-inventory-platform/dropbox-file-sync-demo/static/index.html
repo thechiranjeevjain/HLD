@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dropbox Sync Interview Demo</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header><div><span class="eyebrow">SYSTEM DESIGN LAB</span><h1>Dropbox File Sync</h1><p>Content-addressed chunks · optimistic versions · ordered change log</p></div><button id="reset" class="danger">Reset demo</button></header>
+  <main>
+    <section class="metrics" id="metrics"></section>
+    <section class="grid">
+      <article class="card device" data-device="Laptop"><div class="device-title"><span class="dot green"></span><div><h2>Device A</h2><small>Laptop · online</small></div></div><input type="file"><label>Remote file name<input class="name" value="design-notes.txt"></label><label>Base version<input class="version" type="number" value="0" min="0"></label><button class="upload">Chunk & sync</button><pre class="result">Choose a file, or use the scripted demo below.</pre></article>
+      <article class="card device" data-device="Phone"><div class="device-title"><span class="dot amber"></span><div><h2>Device B</h2><small>Phone · reconnecting with stale state</small></div></div><input type="file"><label>Remote file name<input class="name" value="design-notes.txt"></label><label>Base version<input class="version" type="number" value="0" min="0"></label><button class="upload">Chunk & sync</button><pre class="result">Upload against an old base version to create a conflict.</pre></article>
+    </section>
+    <section class="card demo"><div><span class="eyebrow">ONE-CLICK INTERVIEW STORY</span><h2>Simulate two-device conflict</h2><p>Device A creates and updates a file. Device B returns offline with base version 1 and commits a different edit. The server preserves both copies.</p></div><button id="scenario">Run scenario</button></section>
+    <section class="columns">
+      <article class="card"><div class="section-head"><div><span class="eyebrow">METADATA PLANE</span><h2>Files & versions</h2></div><button id="refresh">Refresh</button></div><div id="files" class="empty">No files committed yet.</div></article>
+      <article class="card"><div class="section-head"><div><span class="eyebrow">ORDERED LOG</span><h2>Change events</h2></div><span id="cursor" class="pill">cursor 0</span></div><div id="events" class="timeline empty">No changes yet.</div></article>
+    </section>
+  </main>
+  <template id="file-template"><div class="file-row"><div class="file-icon">F</div><div class="grow"><strong class="file-name"></strong><small class="file-meta"></small></div><span class="badge"></span><button class="download">Download</button><button class="rename">Rename</button><button class="delete danger-link">Delete</button></div></template>
+  <script src="/app.js"></script>
+</body></html>

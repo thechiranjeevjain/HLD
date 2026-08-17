@@ -1,0 +1,163 @@
+openapi: 3.0.3
+info:
+  title: Booking Hotel API
+  version: 1.0.0
+  description: Spring Boot hotel API with soft delete and city-center distance search.
+servers:
+  - url: http://localhost:8080
+security:
+  - basicAuth: []
+paths:
+  /hotel/{id}:
+    get:
+      operationId: getHotel
+      tags:
+        - Hotels
+      summary: Get an active hotel by ID
+      parameters:
+        - $ref: '#/components/parameters/HotelId'
+      responses:
+        '200':
+          description: Hotel found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HotelResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteHotel
+      tags:
+        - Hotels
+      summary: Soft delete a hotel by ID
+      description: Marks the hotel as deleted. The row remains in the database.
+      parameters:
+        - $ref: '#/components/parameters/HotelId'
+      responses:
+        '204':
+          description: Hotel marked deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /search/{cityId}:
+    get:
+      operationId: searchClosestHotels
+      tags:
+        - Search
+      summary: Search hotels closest to a city center
+      parameters:
+        - $ref: '#/components/parameters/CityId'
+      responses:
+        '200':
+          description: Active hotels sorted by distance from city center
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HotelSearchResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  parameters:
+    HotelId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+    CityId:
+      name: cityId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+  responses:
+    Unauthorized:
+      description: Missing or invalid credentials
+    Forbidden:
+      description: Authenticated user does not have the required role
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    HotelResponse:
+      type: object
+      required:
+        - id
+        - name
+        - address
+        - latitude
+        - longitude
+        - cityId
+        - cityName
+        - deleted
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        address:
+          type: string
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        cityId:
+          type: integer
+          format: int64
+        cityName:
+          type: string
+        deleted:
+          type: boolean
+    HotelSearchResponse:
+      allOf:
+        - $ref: '#/components/schemas/HotelResponse'
+        - type: object
+          required:
+            - distanceFromCityCenterKm
+          properties:
+            distanceFromCityCenterKm:
+              type: number
+              format: double
+    ErrorResponse:
+      type: object
+      required:
+        - timestamp
+        - status
+        - error
+        - message
+        - path
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: integer
+        error:
+          type: string
+        message:
+          type: string
+        path:
+          type: string

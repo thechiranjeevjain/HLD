@@ -1,0 +1,30 @@
+server:
+  port: ${SERVER_PORT:8081}
+
+spring:
+  application:
+    name: authentication-service
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/auth_service}
+    username: ${SPRING_DATASOURCE_USERNAME:capstone}
+    password: ${SPRING_DATASOURCE_PASSWORD:capstone}
+  flyway:
+    enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+app:
+  jwt:
+    secret: ${APP_JWT_SECRET:local-development-secret-with-at-least-thirty-two-bytes}
+    ttl-minutes: ${APP_JWT_TTL_MINUTES:60}
+  admin:
+    email: ${APP_ADMIN_EMAIL:}
+    password: ${APP_ADMIN_PASSWORD:}
