@@ -2,6 +2,8 @@
 
 Each topic is a separate runnable project or standalone module. The implementations are deliberately compact vertical slices: they execute the hardest correctness paths while the interview guides expand them into production-scale designs.
 
+For learning order, interview ROI, readiness gates, and time-boxed preparation paths, use the canonical [owner learning roadmap](HLD-26-30-LEARNING-ROADMAP.md). This file remains the runnable project index and does not duplicate those rankings.
+
 | #   | Topic                                  | Canonical location                           | Runnable proof                                                                |
 | --- | -------------------------------------- | -------------------------------------------- | ----------------------------------------------------------------------------- |
 | 26  | Pre-Trade Risk Platform                | `trading-risk-platform/pretrade-risk-engine` | Hot-path check/reserve, dynamic config, journal/snapshot recovery, HA fencing |

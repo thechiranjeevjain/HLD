@@ -2,7 +2,7 @@
 
 This folder is organized for hands-on backend learning and interview explanation. Projects live directly under this directory. Old wrapper folders such as `capstone-projects` and `Backend5` are archived locally under `_archive`; generated learning metadata lives locally under `_meta`. Both local-only folders are ignored by Git.
 
-For trading/system-design topics 26–30, start with [HLD-26-30-INTERVIEW-PACK.md](HLD-26-30-INTERVIEW-PACK.md). Interview scope and production readiness use the same canonical projects but separate evidence standards defined in [docs/READINESS_LEVELS.md](docs/READINESS_LEVELS.md).
+For trading/system-design topics 26–30, use [HLD-26-30-LEARNING-ROADMAP.md](HLD-26-30-LEARNING-ROADMAP.md) for study order, ROI, readiness gates, and crunch-time paths. Use [HLD-26-30-INTERVIEW-PACK.md](HLD-26-30-INTERVIEW-PACK.md) for runnable project navigation. Interview scope and production readiness use the same canonical projects but separate evidence standards defined in [docs/READINESS_LEVELS.md](docs/READINESS_LEVELS.md).
 
 ## Recommended Learning Path
 
