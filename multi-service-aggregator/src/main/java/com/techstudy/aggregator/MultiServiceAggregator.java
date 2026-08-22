@@ -13,6 +13,7 @@ import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +78,14 @@ public final class MultiServiceAggregator implements AutoCloseable {
 
     public MultiServiceAggregator(Map<String, DownstreamClient> clients, Duration timeout, int maxAttempts,
                                   AggregateRepository repository, int workerThreads) {
+        Objects.requireNonNull(clients);
+        Objects.requireNonNull(timeout);
+        Objects.requireNonNull(repository);
         if (clients.size() != 3) throw new IllegalArgumentException("interview scenario requires exactly three downstreams");
+        if (clients.values().stream().anyMatch(Objects::isNull)) throw new IllegalArgumentException("downstream clients are required");
+        if (timeout.isZero() || timeout.isNegative()) throw new IllegalArgumentException("timeout must be positive");
+        if (maxAttempts <= 0) throw new IllegalArgumentException("maxAttempts must be positive");
+        if (workerThreads < clients.size()) throw new IllegalArgumentException("workerThreads must allow all downstreams to start concurrently");
         this.clients = new LinkedHashMap<>(clients);
         this.timeout = timeout;
         this.maxAttempts = maxAttempts;
@@ -87,6 +95,7 @@ public final class MultiServiceAggregator implements AutoCloseable {
 
     public AggregateResponse aggregate(String requestId) {
         Objects.requireNonNull(requestId);
+        if (requestId.isBlank()) throw new IllegalArgumentException("requestId is required");
         Optional<AggregateResponse> previous = repository.find(requestId);
         if (previous.isPresent()) return previous.get();
 
@@ -99,7 +108,8 @@ public final class MultiServiceAggregator implements AutoCloseable {
         Map<String, CallOutcome> outcomes = new LinkedHashMap<>();
         calls.forEach((name, future) -> outcomes.put(name, future.join()));
         boolean complete = outcomes.values().stream().allMatch(o -> o.status() == CallStatus.OK);
-        return repository.saveIfAbsent(new AggregateResponse(requestId, Map.copyOf(outcomes), complete, Instant.now()));
+        Map<String, CallOutcome> orderedOutcomes = Collections.unmodifiableMap(new LinkedHashMap<>(outcomes));
+        return repository.saveIfAbsent(new AggregateResponse(requestId, orderedOutcomes, complete, Instant.now()));
     }
 
     private CallOutcome callWithRetry(String name, DownstreamClient client, String requestId) {

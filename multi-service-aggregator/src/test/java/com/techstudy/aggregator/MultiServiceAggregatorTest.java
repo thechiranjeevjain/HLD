@@ -3,23 +3,35 @@ package com.techstudy.aggregator;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.techstudy.aggregator.MultiServiceAggregator.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MultiServiceAggregatorTest {
-    @Test void invokesThreeServicesConcurrently() {
-        Map<String, DownstreamClient> clients = clients(
-                id -> delayed("a", 150), id -> delayed("b", 150), id -> delayed("c", 150));
-        long started = System.nanoTime();
-        try (MultiServiceAggregator aggregator = new MultiServiceAggregator(clients, Duration.ofSeconds(1), 1, new InMemoryRepository(), 3)) {
-            assertTrue(aggregator.aggregate("r1").complete());
+    @Test void invokesThreeServicesConcurrently() throws Exception {
+        CountDownLatch allStarted = new CountDownLatch(3);
+        CountDownLatch release = new CountDownLatch(1);
+        DownstreamClient blockedClient = id -> {
+            allStarted.countDown();
+            if (!release.await(5, TimeUnit.SECONDS)) throw new IllegalStateException("test release timed out");
+            return id;
+        };
+        Map<String, DownstreamClient> clients = clients(blockedClient, blockedClient, blockedClient);
+        try (MultiServiceAggregator aggregator = new MultiServiceAggregator(clients, Duration.ofSeconds(10), 1, new InMemoryRepository(), 3)) {
+            CompletableFuture<AggregateResponse> response = CompletableFuture.supplyAsync(() -> aggregator.aggregate("r1"));
+            assertTrue(allStarted.await(5, TimeUnit.SECONDS), "all downstream calls must start before any completes");
+            release.countDown();
+            AggregateResponse completed = response.get(5, TimeUnit.SECONDS);
+            assertTrue(completed.complete());
+            assertEquals(java.util.List.of("one", "two", "three"), new ArrayList<>(completed.results().keySet()));
         }
-        long elapsedMillis = Duration.ofNanos(System.nanoTime() - started).toMillis();
-        assertTrue(elapsedMillis < 400, "expected concurrent latency, got " + elapsedMillis + "ms");
     }
 
     @Test void retriesTransientFailureAndPersistsIdempotently() {
@@ -50,6 +62,12 @@ class MultiServiceAggregatorTest {
             assertEquals(CallStatus.TIMEOUT, response.results().get("three").status());
             assertEquals(1, repository.size());
         }
+    }
+
+    @Test void rejectsConfigurationThatCannotStartAllCallsConcurrently() {
+        Map<String, DownstreamClient> clients = clients(id -> "a", id -> "b", id -> "c");
+        assertThrows(IllegalArgumentException.class,
+                () -> new MultiServiceAggregator(clients, Duration.ofSeconds(1), 1, new InMemoryRepository(), 2));
     }
 
     private Map<String, DownstreamClient> clients(DownstreamClient one, DownstreamClient two, DownstreamClient three) {

@@ -34,8 +34,15 @@ class ExchangeConnectivityPlatformTest {
         VenueSession session = session("a", lease, journal, new TokenBucket(10, 10));
         session.promoteAndLogon();
         assertEquals(OrderState.UNKNOWN, session.send(order("id-2"), TransmissionOutcome.DISCONNECT_AFTER_WRITE).state());
-        session.reconcileUnknown("id-2", OrderState.ACKNOWLEDGED);
-        assertEquals(OrderState.ACKNOWLEDGED, session.orderSnapshot().get("id-2"));
+
+        VenueSession standby = session("b", lease, journal, new TokenBucket(10, 10));
+        standby.promoteAndLogon();
+        assertEquals(2, standby.send(order("later-order"), TransmissionOutcome.ACK).outboundSequence());
+        standby.reconcileUnknown("id-2", OrderState.ACKNOWLEDGED);
+
+        assertEquals(OrderState.ACKNOWLEDGED, standby.orderSnapshot().get("id-2"));
+        JournalEntry reconciliation = journal.get(journal.size() - 1);
+        assertEquals(1, reconciliation.sequence(), "reconciliation must retain the uncertain order's sequence");
     }
 
     @Test

@@ -87,6 +87,7 @@ public final class ExchangeConnectivityPlatform {
         private final FencingLease lease;
         private final List<JournalEntry> journal;
         private final Map<String, OrderState> orders = new LinkedHashMap<>();
+        private final Map<String, Long> outboundSequences = new LinkedHashMap<>();
         private long leaseEpoch;
         private long nextOutboundSequence = 1;
         private long expectedInboundSequence = 1;
@@ -153,7 +154,11 @@ public final class ExchangeConnectivityPlatform {
 
         public synchronized void reconcileUnknown(String clientOrderId, OrderState venueTruth) {
             if (orders.get(clientOrderId) != OrderState.UNKNOWN) return;
-            transition(nextOutboundSequence - 1, clientOrderId, venueTruth, "uncertain outcome reconciled");
+            Long originalSequence = outboundSequences.get(clientOrderId);
+            if (originalSequence == null) {
+                throw new IllegalStateException("missing outbound sequence for uncertain order " + clientOrderId);
+            }
+            transition(originalSequence, clientOrderId, venueTruth, "uncertain outcome reconciled");
         }
 
         private SendResult transition(long sequence, String id, OrderState target, String detail) {
@@ -163,16 +168,19 @@ public final class ExchangeConnectivityPlatform {
 
         private void record(long sequence, String id, OrderState target, String detail) {
             orders.put(id, target);
+            outboundSequences.put(id, sequence);
             journal.add(new JournalEntry(Direction.OUTBOUND, sequence, id, target, detail, Instant.now()));
         }
 
         private void restore(List<JournalEntry> entries) {
             for (JournalEntry entry : entries) {
                 orders.put(entry.clientOrderId(), entry.state());
-                if (entry.direction() == Direction.OUTBOUND)
+                if (entry.direction() == Direction.OUTBOUND) {
+                    outboundSequences.put(entry.clientOrderId(), entry.sequence());
                     nextOutboundSequence = Math.max(nextOutboundSequence, entry.sequence() + 1);
-                else
+                } else {
                     expectedInboundSequence = Math.max(expectedInboundSequence, entry.sequence() + 1);
+                }
             }
         }
 
