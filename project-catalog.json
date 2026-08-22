@@ -22,6 +22,167 @@
       "title": "AI engineering"
     }
   ],
+  "learningOrder": [
+    "java-concurrency-lab",
+    "web-server-lab",
+    "product-catalog-api",
+    "authentication-service",
+    "cache-lab",
+    "message-queue-lab",
+    "mini-kv-storage-engine",
+    "url-shortener",
+    "multi-service-aggregator",
+    "notification-platform",
+    "distributed-task-scheduler",
+    "replicated-log-simulation",
+    "distributed-database",
+    "reliable-order-platform",
+    "ecommerce-backend",
+    "real-time-inventory-platform",
+    "amazon-order-tracking",
+    "dropbox-file-sync-demo",
+    "exchange-lite",
+    "market-data-platform",
+    "trading-risk-platform",
+    "exchange-connectivity-platform",
+    "electronic-trading-platform",
+    "mini-risk-management-platform",
+    "stripe-ledger-reconciliation",
+    "fraud-detection-platform",
+    "ai-risk-fraud-investigation-assistant",
+    "ride-sharing-backend",
+    "hotel-booking-service",
+    "employee-document-upload-system",
+    "cloud-ai-coding-agent"
+  ],
+  "learningDependencies": {
+    "product-catalog-api": ["web-server-lab"],
+    "authentication-service": ["product-catalog-api"],
+    "cache-lab": ["product-catalog-api"],
+    "message-queue-lab": ["java-concurrency-lab"],
+    "mini-kv-storage-engine": ["java-concurrency-lab"],
+    "url-shortener": ["product-catalog-api", "cache-lab"],
+    "multi-service-aggregator": ["java-concurrency-lab", "product-catalog-api"],
+    "notification-platform": ["message-queue-lab", "multi-service-aggregator"],
+    "distributed-task-scheduler": [
+      "java-concurrency-lab",
+      "message-queue-lab",
+      "mini-kv-storage-engine"
+    ],
+    "replicated-log-simulation": [
+      "message-queue-lab",
+      "distributed-task-scheduler"
+    ],
+    "distributed-database": [
+      "mini-kv-storage-engine",
+      "replicated-log-simulation"
+    ],
+    "reliable-order-platform": [
+      "product-catalog-api",
+      "message-queue-lab",
+      "distributed-database"
+    ],
+    "ecommerce-backend": ["authentication-service", "reliable-order-platform"],
+    "real-time-inventory-platform": [
+      "cache-lab",
+      "message-queue-lab",
+      "reliable-order-platform"
+    ],
+    "amazon-order-tracking": ["message-queue-lab", "reliable-order-platform"],
+    "dropbox-file-sync-demo": [
+      "cache-lab",
+      "distributed-database",
+      "reliable-order-platform"
+    ],
+    "exchange-lite": ["java-concurrency-lab", "mini-kv-storage-engine"],
+    "market-data-platform": [
+      "message-queue-lab",
+      "replicated-log-simulation",
+      "exchange-lite"
+    ],
+    "trading-risk-platform": [
+      "java-concurrency-lab",
+      "cache-lab",
+      "market-data-platform"
+    ],
+    "exchange-connectivity-platform": [
+      "message-queue-lab",
+      "replicated-log-simulation",
+      "exchange-lite"
+    ],
+    "electronic-trading-platform": [
+      "market-data-platform",
+      "trading-risk-platform",
+      "exchange-connectivity-platform"
+    ],
+    "mini-risk-management-platform": [
+      "reliable-order-platform",
+      "trading-risk-platform",
+      "electronic-trading-platform"
+    ],
+    "stripe-ledger-reconciliation": [
+      "reliable-order-platform",
+      "ecommerce-backend"
+    ],
+    "fraud-detection-platform": [
+      "message-queue-lab",
+      "reliable-order-platform"
+    ],
+    "ai-risk-fraud-investigation-assistant": [
+      "authentication-service",
+      "fraud-detection-platform"
+    ],
+    "ride-sharing-backend": [
+      "authentication-service",
+      "cache-lab",
+      "distributed-task-scheduler"
+    ],
+    "hotel-booking-service": ["product-catalog-api", "authentication-service"],
+    "employee-document-upload-system": [
+      "product-catalog-api",
+      "authentication-service",
+      "reliable-order-platform"
+    ],
+    "cloud-ai-coding-agent": [
+      "java-concurrency-lab",
+      "authentication-service",
+      "multi-service-aggregator",
+      "reliable-order-platform"
+    ]
+  },
+  "interviewRoi": {
+    "java-concurrency-lab": 5,
+    "web-server-lab": 3,
+    "product-catalog-api": 5,
+    "authentication-service": 5,
+    "cache-lab": 5,
+    "message-queue-lab": 5,
+    "mini-kv-storage-engine": 4,
+    "url-shortener": 5,
+    "multi-service-aggregator": 5,
+    "notification-platform": 4,
+    "distributed-task-scheduler": 5,
+    "replicated-log-simulation": 4,
+    "distributed-database": 5,
+    "reliable-order-platform": 5,
+    "ecommerce-backend": 5,
+    "real-time-inventory-platform": 4,
+    "amazon-order-tracking": 4,
+    "dropbox-file-sync-demo": 4,
+    "exchange-lite": 5,
+    "market-data-platform": 5,
+    "trading-risk-platform": 5,
+    "exchange-connectivity-platform": 5,
+    "electronic-trading-platform": 5,
+    "mini-risk-management-platform": 5,
+    "stripe-ledger-reconciliation": 5,
+    "fraud-detection-platform": 4,
+    "ai-risk-fraud-investigation-assistant": 4,
+    "ride-sharing-backend": 4,
+    "hotel-booking-service": 3,
+    "employee-document-upload-system": 3,
+    "cloud-ai-coding-agent": 4
+  },
   "entries": [
     {
       "id": "web-server-lab",

@@ -30,6 +30,62 @@ export async function loadProjectCatalog() {
 
   const entryIds = catalog.entries.map((entry) => entry.id);
   if (!unique(entryIds)) throw new Error("Catalog entry IDs must be unique");
+  const entryIdSet = new Set(entryIds);
+
+  if (!Array.isArray(catalog.learningOrder) || !unique(catalog.learningOrder)) {
+    throw new Error("Catalog learningOrder must contain unique entry IDs");
+  }
+  const missingFromLearningOrder = entryIds.filter(
+    (id) => !catalog.learningOrder.includes(id),
+  );
+  const unknownLearningEntries = catalog.learningOrder.filter(
+    (id) => !entryIdSet.has(id),
+  );
+  if (
+    missingFromLearningOrder.length > 0 ||
+    unknownLearningEntries.length > 0
+  ) {
+    throw new Error(
+      `Learning order must contain every catalog entry exactly once; missing: ${missingFromLearningOrder.join(", ") || "none"}; unknown: ${unknownLearningEntries.join(", ") || "none"}`,
+    );
+  }
+
+  const learningDependencies = catalog.learningDependencies ?? {};
+  const learningRanks = new Map(
+    catalog.learningOrder.map((id, index) => [id, index + 1]),
+  );
+  for (const [id, dependencies] of Object.entries(learningDependencies)) {
+    if (
+      !entryIdSet.has(id) ||
+      !Array.isArray(dependencies) ||
+      !unique(dependencies)
+    ) {
+      throw new Error(`Invalid learning dependencies for ${id}`);
+    }
+    for (const dependency of dependencies) {
+      if (!entryIdSet.has(dependency))
+        throw new Error(`Unknown learning dependency ${dependency} for ${id}`);
+      if (learningRanks.get(dependency) >= learningRanks.get(id)) {
+        throw new Error(
+          `Learning dependency ${dependency} must rank before ${id}`,
+        );
+      }
+    }
+  }
+
+  const roiIds = Object.keys(catalog.interviewRoi ?? {});
+  const missingRoi = entryIds.filter((id) => !roiIds.includes(id));
+  const unknownRoi = roiIds.filter((id) => !entryIdSet.has(id));
+  if (missingRoi.length > 0 || unknownRoi.length > 0) {
+    throw new Error(
+      `Interview ROI must cover every catalog entry; missing: ${missingRoi.join(", ") || "none"}; unknown: ${unknownRoi.join(", ") || "none"}`,
+    );
+  }
+  for (const [id, roi] of Object.entries(catalog.interviewRoi)) {
+    if (!Number.isInteger(roi) || roi < 1 || roi > 5) {
+      throw new Error(`Interview ROI for ${id} must be an integer from 1 to 5`);
+    }
+  }
 
   for (const entry of catalog.entries) {
     for (const field of [

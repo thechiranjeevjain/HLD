@@ -109,6 +109,34 @@ const hldIndex = `| # | Topic | Canonical location | Runnable proof |
 | --- | --- | --- | --- |
 ${hldRows}`;
 
+const entryById = new Map(catalog.entries.map((entry) => [entry.id, entry]));
+const learningRankById = new Map(
+  catalog.learningOrder.map((id, index) => [id, index + 1]),
+);
+const learningRows = catalog.learningOrder
+  .map((id, index) => {
+    const entry = entryById.get(id);
+    const target = entry.readme ?? `${entry.path}/README.md`;
+    const dependencies = (catalog.learningDependencies[id] ?? [])
+      .map((dependencyId) => {
+        const dependency = entryById.get(dependencyId);
+        return `#${learningRankById.get(dependencyId)} ${dependency.name}`;
+      })
+      .join(", ");
+    return `| ${index + 1} | [${escapeCell(entry.name)}](${target}) | ${escapeCell(dependencies || "None")} | ${escapeCell(entry.owns)} | ${catalog.interviewRoi[id]}/5 |`;
+  })
+  .join("\n");
+const moduleCount = catalog.entries.filter(
+  (entry) => entry.kind === "module",
+).length;
+const learningOrder = `This is the **one canonical, exhaustive learning sequence** for the repository: **${catalog.entries.length} runnable learning units** (${catalog.projects.length} projects${moduleCount ? ` + ${moduleCount} focused module` : ""}). It is optimized for prerequisite flow and interview return on investment for senior Java/backend and electronic-trading roles.
+
+Follow it from top to bottom. A dependency points to an earlier rank worth reviewing before continuing. ROI is interview value after accounting for transferability, frequency of discussion, and relevance to the target roles; it is not a second ordering.
+
+| Rank | Read / learn | Depends on | Primary payoff | Interview ROI |
+| ---: | --- | --- | --- | :---: |
+${learningRows}`;
+
 await update("README.md", [
   { id: "summary", body: summary },
   { id: "learning-stages", body: learningStages },
@@ -116,6 +144,9 @@ await update("README.md", [
 ]);
 await update("HLD-26-30-INTERVIEW-PACK.md", [
   { id: "hld-index", body: hldIndex },
+]);
+await update("LEARNING-ORDER.md", [
+  { id: "learning-order", body: learningOrder },
 ]);
 
 if (checkOnly && changedFiles.length > 0) {

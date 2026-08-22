@@ -12,6 +12,7 @@ The tracked portfolio contains **30 canonical projects**. Keep them separate: fo
 
 | Goal                                          | First document                                                   | Outcome                                                                     |
 | --------------------------------------------- | ---------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Follow one exhaustive repo-wide learning rank | [Repository learning order](LEARNING-ORDER.md)                   | All projects ordered by prerequisites and interview ROI                     |
 | Learn a reusable 40–60 minute HLD method      | [Common HLD interview flows](docs/COMMON_HLD_INTERVIEW_FLOWS.md) | A repeatable requirements → estimates → design → failure-analysis structure |
 | Prepare HLD 26–30 in the right order          | [HLD 26–30 owner roadmap](HLD-26-30-LEARNING-ROADMAP.md)         | Learning order, interview ROI, readiness gates, and crunch-time plans       |
 | Run the five HLD 26–30 demonstrations         | [HLD 26–30 runnable pack](HLD-26-30-INTERVIEW-PACK.md)           | Commands and ownership boundaries for each runnable vertical slice          |
@@ -47,45 +48,7 @@ flowchart LR
 
 <!-- project-catalog:learning-stages:end -->
 
-Do not wait to finish every stage before interviewing. Choose one path below, make one flagship deep, and use focused labs only to repair weak concepts.
-
-## High-ROI Paths
-
-### General backend
-
-`product-catalog-api` → `authentication-service` → `multi-service-aggregator` → `reliable-order-platform` → `ecommerce-backend`
-
-This path covers API design, security, concurrency, resilience, idempotency, events, and cross-service workflows.
-
-### Distributed systems
-
-`cache-lab` → `message-queue-lab` → `mini-kv-storage-engine` → `distributed-database` → `reliable-order-platform` → `dropbox-file-sync-demo`
-
-This path progresses from local data structures to logs, replication, quorum behavior, replay, deduplication, and conflict handling.
-
-### Electronic trading and low latency
-
-`java-concurrency-lab` → `exchange-lite` → HLD learning order **30 → 28 → 26 → 27 → 29**
-
-For final trading-interview revision, switch to **29 → 26 → 27 → 28 → 30**. The reason and readiness gates live only in the [HLD roadmap](HLD-26-30-LEARNING-ROADMAP.md).
-
-### Payments, ledger, and risk
-
-`fraud-detection-platform` → `stripe-ledger-reconciliation` → `ai-risk-fraud-investigation-assistant`
-
-This separates deterministic scoring, financial correctness/reconciliation, and guarded analyst casework.
-
-### Crunch-time trading preparation
-
-If time and energy are limited:
-
-1. Draw and deliver HLD 29 as the complete system story.
-2. Deep-dive HLD 26 for low-latency state and atomic reservation.
-3. Learn HLD 27's disconnect-after-write/`UNKNOWN` outcome.
-4. Learn HLD 28's gap-recovery and slow-consumer rules.
-5. Use HLD 30 as the general-backend resilience fallback.
-
-Stop at interview readiness (R4) before adding production infrastructure.
+Do not create competing repo-wide rankings. Follow the single [repository learning order](LEARNING-ORDER.md), make each dependency credible, and use focused labs to repair weak concepts before continuing.
 
 ## Complete Portfolio Map
 
@@ -244,6 +207,7 @@ Always prefer the exact commands in a project README when they differ from these
 | ---------------------------------------------------------------- | --------------------------------------------------------------------------------- |
 | This `README.md`                                                 | Whole-repository navigation, project ownership, and learning flow                 |
 | [`project-catalog.json`](project-catalog.json)                   | Machine-readable project identity, category, stage, build entry, and HLD metadata |
+| [Repository learning order](LEARNING-ORDER.md)                   | The single exhaustive prerequisite and interview-ROI ranking                      |
 | [Common HLD interview flows](docs/COMMON_HLD_INTERVIEW_FLOWS.md) | Reusable 40–60 minute system-design method                                        |
 | [HLD 26–30 roadmap](HLD-26-30-LEARNING-ROADMAP.md)               | Ranking, ROI, readiness gates, progress, and revision order                       |
 | [HLD 26–30 runnable pack](HLD-26-30-INTERVIEW-PACK.md)           | Runnable locations and commands for HLD 26–30                                     |
@@ -286,8 +250,9 @@ Local-only `_archive` and `_meta` directories are ignored by Git and are not par
 
 1. Create or reuse the canonical project directory with its `README.md` and Maven `pom.xml`.
 2. Add one `kind: "project"` entry to `project-catalog.json`. Choose one category and learning stage, state what the project owns, and point `mavenEntry` at the directory containing its canonical `pom.xml`.
-3. Add the optional `hld` object only when the project belongs in the HLD runnable pack.
-4. Run the refresh command from the repository root:
+3. Insert its ID once in `learningOrder`, add earlier prerequisites in `learningDependencies`, and assign its `interviewRoi`. Renumbering is generated automatically.
+4. Add the optional `hld` object only when the project belongs in the HLD runnable pack.
+5. Run the refresh command from the repository root:
 
 ```powershell
 npm run docs:refresh
@@ -297,6 +262,7 @@ That one command regenerates:
 
 - the canonical project count;
 - the whole-repository learning-stage index;
+- the exhaustive repository learning-order ranking;
 - every category table in the complete portfolio map;
 - the HLD runnable index for entries carrying HLD metadata;
 - each canonical project's `CODE_FLOW.md`;
@@ -310,7 +276,7 @@ npm run docs:code-flow:check
 npm run docs:audit
 ```
 
-The fast checks fail when a top-level project is unregistered, a catalog path/build root is missing, generated indexes are stale, or a catalog project's code-flow guide no longer matches its tracked source. GitHub Actions runs both checks when project READMEs, Maven roots, catalog data, or index tooling change. High-ROI paths and interview rankings remain curated decisions; update them only when the recommended learning strategy actually changes.
+The fast checks fail when a top-level project is unregistered, missing from the learning order, assigned a later dependency, missing ROI, backed by a missing path/build root, or represented by stale generated documentation. GitHub Actions runs both checks on every push and pull request. The order is curated metadata: change it deliberately when prerequisites or target-role ROI genuinely change, not after every study session.
 
 ## Shared Documentation Tooling
 
