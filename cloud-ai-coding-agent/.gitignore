@@ -1,8 +1,5 @@
 .env
-.gradle/
-.gradle-local*/
-.gradle-local.zip
-**/build/
+**/target/
 frontend/node_modules/
 frontend/dist/
 frontend/*.tsbuildinfo

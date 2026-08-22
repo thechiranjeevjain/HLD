@@ -4,7 +4,7 @@
 
 ```powershell
 cd G:\TechStudyNotes\SystemDesignProjects\cloud-ai-coding-agent
-gradle :backend:test
+mvn -pl backend -am test
 cd frontend
 npm.cmd install
 npm.cmd test

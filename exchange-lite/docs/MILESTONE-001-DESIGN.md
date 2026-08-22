@@ -107,4 +107,4 @@ io.exchangelite.cli
 - A synchronized book is simple but can bottleneck under multi-core pressure. Shard by market or move to one event loop per book later.
 - In-memory persistence is useful for tests but not crash durable. Add write-ahead journal or database-backed event store before production use.
 - No auth in milestone 1. Add mTLS or token auth before any non-local deployment.
-- JDK 17 validation does not satisfy the final Java 21 requirement. Install JDK 21 and Gradle wrapper before release.
+- JDK 17 validation does not satisfy a future Java 21 target. Migrate the canonical Maven build only after Java 21 runtime and benchmark validation.

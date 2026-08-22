@@ -26,7 +26,7 @@ Local Compose gives the orchestrator Docker access so it can create sandboxes; t
 ## Test
 
 ```powershell
-gradle :backend:test
+mvn -pl backend -am test
 Set-Location frontend; npm install; npm test; npm run build
 docker compose config
 ```

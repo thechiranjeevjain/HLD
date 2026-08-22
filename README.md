@@ -125,7 +125,7 @@ Last portfolio audit: 2026-08-05. Focused consolidation re-audit: 2026-08-13. Re
 - The old `Booking` folder has been archived as `_archive/2026-08-05-flattened-wrappers/Booking-legacy`. Use `hotel-booking-service` as the active copy.
 - The 2026-08-13 re-audit found no project that should be merged immediately. It updated the active list and documentation standard for the newer tracked projects.
 - Docker Compose structural validation passed for 17 files. Kubernetes offline checks passed for four kustomization directories and 41 raw resource files, but Kubernetes runtime apply tests are not confirmed without a cluster.
-- Focused runtime checks passed for `dropbox-file-sync-demo`, `java-concurrency-lab`, `ai-risk-fraud-investigation-assistant`, `reliable-order-platform`, and the frontend part of `cloud-ai-coding-agent`. The cloud-agent backend Gradle test was not run locally because Gradle is not installed and the project has no wrapper; its Dockerfile builds through a Gradle image once Docker Desktop is working.
+- Focused runtime checks passed for `dropbox-file-sync-demo`, `java-concurrency-lab`, `ai-risk-fraud-investigation-assistant`, `reliable-order-platform`, and the frontend part of `cloud-ai-coding-agent`. The cloud-agent backend now uses the canonical Maven build and passed all three backend tests on JDK 21; its Maven-based Docker image still requires a responsive Docker Desktop engine for runtime validation.
 - `real-time-inventory-platform` passed all six Maven unit/integration tests and a live H2-backed HTTP smoke test. Its PostgreSQL Compose topology is provided but was not runtime-validated in that check.
 
 ## Common Verification Commands

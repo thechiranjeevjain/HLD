@@ -53,14 +53,14 @@ Docker, Compose, Kubernetes, Prometheus, Grafana, and runbooks exist. The deploy
 ## Technical Debt
 
 - Java 17 local validation instead of Java 21.
-- Maven fallback in addition to intended Gradle build.
+- Java 17 is still the compiled target; Java 21 migration remains unverified.
 - Hand-written JSON.
 - In-memory persistence.
 - No real Micrometer registry yet; Prometheus text is implemented directly.
 
 ## Recommended Next Improvements
 
-1. Install JDK 21 and add a Gradle wrapper.
+1. Move the Maven compiler target to Java 21 after benchmark and runtime validation.
 2. Add an end-to-end binary TCP client integration test.
 3. Add structured JSON serialization.
 4. Add durable journal persistence and replay.

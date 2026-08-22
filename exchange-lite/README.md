@@ -8,7 +8,7 @@ ExchangeLite is a production-style backend learning repository for a small excha
 - CLI: `mc`-style operator console commands such as `stats`, `orders`, `markets`, `heap`, `threads`, `health`, and `shutdown`.
 - Operations: Docker, Docker Compose, Kubernetes, Prometheus, Grafana, runbooks, ADRs, and learning maps.
 
-This milestone is Java 17 compatible because this workstation currently has JDK 17 and Maven, but no JDK 21 or global Gradle. The repository includes Gradle build files as the intended build shape and Maven files as the locally validated fallback.
+Maven is the single canonical build system. The project currently targets Java 17 so it remains compatible with the portfolio's default Maven toolchain; a Java 21 migration should be driven by benchmark evidence rather than a second build definition.
 
 ## Architecture
 
@@ -102,7 +102,7 @@ Not yet implemented:
 - Authentication and authorization enforcement.
 - TLS termination.
 - Real load benchmark harness.
-- Full Java 21 toolchain and Gradle wrapper validation on this workstation.
+- Java 21 migration and benchmark validation.
 
 ## Interview Notes
 
