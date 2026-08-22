@@ -2,10 +2,20 @@
 
 A compact Java 21/Spring Boot simulation of a low-latency pre-trade risk system. Orders enter through an in-process DSF-like message bus, **not REST**. One event-loop owns mutable risk state; the REST control plane only manages versioned configuration and operations.
 
+## Choose a Track
+
+| Goal                                      | Start here                                                      |
+| ----------------------------------------- | --------------------------------------------------------------- |
+| Prepare the 40–60 minute interview answer | [40-60_MINUTE_HLD.md](40-60_MINUTE_HLD.md)                      |
+| Understand the implementation             | [INTERVIEW_GUIDE.md](INTERVIEW_GUIDE.md) and [DEMO.md](DEMO.md) |
+| Evaluate real deployment gaps             | [PRODUCTION_READINESS.md](PRODUCTION_READINESS.md)              |
+
+The codebase is shared; the evidence and completion criteria are separate.
+
 ## Run
 
 ```powershell
-$env:JAVA_HOME='C:\Users\Chiranjeev Jain\.jdks\openjdk-25' # or any JDK 21+
+$env:JAVA_HOME='C:\Program Files\Eclipse Adoptium\jdk-21.0.12.8-hotspot' # or any JDK 21+
 mvn -pl pretrade-risk-engine -am test
 mvn -pl pretrade-risk-engine spring-boot:run -Dspring-boot.run.profiles=demo
 ```
@@ -28,4 +38,4 @@ Grafana is at `http://localhost:3000` (admin/admin), Prometheus at `http://local
 - `/api/internal/runtime` is pod-internal input for the sidecar in this local simulation; Kubernetes exposes only the sidecar service.
 - The event bus, journal, lease store, and configuration distribution are local substitutes for proprietary infrastructure.
 
-See [INTERVIEW_GUIDE.md](INTERVIEW_GUIDE.md) for the walkthrough and [DEMO.md](DEMO.md) for the ten-step demonstration.
+See the track table above rather than treating local runnable proof as a production-readiness claim.

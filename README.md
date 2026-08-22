@@ -2,6 +2,8 @@
 
 This folder is organized for hands-on backend learning and interview explanation. Projects live directly under this directory. Old wrapper folders such as `capstone-projects` and `Backend5` are archived locally under `_archive`; generated learning metadata lives locally under `_meta`. Both local-only folders are ignored by Git.
 
+For trading/system-design topics 26–30, start with [HLD-26-30-INTERVIEW-PACK.md](HLD-26-30-INTERVIEW-PACK.md). Interview scope and production readiness use the same canonical projects but separate evidence standards defined in [docs/READINESS_LEVELS.md](docs/READINESS_LEVELS.md).
+
 ## Recommended Learning Path
 
 Do not merge everything into one giant application. For interviews, it is stronger to have one or two deep flagship projects plus smaller focused labs you can explain quickly.
@@ -51,6 +53,10 @@ The current layout should stay as separate runnable projects, not one giant appl
 | `exchange-lite`                                       | Matching engine, risk checks, binary protocol, engine/sidecar/CLI runtime.                                                                                      |
 | `trading-risk-platform`                               | Venue-neutral risk platform plus live pre-trade risk engine demo.                                                                                               |
 | `mini-risk-management-platform`                       | Java 21 microservices risk platform with Docker/Kubernetes/observability.                                                                                       |
+| `exchange-connectivity-platform`                      | HLD 27 venue gateway: FIX/OUCH sessions, sequence recovery, throttling, failover, dedupe, and uncertain outcomes.                                               |
+| `market-data-platform`                                | HLD 28 feed plant: gap repair, normalization, order-book reconstruction, fan-out, and slow-consumer isolation.                                                  |
+| `electronic-trading-platform`                         | HLD 29 end-to-end order flow through gateway, risk, OMS, venue connectivity, executions, positions, recovery, and metrics.                                      |
+| `multi-service-aggregator`                            | HLD 30 concurrent three-service aggregation with deadlines, retry, partial results, HTTP, and idempotent persistence.                                           |
 | `reliable-order-platform`                             | Java 21 reliability project for idempotent order creation, transactional outbox, consumer dedupe, JWT, Redis, Kafka, and ops.                                   |
 | `real-time-inventory-platform`                        | Versioned retail inventory visibility, latest-state stream reduction, and exact/time-window transaction deduplication.                                          |
 | `amazon-order-tracking`                               | Event-first multi-carrier tracking with idempotent ingest, out-of-order replay, projections, caching, buyer/support authorization, audit, and a live dashboard. |
@@ -111,10 +117,10 @@ flowchart LR
 
 ## Verification Notes
 
-Last portfolio audit: 2026-08-05. Focused consolidation re-audit: 2026-08-13. Real-time inventory platform added and verified: 2026-08-16.
+Last portfolio audit: 2026-08-05. Focused consolidation re-audit: 2026-08-13. Real-time inventory platform added and verified: 2026-08-16. HLD 26–30 interview pack added and verified: 2026-08-22.
 
-- Java 17 and Maven 3.9 are available as the default toolchain.
-- JDK 21 is not installed locally. `mini-risk-management-platform` targets Java 21; it was verified with the installed IntelliJ JDK 25 using `-Dnet.bytebuddy.experimental=true`.
+- Maven 3.9 currently uses Java 17 by default. Temurin JDK 21 is installed at `C:\Program Files\Eclipse Adoptium\jdk-21.0.12.8-hotspot`; set `JAVA_HOME` explicitly for Java 21 modules.
+- The HLD 26 pre-trade module passed 13 tests and a live health check on JDK 21. HLD 27–30 passed 15 tests plus CLI demos; the aggregator HTTP endpoint also passed a live request.
 - Docker, Docker Compose, and kubectl CLIs are on PATH, but the Docker daemon is not reachable from this terminal and kubectl has no current context. Full container and cluster smoke tests still require a responsive Docker Desktop engine and Kubernetes context.
 - The old `Booking` folder has been archived as `_archive/2026-08-05-flattened-wrappers/Booking-legacy`. Use `hotel-booking-service` as the active copy.
 - The 2026-08-13 re-audit found no project that should be merged immediately. It updated the active list and documentation standard for the newer tracked projects.
