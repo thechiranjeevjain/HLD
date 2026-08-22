@@ -2,7 +2,11 @@
 
 Runnable Java system-design projects for learning, interview practice, and production-readiness study. This README is the repository owner map: start here to choose a path, find the project that owns a concept, run its proof, and distinguish interview evidence from production evidence.
 
+<!-- project-catalog:summary:start -->
+
 The tracked portfolio contains **30 canonical projects**. Keep them separate: focused projects teach one hard idea, while flagship projects integrate multiple ideas without reimplementing every subsystem.
+
+<!-- project-catalog:summary:end -->
 
 ## Start Here
 
@@ -30,14 +34,18 @@ flowchart LR
     I -. "only with a real deployment objective" .-> P
 ```
 
-| Stage                       | Learn here                                                                                                                                                       | Exit condition                                                            |
-| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| 1 — Foundations             | `web-server-lab`, `cache-lab`, `message-queue-lab`, `mini-kv-storage-engine`, `java-concurrency-lab`                                                             | Explain the primitive, its invariant, and its main failure mode           |
-| 2 — Service design          | `product-catalog-api`, `authentication-service`, `url-shortener`                                                                                                 | Design a clean API, persistence boundary, validation, and authorization   |
-| 3 — Workflows               | `notification-platform`, `distributed-task-scheduler`, `ecommerce-backend`, `ride-sharing-backend`, `hotel-booking-service`                                      | Walk a stateful business flow through success, retry, and partial failure |
-| 4 — Distributed correctness | `multi-service-aggregator`, `reliable-order-platform`, `distributed-database`, `dropbox-file-sync-demo`, `real-time-inventory-platform`, `amazon-order-tracking` | Defend ordering, idempotency, replay, state ownership, and recovery       |
-| 5 — Specialization          | Trading, payments, fraud, and AI projects                                                                                                                        | Connect general patterns to domain-specific constraints                   |
-| 6 — Interview delivery      | Project interview guides plus the shared HLD framework                                                                                                           | Reach R4: explain, draw, deliver, and defend without notes                |
+<!-- project-catalog:learning-stages:start -->
+
+| Stage                       | Learn here                                                                                                                                                                                                                                                                                       | Exit condition                                                            |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------- |
+| 1 — Foundations             | `web-server-lab`, `cache-lab`, `message-queue-lab`, `mini-kv-storage-engine`, `java-concurrency-lab`                                                                                                                                                                                             | Explain the primitive, its invariant, and its main failure mode           |
+| 2 — Service design          | `product-catalog-api`, `authentication-service`, `url-shortener`                                                                                                                                                                                                                                 | Design a clean API, persistence boundary, validation, and authorization   |
+| 3 — Workflows               | `hotel-booking-service`, `notification-platform`, `distributed-task-scheduler`, `ride-sharing-backend`, `ecommerce-backend`                                                                                                                                                                      | Walk a stateful business flow through success, retry, and partial failure |
+| 4 — Distributed correctness | `multi-service-aggregator`, `reliable-order-platform`, `distributed-database`, `dropbox-file-sync-demo`, `real-time-inventory-platform`, `amazon-order-tracking`, `employee-document-upload-system`                                                                                              | Defend ordering, idempotency, replay, state ownership, and recovery       |
+| 5 — Specialization          | `fraud-detection-platform`, `ai-risk-fraud-investigation-assistant`, `stripe-ledger-reconciliation`, `exchange-lite`, `trading-risk-platform`, `mini-risk-management-platform`, `exchange-connectivity-platform`, `market-data-platform`, `electronic-trading-platform`, `cloud-ai-coding-agent` | Connect general patterns to domain-specific constraints                   |
+| 6 — Interview delivery      | Project interview guides plus the shared HLD framework                                                                                                                                                                                                                                           | Reach R4: explain, draw, deliver, and defend without notes                |
+
+<!-- project-catalog:learning-stages:end -->
 
 Do not wait to finish every stage before interviewing. Choose one path below, make one flagship deep, and use focused labs only to repair weak concepts.
 
@@ -82,6 +90,8 @@ Stop at interview readiness (R4) before adding production infrastructure.
 ## Complete Portfolio Map
 
 The **Owns** column is the reason the project exists. If two projects touch the same technology, follow the owner rather than merging them.
+
+<!-- project-catalog:portfolio:start -->
 
 ### Foundations and focused labs
 
@@ -138,6 +148,8 @@ The **Owns** column is the reason the project exists. If two projects touch the 
 | Project                                                  | Owns                                                                                     | Maven entry             |
 | -------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ----------------------- |
 | [Cloud AI Coding Agent](cloud-ai-coding-agent/README.md) | Agent orchestration, provider-neutral LLM boundary, WebSockets, React UI, and sandboxing | `cloud-ai-coding-agent` |
+
+<!-- project-catalog:portfolio:end -->
 
 ## Trading Platform Ownership and Flow
 
@@ -228,13 +240,14 @@ Always prefer the exact commands in a project README when they differ from these
 
 ### Repository-level sources of truth
 
-| Document                                                         | Owns                                                              |
-| ---------------------------------------------------------------- | ----------------------------------------------------------------- |
-| This `README.md`                                                 | Whole-repository navigation, project ownership, and learning flow |
-| [Common HLD interview flows](docs/COMMON_HLD_INTERVIEW_FLOWS.md) | Reusable 40–60 minute system-design method                        |
-| [HLD 26–30 roadmap](HLD-26-30-LEARNING-ROADMAP.md)               | Ranking, ROI, readiness gates, progress, and revision order       |
-| [HLD 26–30 runnable pack](HLD-26-30-INTERVIEW-PACK.md)           | Runnable locations and commands for HLD 26–30                     |
-| [Readiness levels](docs/READINESS_LEVELS.md)                     | Interview versus production evidence vocabulary                   |
+| Document                                                         | Owns                                                                              |
+| ---------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| This `README.md`                                                 | Whole-repository navigation, project ownership, and learning flow                 |
+| [`project-catalog.json`](project-catalog.json)                   | Machine-readable project identity, category, stage, build entry, and HLD metadata |
+| [Common HLD interview flows](docs/COMMON_HLD_INTERVIEW_FLOWS.md) | Reusable 40–60 minute system-design method                                        |
+| [HLD 26–30 roadmap](HLD-26-30-LEARNING-ROADMAP.md)               | Ranking, ROI, readiness gates, progress, and revision order                       |
+| [HLD 26–30 runnable pack](HLD-26-30-INTERVIEW-PACK.md)           | Runnable locations and commands for HLD 26–30                                     |
+| [Readiness levels](docs/READINESS_LEVELS.md)                     | Interview versus production evidence vocabulary                                   |
 
 ### Project-level convention
 
@@ -266,6 +279,38 @@ Use the labels `VERIFIED_LOCAL`, `IMPLEMENTED_UNVERIFIED`, `DESIGNED_ONLY`, and 
 - The canonical Real-Time Inventory application currently lives at `real-time-inventory-platform/real-time-inventory-platform`. Other project copies inside the outer wrapper are legacy mirror debt: do not edit or treat them as canonical. Flattening that wrapper is a separate destructive repository-maintenance task.
 
 Local-only `_archive` and `_meta` directories are ignored by Git and are not part of the tracked project map.
+
+## Adding a Project: One Entry, All Indexes
+
+`project-catalog.json` is the only project registry. Do not manually edit content between `project-catalog:*` comments.
+
+1. Create or reuse the canonical project directory with its `README.md` and Maven `pom.xml`.
+2. Add one `kind: "project"` entry to `project-catalog.json`. Choose one category and learning stage, state what the project owns, and point `mavenEntry` at the directory containing its canonical `pom.xml`.
+3. Add the optional `hld` object only when the project belongs in the HLD runnable pack.
+4. Run the refresh command from the repository root:
+
+```powershell
+npm run docs:refresh
+```
+
+That one command regenerates:
+
+- the canonical project count;
+- the whole-repository learning-stage index;
+- every category table in the complete portfolio map;
+- the HLD runnable index for entries carrying HLD metadata;
+- each canonical project's `CODE_FLOW.md`;
+- Markdown formatting.
+
+Then verify generated state:
+
+```powershell
+npm run docs:index:check
+npm run docs:code-flow:check
+npm run docs:audit
+```
+
+The fast checks fail when a top-level project is unregistered, a catalog path/build root is missing, generated indexes are stale, or a catalog project's code-flow guide no longer matches its tracked source. GitHub Actions runs both checks when project READMEs, Maven roots, catalog data, or index tooling change. High-ROI paths and interview rankings remain curated decisions; update them only when the recommended learning strategy actually changes.
 
 ## Shared Documentation Tooling
 
@@ -306,9 +351,9 @@ When adding or materially changing a project:
 
 1. Reuse the closest canonical project instead of creating a duplicate.
 2. Keep Java builds Maven-only.
-3. Give the project one explicit learning owner and add it to exactly one primary portfolio group here.
+3. Add or update one entry in `project-catalog.json`; never hand-maintain generated index blocks.
 4. Add or update its README, interview guide, diagrams, demo path, and readiness boundary in proportion to scope.
 5. Verify the smallest real execution path and state the evidence level honestly.
-6. Run `npm run docs:format` and `npm run docs:audit` from the repository root.
+6. Run `npm run docs:refresh` and `npm run docs:audit` from the repository root.
 7. Keep rankings in the HLD roadmap and technical detail in project documentation.
 8. Commit only the intended files and keep `main` aligned with `origin/main`.

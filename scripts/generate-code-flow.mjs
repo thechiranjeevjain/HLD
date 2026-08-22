@@ -1,16 +1,22 @@
 import { execFileSync } from "node:child_process";
 import { readFile, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
+import prettier from "prettier";
+import { loadProjectCatalog } from "./project-catalog.mjs";
+
+const checkOnly = process.argv.includes("--check");
+const changedFiles = [];
 
 const tracked = execFileSync("git", ["ls-files"], { encoding: "utf8" })
   .split(/\r?\n/)
   .filter(Boolean)
   .map((file) => file.replaceAll("\\", "/"));
 
-const projects = tracked
-  .filter((file) => /^[^/]+\/README\.md$/.test(file))
-  .map((file) => file.split("/", 1)[0])
-  .filter((project) => project !== "real-time-inventory-platform");
+const catalog = await loadProjectCatalog();
+const projects = catalog.projects.map((entry) => ({
+  path: entry.path,
+  title: entry.name,
+}));
 
 function titleCase(value) {
   return value
@@ -25,49 +31,81 @@ function escapeCell(value) {
 
 function classify(name, path) {
   if (/Application$|Main$|Server$/.test(name)) return "Entry point";
-  if (/Controller$|Resource$|Endpoint$|Handler$/.test(name)) return "Inbound adapter";
-  if (/Service$|Processor$|Engine$|Coordinator$|Scheduler$|Manager$|UseCase$/.test(name)) return "Application/domain logic";
-  if (/Repository$|Dao$|Store$|Persistence$|Wal$/.test(name)) return "Persistence adapter";
-  if (/Publisher$|Producer$|Consumer$|Listener$|Queue$|Outbox$/.test(name)) return "Messaging/async adapter";
-  if (/Config$|Configuration$|Security$|Filter$|Interceptor$/.test(name)) return "Configuration/security";
+  if (/Controller$|Resource$|Endpoint$|Handler$/.test(name))
+    return "Inbound adapter";
+  if (
+    /Service$|Processor$|Engine$|Coordinator$|Scheduler$|Manager$|UseCase$/.test(
+      name,
+    )
+  )
+    return "Application/domain logic";
+  if (/Repository$|Dao$|Store$|Persistence$|Wal$/.test(name))
+    return "Persistence adapter";
+  if (/Publisher$|Producer$|Consumer$|Listener$|Queue$|Outbox$/.test(name))
+    return "Messaging/async adapter";
+  if (/Config$|Configuration$|Security$|Filter$|Interceptor$/.test(name))
+    return "Configuration/security";
   if (/Client$|Gateway$|Adapter$/.test(name)) return "Outbound adapter";
-  if (/Request$|Response$|Dto$|View$|Command$|Event$|Result$/.test(name)) return "API/message contract";
-  if (/Entity$|Model$|Aggregate$|Order$|User$|Product$|Ride$|Link$|Task$|Record$/.test(name)) return "Domain/data model";
-  if (/frontend|src\/main\/resources\/static/i.test(path)) return "User interface";
+  if (/Request$|Response$|Dto$|View$|Command$|Event$|Result$/.test(name))
+    return "API/message contract";
+  if (
+    /Entity$|Model$|Aggregate$|Order$|User$|Product$|Ride$|Link$|Task$|Record$/.test(
+      name,
+    )
+  )
+    return "Domain/data model";
+  if (/frontend|src\/main\/resources\/static/i.test(path))
+    return "User interface";
   return "Supporting logic";
 }
 
 function responsibility(name, category) {
   const descriptions = {
     "Entry point": "Bootstraps the process and wires the runtime.",
-    "Inbound adapter": "Accepts an inbound call, validates its boundary contract, and delegates work.",
-    "Application/domain logic": "Coordinates the use case and enforces domain decisions.",
-    "Persistence adapter": "Reads or writes durable state behind a storage boundary.",
-    "Messaging/async adapter": "Publishes, consumes, retries, or records asynchronous work.",
-    "Configuration/security": "Defines runtime wiring, authentication, authorization, or cross-cutting policy.",
-    "Outbound adapter": "Calls an external system through an isolated integration boundary.",
-    "API/message contract": "Carries validated data across an API or messaging boundary.",
-    "Domain/data model": "Represents domain state, identity, or an invariant-bearing value.",
+    "Inbound adapter":
+      "Accepts an inbound call, validates its boundary contract, and delegates work.",
+    "Application/domain logic":
+      "Coordinates the use case and enforces domain decisions.",
+    "Persistence adapter":
+      "Reads or writes durable state behind a storage boundary.",
+    "Messaging/async adapter":
+      "Publishes, consumes, retries, or records asynchronous work.",
+    "Configuration/security":
+      "Defines runtime wiring, authentication, authorization, or cross-cutting policy.",
+    "Outbound adapter":
+      "Calls an external system through an isolated integration boundary.",
+    "API/message contract":
+      "Carries validated data across an API or messaging boundary.",
+    "Domain/data model":
+      "Represents domain state, identity, or an invariant-bearing value.",
     "User interface": "Presents state and initiates user actions.",
-    "Supporting logic": "Provides a focused algorithm or shared implementation detail.",
+    "Supporting logic":
+      "Provides a focused algorithm or shared implementation detail.",
   };
   return `${name} ${descriptions[category].charAt(0).toLowerCase()}${descriptions[category].slice(1)}`;
 }
 
 function extractMethods(source, className) {
   const methods = [];
-  const pattern = /\b(?:public|protected)\s+(?:static\s+)?(?:<[^>]+>\s+)?[\w<>?,.\[\] ]+\s+(\w+)\s*\([^;{}]*\)\s*(?:throws [^{]+)?\{/g;
+  const pattern =
+    /\b(?:public|protected)\s+(?:static\s+)?(?:<[^>]+>\s+)?[\w<>?,.\[\] ]+\s+(\w+)\s*\([^;{}]*\)\s*(?:throws [^{]+)?\{/g;
   for (const match of source.matchAll(pattern)) {
-    if (match[1] !== className && !methods.includes(match[1])) methods.push(match[1]);
+    if (match[1] !== className && !methods.includes(match[1]))
+      methods.push(match[1]);
   }
   return methods.slice(0, 6);
 }
 
 function extractEndpoints(source, className) {
   const endpoints = [];
-  const pattern = /@(Get|Post|Put|Patch|Delete)Mapping(?:\s*\(\s*(?:value\s*=\s*)?["']([^"']*)["'][^)]*\))?/g;
+  const pattern =
+    /@(Get|Post|Put|Patch|Delete)Mapping(?:\s*\(\s*(?:value\s*=\s*)?["']([^"']*)["'][^)]*\))?/g;
   for (const match of source.matchAll(pattern)) {
-    endpoints.push({ owner: className, verb: match[1].toUpperCase(), path: match[2] || "(class-level/default path)" });
+    endpoints.push({
+      owner: className,
+      verb: match[1].toUpperCase(),
+      path: match[2] || "(class-level/default path)",
+    });
   }
   return endpoints;
 }
@@ -75,14 +113,24 @@ function extractEndpoints(source, className) {
 function firstUsefulParagraph(readme) {
   const blocks = readme.replace(/```[\s\S]*?```/g, "").split(/\n\s*\n/);
   return (
-    blocks.find((block) => {
-      const text = block.trim();
-      return text && !text.startsWith("#") && !text.startsWith("|") && !text.startsWith("-") && !text.startsWith("[");
-    })?.trim() ?? "See the project README for its business scope and runnable scenarios."
+    blocks
+      .find((block) => {
+        const text = block.trim();
+        return (
+          text &&
+          !text.startsWith("#") &&
+          !text.startsWith("|") &&
+          !text.startsWith("-") &&
+          !text.startsWith("[")
+        );
+      })
+      ?.trim() ??
+    "See the project README for its business scope and runnable scenarios."
   );
 }
 
-for (const project of projects) {
+for (const projectEntry of projects) {
+  const project = projectEntry.path;
   const sourcePaths = tracked.filter(
     (file) =>
       file.startsWith(`${project}/`) &&
@@ -95,11 +143,22 @@ for (const project of projects) {
   for (const path of sourcePaths) {
     if (!existsSync(path)) continue;
     const source = await readFile(path, "utf8");
-    const fallback = path.split("/").at(-1).replace(/\.[^.]+$/, "");
-    const name = source.match(/\b(?:class|interface|record|enum|object)\s+(\w+)/)?.[1] ?? fallback;
+    const fallback = path
+      .split("/")
+      .at(-1)
+      .replace(/\.[^.]+$/, "");
+    const name =
+      source.match(/\b(?:class|interface|record|enum|object)\s+(\w+)/)?.[1] ??
+      fallback;
     const category = classify(name, path);
     const methods = extractMethods(source, name);
-    units.push({ path, name, category, methods, responsibility: responsibility(name, category) });
+    units.push({
+      path,
+      name,
+      category,
+      methods,
+      responsibility: responsibility(name, category),
+    });
     endpoints.push(...extractEndpoints(source, name));
   }
 
@@ -111,15 +170,28 @@ for (const project of projects) {
     byCategory.get(unit.category).push(unit.name);
   }
 
-  const inbound = byCategory.get("Inbound adapter")?.[0] ?? byCategory.get("Entry point")?.[0] ?? units[0]?.name ?? "Caller";
-  const domain = byCategory.get("Application/domain logic")?.[0] ?? byCategory.get("Supporting logic")?.[0] ?? "Core logic";
-  const storage = byCategory.get("Persistence adapter")?.[0] ?? byCategory.get("Domain/data model")?.[0] ?? "State";
+  const inbound =
+    byCategory.get("Inbound adapter")?.[0] ??
+    byCategory.get("Entry point")?.[0] ??
+    units[0]?.name ??
+    "Caller";
+  const domain =
+    byCategory.get("Application/domain logic")?.[0] ??
+    byCategory.get("Supporting logic")?.[0] ??
+    "Core logic";
+  const storage =
+    byCategory.get("Persistence adapter")?.[0] ??
+    byCategory.get("Domain/data model")?.[0] ??
+    "State";
   const asyncUnit = byCategory.get("Messaging/async adapter")?.[0];
   const outbound = byCategory.get("Outbound adapter")?.[0];
-  const title = titleCase(project);
+  const title = projectEntry.title || titleCase(project);
 
   const componentLines = [...byCategory.entries()]
-    .map(([category, names]) => `| ${category} | ${names.map((name) => `\`${name}\``).join(", ")} |`)
+    .map(
+      ([category, names]) =>
+        `| ${category} | ${names.map((name) => `\`${name}\``).join(", ")} |`,
+    )
     .join("\n");
   const sourceLines = units
     .map(
@@ -128,13 +200,27 @@ for (const project of projects) {
     )
     .join("\n");
   const endpointLines = endpoints.length
-    ? endpoints.map((item) => `| \`${item.verb}\` | \`${escapeCell(item.path)}\` | \`${item.owner}\` |`).join("\n")
+    ? endpoints
+        .map(
+          (item) =>
+            `| \`${item.verb}\` | \`${escapeCell(item.path)}\` | \`${item.owner}\` |`,
+        )
+        .join("\n")
     : "| N/A | No annotation-based HTTP endpoint; execution starts through the process API, CLI, test harness, or protocol adapter. | See entry points below. |";
 
-  const asyncArrow = asyncUnit ? `\n    Domain --> Async["${asyncUnit}"]\n    Async --> Worker["Async consumer / worker"]` : "";
-  const outboundArrow = outbound ? `\n    Domain --> External["${outbound}"]` : "";
-  const asyncSequence = asyncUnit ? `\n    Domain->>Async: publish durable or retryable work\n    Async-->>Domain: accepted / recorded` : "";
-  const persistSequence = storage !== "State" ? `\n    Domain->>Store: read or persist state\n    Store-->>Domain: current durable result` : "";
+  const asyncArrow = asyncUnit
+    ? `\n    Domain --> Async["${asyncUnit}"]\n    Async --> Worker["Async consumer / worker"]`
+    : "";
+  const outboundArrow = outbound
+    ? `\n    Domain --> External["${outbound}"]`
+    : "";
+  const asyncSequence = asyncUnit
+    ? `\n    Domain->>Async: publish durable or retryable work\n    Async-->>Domain: accepted / recorded`
+    : "";
+  const persistSequence =
+    storage !== "State"
+      ? `\n    Domain->>Store: read or persist state\n    Store-->>Domain: current durable result`
+      : "";
 
   const document = `# ${title} Code Flow
 
@@ -239,7 +325,29 @@ ${outbound ? `5. Inspect \`${outbound}\` for timeout, retry, circuit-breaking, a
 - ${existsSync(`${project}/docs/INTERVIEW_GUIDE.md`) ? "[Interview guide](./docs/INTERVIEW_GUIDE.md)" : existsSync(`${project}/INTERVIEW_GUIDE.md`) ? "[Interview guide](./INTERVIEW_GUIDE.md)" : "Use this guide as the primary interview walkthrough."}
 `;
 
-  await writeFile(`${project}/CODE_FLOW.md`, document, "utf8");
+  const outputFile = `${project}/CODE_FLOW.md`;
+  const expected = await prettier.format(document, { filepath: outputFile });
+  const current = existsSync(outputFile)
+    ? (await readFile(outputFile, "utf8")).replaceAll("\r\n", "\n")
+    : null;
+  if (current !== expected) {
+    changedFiles.push(outputFile);
+    if (!checkOnly) await writeFile(outputFile, expected, "utf8");
+  }
 }
 
-console.log(`Generated ${projects.length} project CODE_FLOW.md files from tracked source.`);
+if (checkOnly && changedFiles.length > 0) {
+  console.error(
+    `Generated code-flow guides are stale: ${changedFiles.join(", ")}`,
+  );
+  console.error("Run npm run docs:code-flow and commit the generated changes.");
+  process.exitCode = 1;
+} else if (checkOnly) {
+  console.log(
+    `Code-flow check passed for ${projects.length} catalog projects.`,
+  );
+} else {
+  console.log(
+    `Generated code-flow guides for ${projects.length} projects; ${changedFiles.length} file(s) changed.`,
+  );
+}

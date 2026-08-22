@@ -5,10 +5,14 @@
   "description": "Shared documentation tooling for all SystemDesignProjects subdirectories.",
   "scripts": {
     "diagram:example": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/render-mermaid.ps1 -Source docs/mermaid-example.mmd -Output docs/mermaid-example.svg",
+    "docs:index": "node scripts/generate-project-index.mjs",
+    "docs:index:check": "node scripts/generate-project-index.mjs --check",
     "docs:code-flow": "node scripts/generate-code-flow.mjs",
+    "docs:code-flow:check": "node scripts/generate-code-flow.mjs --check",
+    "docs:refresh": "npm run docs:index && npm run docs:code-flow && npm run docs:format",
     "docs:standardize": "node scripts/standardize-diagrams.mjs",
     "docs:format": "node scripts/format-docs.mjs",
-    "docs:audit": "node scripts/audit-docs.mjs"
+    "docs:audit": "npm run docs:index:check && npm run docs:code-flow:check && node scripts/audit-docs.mjs"
   },
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "11.16.0",

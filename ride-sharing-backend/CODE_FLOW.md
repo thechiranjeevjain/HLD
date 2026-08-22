@@ -1,4 +1,4 @@
-# Ride Sharing Backend Code Flow
+# Ride-Sharing Backend Code Flow
 
 This is the single code-flow guide for the project. It connects the business request to concrete source files, explains both architectural levels, and shows where validation, state changes, asynchronous work, and responses occur.
 

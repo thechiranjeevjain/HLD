@@ -4,6 +4,8 @@ Each topic is a separate runnable project or standalone module. The implementati
 
 For learning order, interview ROI, readiness gates, and time-boxed preparation paths, use the canonical [owner learning roadmap](HLD-26-30-LEARNING-ROADMAP.md). This file remains the runnable project index and does not duplicate those rankings.
 
+<!-- project-catalog:hld-index:start -->
+
 | #   | Topic                                  | Canonical location                           | Runnable proof                                                                |
 | --- | -------------------------------------- | -------------------------------------------- | ----------------------------------------------------------------------------- |
 | 26  | Pre-Trade Risk Platform                | `trading-risk-platform/pretrade-risk-engine` | Hot-path check/reserve, dynamic config, journal/snapshot recovery, HA fencing |
@@ -11,6 +13,8 @@ For learning order, interview ROI, readiness gates, and time-boxed preparation p
 | 28  | Market Data Platform                   | `market-data-platform`                       | Gap repair, normalization, book reconstruction, fan-out, slow consumers       |
 | 29  | End-to-End Electronic Trading Platform | `electronic-trading-platform`                | Gateway → risk → OMS → connectivity → execution → positions → replay          |
 | 30  | Multi-Service Aggregator               | `multi-service-aggregator`                   | Parallel calls, timeout/retry, partial results, idempotent persistence, HTTP  |
+
+<!-- project-catalog:hld-index:end -->
 
 ## How Scope Is Separated
 

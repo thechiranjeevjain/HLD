@@ -1,12 +1,12 @@
-# Mini KV Storage Engine Code Flow
+# Exchange Connectivity Platform Code Flow
 
 This is the single code-flow guide for the project. It connects the business request to concrete source files, explains both architectural levels, and shows where validation, state changes, asynchronous work, and responses occur.
 
 ## Scope and outcome
 
-A Java 17 storage-engine lab that implements a single-node key-value store with a write-ahead log, in-memory state, TTL, LRU cache, recovery, and WAL compaction.
+A runnable Java 17 model of the boundary between an internal OMS and multiple electronic venues. The code focuses on the states that make this design difficult: FIX/OUCH session ownership, durable outbound sequence numbers, inbound gap recovery, throttling, duplicate suppression, active/standby fencing, and the **sent-but-not-acknowledged** outcome.
 
-The tracked production-code inventory used by this guide contains **2 source units** and **0 annotation-discovered HTTP operations**. Generated/build output and test sources are intentionally excluded from the runtime path.
+The tracked production-code inventory used by this guide contains **1 source units** and **0 annotation-discovered HTTP operations**. Generated/build output and test sources are intentionally excluded from the runtime path.
 
 ## High-Level Design
 
@@ -14,8 +14,8 @@ At the system level, callers enter through an inbound adapter. The adapter owns 
 
 ```mermaid
 flowchart LR
-    Caller["Client / operator / upstream system"] --> Inbound["Main"]
-    Inbound --> Domain["and"]
+    Caller["Client / operator / upstream system"] --> Inbound["ExchangeConnectivityPlatform"]
+    Inbound --> Domain["ExchangeConnectivityPlatform"]
     Domain --> Store["State"]
     Domain --> Result["Response / observable result"]
 ```
@@ -36,8 +36,8 @@ The low-level path keeps orchestration directional: inbound adapter → applicat
 sequenceDiagram
     autonumber
     actor Caller
-    participant Inbound as Main
-    participant Domain as and
+    participant Inbound as ExchangeConnectivityPlatform
+    participant Domain as ExchangeConnectivityPlatform
     participant Store as State
     Caller->>Inbound: submit input
     Inbound->>Inbound: parse and boundary-validate
@@ -49,10 +49,9 @@ sequenceDiagram
 
 ### Component map
 
-| Responsibility   | Concrete code |
-| ---------------- | ------------- |
-| Entry point      | `Main`        |
-| Supporting logic | `and`         |
+| Responsibility   | Concrete code                  |
+| ---------------- | ------------------------------ |
+| Supporting logic | `ExchangeConnectivityPlatform` |
 
 ### Inbound operations
 
@@ -64,19 +63,18 @@ sequenceDiagram
 
 Read this table top-down by category, then follow the linked files. “Key methods” are discovered from the checked-in implementation and identify useful debugging/interview entry points.
 
-| Source file                                             | Role             | Responsibility and important methods                                                                            |
-| ------------------------------------------------------- | ---------------- | --------------------------------------------------------------------------------------------------------------- |
-| [`Main.java`](./src/main/java/org/chijai/Main.java)     | Entry point      | Main bootstraps the process and wires the runtime. Key methods: `main()`.                                       |
-| [`MiniKV.java`](./src/main/java/org/chijai/MiniKV.java) | Supporting logic | and provides a focused algorithm or shared implementation detail. Key methods: `removeEldestEntry()`, `main()`. |
+| Source file                                                                                                         | Role             | Responsibility and important methods                                                                                                                                                              |
+| ------------------------------------------------------------------------------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`ExchangeConnectivityPlatform.java`](./src/main/java/com/techstudy/connectivity/ExchangeConnectivityPlatform.java) | Supporting logic | ExchangeConnectivityPlatform provides a focused algorithm or shared implementation detail. Key methods: `OrderIntent()`, `SendResult()`, `JournalEntry()`, `acquire()`, `owns()`, `tryAcquire()`. |
 
 ## End-to-end code-flow narrative
 
-1. Start at `Main`. It receives the external input and should perform only boundary parsing, authentication/authorization handoff, and request validation.
-2. Follow the call into `and`. This is the principal place to explain the use case, invariant checks, deduplication/concurrency decision, and success/failure result.
+1. Start at `ExchangeConnectivityPlatform`. It receives the external input and should perform only boundary parsing, authentication/authorization handoff, and request validation.
+2. Follow the call into `ExchangeConnectivityPlatform`. This is the principal place to explain the use case, invariant checks, deduplication/concurrency decision, and success/failure result.
 3. Continue into `State` for the durable or in-memory state transition. Transaction and consistency guarantees belong at this boundary, not in response mapping.
 4. This flow completes synchronously; background work is not part of the primary checked-in path.
 5. External-system behavior is either absent or represented behind another listed adapter.
-6. Return to `Main`, where typed outcomes become the public response or protocol result. Logging and metrics should preserve correlation identifiers without leaking secrets.
+6. Return to `ExchangeConnectivityPlatform`, where typed outcomes become the public response or protocol result. Logging and metrics should preserve correlation identifiers without leaking secrets.
 
 ## Failure and correctness checkpoints
 
@@ -90,7 +88,7 @@ Read this table top-down by category, then follow the linked files. “Key metho
 ## How to trace a scenario in the debugger
 
 1. Choose one operation from the inbound-operations table or the project’s demo script.
-2. Break at `Main`, then step into `and` rather than framework internals.
+2. Break at `ExchangeConnectivityPlatform`, then step into `ExchangeConnectivityPlatform` rather than framework internals.
 3. Inspect the command/request object immediately after validation.
 4. Stop before and after the call to `State` to compare intended and durable state.
 5. If messaging exists, capture the emitted identifier and continue from `the consumer/worker`.
@@ -99,5 +97,5 @@ Read this table top-down by category, then follow the linked files. “Key metho
 ## Related project documentation
 
 - [Project README](./README.md)
-- [Specialized diagrams](./docs/DIAGRAMS.md)
-- [Interview guide](./docs/INTERVIEW_GUIDE.md)
+- [Architecture details](./docs/ARCHITECTURE.md)
+- [Interview guide](./INTERVIEW_GUIDE.md)

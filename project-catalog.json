@@ -1,0 +1,399 @@
+{
+  "schemaVersion": 1,
+  "categories": [
+    {
+      "id": "foundations",
+      "title": "Foundations and focused labs"
+    },
+    {
+      "id": "workflows",
+      "title": "APIs and business workflows"
+    },
+    {
+      "id": "distributed",
+      "title": "Distributed correctness and reliability"
+    },
+    {
+      "id": "finance",
+      "title": "Trading, payments, fraud, and risk"
+    },
+    {
+      "id": "ai",
+      "title": "AI engineering"
+    }
+  ],
+  "entries": [
+    {
+      "id": "web-server-lab",
+      "kind": "project",
+      "name": "Web Server Lab",
+      "root": "web-server-lab",
+      "path": "web-server-lab",
+      "category": "foundations",
+      "stage": 1,
+      "owns": "Minimal blocking HTTP parsing and response lifecycle",
+      "mavenEntry": "web-server-lab"
+    },
+    {
+      "id": "cache-lab",
+      "kind": "project",
+      "name": "Cache Lab",
+      "root": "cache-lab",
+      "path": "cache-lab",
+      "category": "foundations",
+      "stage": 1,
+      "owns": "LRU, TTL, eviction, and cache metrics",
+      "mavenEntry": "cache-lab"
+    },
+    {
+      "id": "message-queue-lab",
+      "kind": "project",
+      "name": "Message Queue Lab",
+      "root": "message-queue-lab",
+      "path": "message-queue-lab",
+      "category": "foundations",
+      "stage": 1,
+      "owns": "Acknowledgement, retry, and dead-letter behavior",
+      "mavenEntry": "message-queue-lab"
+    },
+    {
+      "id": "mini-kv-storage-engine",
+      "kind": "project",
+      "name": "Mini KV Storage Engine",
+      "root": "mini-kv-storage-engine",
+      "path": "mini-kv-storage-engine",
+      "category": "foundations",
+      "stage": 1,
+      "owns": "WAL-backed key-value storage, TTL, and compaction",
+      "mavenEntry": "mini-kv-storage-engine"
+    },
+    {
+      "id": "java-concurrency-lab",
+      "kind": "project",
+      "name": "Java Concurrency Lab",
+      "root": "java-concurrency-lab",
+      "path": "java-concurrency-lab",
+      "category": "foundations",
+      "stage": 1,
+      "owns": "Failure-first concurrency, bounded executors, locks, atomics, JMH, and JFR",
+      "mavenEntry": "java-concurrency-lab"
+    },
+    {
+      "id": "product-catalog-api",
+      "kind": "project",
+      "name": "Product Catalog API",
+      "root": "product-catalog-api",
+      "path": "product-catalog-api",
+      "category": "workflows",
+      "stage": 2,
+      "owns": "CRUD lifecycle, validation, duplicate SKU handling, and schema migration",
+      "mavenEntry": "product-catalog-api"
+    },
+    {
+      "id": "authentication-service",
+      "kind": "project",
+      "name": "Authentication Service",
+      "root": "authentication-service",
+      "path": "authentication-service",
+      "category": "workflows",
+      "stage": 2,
+      "owns": "Registration, login, JWT, roles, and OAuth boundary",
+      "mavenEntry": "authentication-service"
+    },
+    {
+      "id": "url-shortener",
+      "kind": "project",
+      "name": "URL Shortener",
+      "root": "url-shortener",
+      "path": "url-shortener",
+      "category": "workflows",
+      "stage": 2,
+      "owns": "Short-code generation, redirect reads, hit tracking, and rate limiting",
+      "mavenEntry": "url-shortener"
+    },
+    {
+      "id": "hotel-booking-service",
+      "kind": "project",
+      "name": "Hotel Booking Service",
+      "root": "hotel-booking-service",
+      "path": "hotel-booking-service",
+      "category": "workflows",
+      "stage": 3,
+      "owns": "Search/read API, soft deletion, security, UI, OpenAPI, and metrics",
+      "mavenEntry": "hotel-booking-service"
+    },
+    {
+      "id": "notification-platform",
+      "kind": "project",
+      "name": "Notification Platform",
+      "root": "notification-platform",
+      "path": "notification-platform",
+      "category": "workflows",
+      "stage": 3,
+      "owns": "Multi-channel delivery, provider failure, retry, and DLQ",
+      "mavenEntry": "notification-platform"
+    },
+    {
+      "id": "distributed-task-scheduler",
+      "kind": "project",
+      "name": "Distributed Task Scheduler",
+      "root": "distributed-task-scheduler",
+      "path": "distributed-task-scheduler",
+      "category": "workflows",
+      "stage": 3,
+      "owns": "Scheduling, worker leases, retries, and leader/lock behavior",
+      "mavenEntry": "distributed-task-scheduler"
+    },
+    {
+      "id": "ride-sharing-backend",
+      "kind": "project",
+      "name": "Ride-Sharing Backend",
+      "root": "ride-sharing-backend",
+      "path": "ride-sharing-backend",
+      "category": "workflows",
+      "stage": 3,
+      "owns": "Driver location, nearby search, matching, and ride state",
+      "mavenEntry": "ride-sharing-backend"
+    },
+    {
+      "id": "ecommerce-backend",
+      "kind": "project",
+      "name": "E-Commerce Backend",
+      "root": "ecommerce-backend",
+      "path": "ecommerce-backend",
+      "category": "workflows",
+      "stage": 3,
+      "owns": "Inventory reservation, order creation, payment, and order events",
+      "mavenEntry": "ecommerce-backend"
+    },
+    {
+      "id": "multi-service-aggregator",
+      "kind": "project",
+      "name": "Multi-Service Aggregator",
+      "root": "multi-service-aggregator",
+      "path": "multi-service-aggregator",
+      "category": "distributed",
+      "stage": 4,
+      "owns": "Concurrent fan-out, deadlines, retries, partial results, and idempotent persistence",
+      "mavenEntry": "multi-service-aggregator",
+      "hld": {
+        "number": 30,
+        "topic": "Multi-Service Aggregator",
+        "canonicalLocation": "multi-service-aggregator",
+        "runnableProof": "Parallel calls, timeout/retry, partial results, idempotent persistence, HTTP"
+      }
+    },
+    {
+      "id": "reliable-order-platform",
+      "kind": "project",
+      "name": "Reliable Order Platform",
+      "root": "reliable-order-platform",
+      "path": "reliable-order-platform",
+      "category": "distributed",
+      "stage": 4,
+      "owns": "Idempotent commands, transactional outbox, consumer dedupe, and operations",
+      "mavenEntry": "reliable-order-platform"
+    },
+    {
+      "id": "distributed-database",
+      "kind": "project",
+      "name": "Distributed Database",
+      "root": "distributed-database",
+      "path": "distributed-database",
+      "category": "distributed",
+      "stage": 4,
+      "owns": "TCP KV cluster, consistent hashing, replication, quorum, and recovery",
+      "mavenEntry": "distributed-database"
+    },
+    {
+      "id": "replicated-log-simulation",
+      "kind": "module",
+      "name": "Replicated Log Simulation",
+      "root": "distributed-database",
+      "path": "distributed-database/labs/replicated-log-simulation",
+      "category": "distributed",
+      "stage": 4,
+      "owns": "Focused partition and slow-replica log behavior",
+      "mavenEntry": "distributed-database/labs/replicated-log-simulation",
+      "readme": "distributed-database/labs/replicated-log-simulation/"
+    },
+    {
+      "id": "dropbox-file-sync-demo",
+      "kind": "project",
+      "name": "Dropbox File Sync",
+      "root": "dropbox-file-sync-demo",
+      "path": "dropbox-file-sync-demo",
+      "category": "distributed",
+      "stage": 4,
+      "owns": "Chunk upload, version commit, conflict copies, tombstones, and cursor replay",
+      "mavenEntry": "dropbox-file-sync-demo"
+    },
+    {
+      "id": "real-time-inventory-platform",
+      "kind": "project",
+      "name": "Real-Time Inventory",
+      "root": "real-time-inventory-platform",
+      "path": "real-time-inventory-platform/real-time-inventory-platform",
+      "category": "distributed",
+      "stage": 4,
+      "owns": "Versioned latest-state reduction and exact/time-window transaction dedupe",
+      "mavenEntry": "real-time-inventory-platform/real-time-inventory-platform"
+    },
+    {
+      "id": "amazon-order-tracking",
+      "kind": "project",
+      "name": "Amazon Order Tracking",
+      "root": "amazon-order-tracking",
+      "path": "amazon-order-tracking",
+      "category": "distributed",
+      "stage": 4,
+      "owns": "Idempotent ingest, out-of-order replay, projections, authorization, and audit",
+      "mavenEntry": "amazon-order-tracking"
+    },
+    {
+      "id": "employee-document-upload-system",
+      "kind": "project",
+      "name": "Employee Document Upload",
+      "root": "employee-document-upload-system",
+      "path": "employee-document-upload-system",
+      "category": "distributed",
+      "stage": 4,
+      "owns": "Signed upload intent, document review policy, roles, and infrastructure boundary",
+      "mavenEntry": "employee-document-upload-system/app"
+    },
+    {
+      "id": "fraud-detection-platform",
+      "kind": "project",
+      "name": "Fraud Detection Platform",
+      "root": "fraud-detection-platform",
+      "path": "fraud-detection-platform",
+      "category": "finance",
+      "stage": 5,
+      "owns": "Deterministic transaction ingestion and risk scoring",
+      "mavenEntry": "fraud-detection-platform"
+    },
+    {
+      "id": "ai-risk-fraud-investigation-assistant",
+      "kind": "project",
+      "name": "AI Risk & Fraud Investigation Assistant",
+      "root": "ai-risk-fraud-investigation-assistant",
+      "path": "ai-risk-fraud-investigation-assistant",
+      "category": "finance",
+      "stage": 5,
+      "owns": "Guarded casework, RAG citations, RBAC, approvals, audit, and outbox seams",
+      "mavenEntry": "ai-risk-fraud-investigation-assistant"
+    },
+    {
+      "id": "stripe-ledger-reconciliation",
+      "kind": "project",
+      "name": "Stripe Ledger Reconciliation",
+      "root": "stripe-ledger-reconciliation",
+      "path": "stripe-ledger-reconciliation",
+      "category": "finance",
+      "stage": 5,
+      "owns": "Idempotent payments, immutable double-entry accounting, webhook dedupe, and reconciliation",
+      "mavenEntry": "stripe-ledger-reconciliation"
+    },
+    {
+      "id": "exchange-lite",
+      "kind": "project",
+      "name": "ExchangeLite",
+      "root": "exchange-lite",
+      "path": "exchange-lite",
+      "category": "finance",
+      "stage": 5,
+      "owns": "Matching-engine internals, binary protocol, IPC, sidecar, and CLI",
+      "mavenEntry": "exchange-lite"
+    },
+    {
+      "id": "trading-risk-platform",
+      "kind": "project",
+      "name": "Trading Risk Platform",
+      "root": "trading-risk-platform",
+      "path": "trading-risk-platform",
+      "category": "finance",
+      "stage": 5,
+      "owns": "Venue-neutral risk services and the HLD 26 pre-trade risk engine",
+      "mavenEntry": "trading-risk-platform",
+      "hld": {
+        "number": 26,
+        "topic": "Pre-Trade Risk Platform",
+        "canonicalLocation": "trading-risk-platform/pretrade-risk-engine",
+        "runnableProof": "Hot-path check/reserve, dynamic config, journal/snapshot recovery, HA fencing"
+      }
+    },
+    {
+      "id": "mini-risk-management-platform",
+      "kind": "project",
+      "name": "Mini Risk Management Platform",
+      "root": "mini-risk-management-platform",
+      "path": "mini-risk-management-platform",
+      "category": "finance",
+      "stage": 5,
+      "owns": "Broad Java 21 risk microservices, messaging, deployment, and observability",
+      "mavenEntry": "mini-risk-management-platform"
+    },
+    {
+      "id": "exchange-connectivity-platform",
+      "kind": "project",
+      "name": "Exchange Connectivity Platform",
+      "root": "exchange-connectivity-platform",
+      "path": "exchange-connectivity-platform",
+      "category": "finance",
+      "stage": 5,
+      "owns": "HLD 27 sessions, sequence recovery, throttling, failover, dedupe, and uncertain outcomes",
+      "mavenEntry": "exchange-connectivity-platform",
+      "hld": {
+        "number": 27,
+        "topic": "Exchange Connectivity Platform",
+        "canonicalLocation": "exchange-connectivity-platform",
+        "runnableProof": "Sessions, sequences, resend, throttle, failover, dedupe, uncertain outcome"
+      }
+    },
+    {
+      "id": "market-data-platform",
+      "kind": "project",
+      "name": "Market Data Platform",
+      "root": "market-data-platform",
+      "path": "market-data-platform",
+      "category": "finance",
+      "stage": 5,
+      "owns": "HLD 28 sequencing, gap repair, normalization, books, fan-out, and slow consumers",
+      "mavenEntry": "market-data-platform",
+      "hld": {
+        "number": 28,
+        "topic": "Market Data Platform",
+        "canonicalLocation": "market-data-platform",
+        "runnableProof": "Gap repair, normalization, book reconstruction, fan-out, slow consumers"
+      }
+    },
+    {
+      "id": "electronic-trading-platform",
+      "kind": "project",
+      "name": "End-to-End Electronic Trading Platform",
+      "root": "electronic-trading-platform",
+      "path": "electronic-trading-platform",
+      "category": "finance",
+      "stage": 5,
+      "owns": "HLD 29 gateway-to-exchange lifecycle, executions, positions, recovery, and observability",
+      "mavenEntry": "electronic-trading-platform",
+      "hld": {
+        "number": 29,
+        "topic": "End-to-End Electronic Trading Platform",
+        "canonicalLocation": "electronic-trading-platform",
+        "runnableProof": "Gateway → risk → OMS → connectivity → execution → positions → replay"
+      }
+    },
+    {
+      "id": "cloud-ai-coding-agent",
+      "kind": "project",
+      "name": "Cloud AI Coding Agent",
+      "root": "cloud-ai-coding-agent",
+      "path": "cloud-ai-coding-agent",
+      "category": "ai",
+      "stage": 5,
+      "owns": "Agent orchestration, provider-neutral LLM boundary, WebSockets, React UI, and sandboxing",
+      "mavenEntry": "cloud-ai-coding-agent"
+    }
+  ]
+}
