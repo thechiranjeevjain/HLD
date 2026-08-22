@@ -1,198 +1,314 @@
 # System Design Projects
 
-This folder is organized for hands-on backend learning and interview explanation. Projects live directly under this directory. Old wrapper folders such as `capstone-projects` and `Backend5` are archived locally under `_archive`; generated learning metadata lives locally under `_meta`. Both local-only folders are ignored by Git.
+Runnable Java system-design projects for learning, interview practice, and production-readiness study. This README is the repository owner map: start here to choose a path, find the project that owns a concept, run its proof, and distinguish interview evidence from production evidence.
 
-For trading/system-design topics 26–30, use [HLD-26-30-LEARNING-ROADMAP.md](HLD-26-30-LEARNING-ROADMAP.md) for study order, ROI, readiness gates, and crunch-time paths. Use [HLD-26-30-INTERVIEW-PACK.md](HLD-26-30-INTERVIEW-PACK.md) for runnable project navigation. Interview scope and production readiness use the same canonical projects but separate evidence standards defined in [docs/READINESS_LEVELS.md](docs/READINESS_LEVELS.md).
+The tracked portfolio contains **30 canonical projects**. Keep them separate: focused projects teach one hard idea, while flagship projects integrate multiple ideas without reimplementing every subsystem.
 
-## Recommended Learning Path
+## Start Here
 
-Do not merge everything into one giant application. For interviews, it is stronger to have one or two deep flagship projects plus smaller focused labs you can explain quickly.
+| Goal                                          | First document                                                   | Outcome                                                                     |
+| --------------------------------------------- | ---------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Learn a reusable 40–60 minute HLD method      | [Common HLD interview flows](docs/COMMON_HLD_INTERVIEW_FLOWS.md) | A repeatable requirements → estimates → design → failure-analysis structure |
+| Prepare HLD 26–30 in the right order          | [HLD 26–30 owner roadmap](HLD-26-30-LEARNING-ROADMAP.md)         | Learning order, interview ROI, readiness gates, and crunch-time plans       |
+| Run the five HLD 26–30 demonstrations         | [HLD 26–30 runnable pack](HLD-26-30-INTERVIEW-PACK.md)           | Commands and ownership boundaries for each runnable vertical slice          |
+| Separate interview scope from production work | [Readiness levels](docs/READINESS_LEVELS.md)                     | I1 interview readiness versus P0–P4 production evidence                     |
+| Choose a project by concept                   | [Complete portfolio map](#complete-portfolio-map)                | One canonical owner for every major learning story                          |
 
-1. `trading-risk-platform`
-   - Best live interview demo for risk/exchange discussion.
-   - Includes a standalone `pretrade-risk-engine` with accepted/rejected orders, FIX input, fail-closed checks, market-data freshness, kill switch, circuit breaker, audit trail, race-condition demo, and P&L.
-2. `exchange-lite`
-   - Best low-level exchange internals project.
-   - Shows order book, binary protocol, engine runtime, IPC, sidecar, and CLI operations.
-3. `mini-risk-management-platform`
-   - Best broader microservices/platform project.
-   - Shows API gateway, order/risk/history/notification services, PostgreSQL, Kafka, Redis, Docker Compose, Kubernetes, metrics, and dashboards.
-4. Specialized capstones
-   - Use `reliable-order-platform` for outbox/idempotency/ops, `ai-risk-fraud-investigation-assistant` for guarded AI casework, and `cloud-ai-coding-agent` for agent orchestration and sandboxing.
-5. Focused services and labs
-   - Use these to practice one concept at a time: auth, CRUD, URL shortener, notification retries, scheduling, ride matching, fraud scoring, caching, queues, web servers, and KV storage.
+## Whole-Repository Learning Flow
 
-## Consolidation Decision
+```mermaid
+flowchart LR
+    F["1. Foundations<br/>web, cache, queue, KV, concurrency"]
+    S["2. Service design<br/>API, auth, data, validation"]
+    W["3. Business workflows<br/>orders, jobs, notifications, rides"]
+    D["4. Distributed correctness<br/>idempotency, logs, replay, recovery"]
+    X["5. Domain specialization<br/>trading, payments, fraud, AI"]
+    I["6. Interview delivery<br/>draw, explain, defend, adapt"]
+    P["Optional production track<br/>SLOs, HA, security, load, DR, operations"]
 
-The current layout should stay as separate runnable projects, not one giant application. The apparent overlaps have different interview purposes:
+    F --> S --> W --> D --> X --> I
+    I -. "only with a real deployment objective" .-> P
+```
 
-- `fraud-detection-platform` is the deterministic scoring service; `ai-risk-fraud-investigation-assistant` is the casework, RAG, approval, and audit layer.
-- `ecommerce-backend` teaches inventory, order, and payment flow; `reliable-order-platform` teaches idempotency, transactional outbox, consumer dedupe, JWT, and operations.
-- `exchange-lite`, `trading-risk-platform`, and `mini-risk-management-platform` should stay separate because they teach matching-engine internals, pre-trade risk, and microservice/platform architecture respectively.
-- `java-concurrency-lab` is not another risk product; it is a failure-first concurrency lab.
-- `dropbox-file-sync-demo` and `cloud-ai-coding-agent` are unique domains and should remain standalone.
+| Stage                       | Learn here                                                                                                                                                       | Exit condition                                                            |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| 1 — Foundations             | `web-server-lab`, `cache-lab`, `message-queue-lab`, `mini-kv-storage-engine`, `java-concurrency-lab`                                                             | Explain the primitive, its invariant, and its main failure mode           |
+| 2 — Service design          | `product-catalog-api`, `authentication-service`, `url-shortener`                                                                                                 | Design a clean API, persistence boundary, validation, and authorization   |
+| 3 — Workflows               | `notification-platform`, `distributed-task-scheduler`, `ecommerce-backend`, `ride-sharing-backend`, `hotel-booking-service`                                      | Walk a stateful business flow through success, retry, and partial failure |
+| 4 — Distributed correctness | `multi-service-aggregator`, `reliable-order-platform`, `distributed-database`, `dropbox-file-sync-demo`, `real-time-inventory-platform`, `amazon-order-tracking` | Defend ordering, idempotency, replay, state ownership, and recovery       |
+| 5 — Specialization          | Trading, payments, fraud, and AI projects                                                                                                                        | Connect general patterns to domain-specific constraints                   |
+| 6 — Interview delivery      | Project interview guides plus the shared HLD framework                                                                                                           | Reach R4: explain, draw, deliver, and defend without notes                |
 
-## Active Projects
+Do not wait to finish every stage before interviewing. Choose one path below, make one flagship deep, and use focused labs only to repair weak concepts.
 
-| Folder                                                | Purpose                                                                                                                                                         |
-| ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `product-catalog-api`                                 | CRUD API with product lifecycle, validation, duplicate SKU handling, PostgreSQL/Flyway shape.                                                                   |
-| `authentication-service`                              | Registration, login, JWT, roles, mock OAuth2 flow.                                                                                                              |
-| `url-shortener`                                       | Short-code generation, redirects, hit tracking, Redis-style rate limiting.                                                                                      |
-| `distributed-database`                                | TCP key-value cluster with replication, quorum behavior, consistent hashing, recovery.                                                                          |
-| `distributed-database/labs/replicated-log-simulation` | Focused replicated log and partition/slowness simulation.                                                                                                       |
-| `ecommerce-backend`                                   | Inventory reservation, order creation, payments, order events.                                                                                                  |
-| `notification-platform`                               | Multi-channel notification, retry, dead-letter behavior.                                                                                                        |
-| `distributed-task-scheduler`                          | Job scheduling, retries, worker flow, leader/lock concept.                                                                                                      |
-| `ride-sharing-backend`                                | Driver location, nearby search, ride request/status flow.                                                                                                       |
-| `fraud-detection-platform`                            | Transaction event ingestion and risk scoring.                                                                                                                   |
-| `ai-risk-fraud-investigation-assistant`               | Guarded AI fraud casework with deterministic rules, RAG citations, RBAC, approvals, audit, and outbox seams.                                                    |
-| `hotel-booking-service`                               | Hotel read/search/delete API, basic auth, browser UI, OpenAPI, metrics.                                                                                         |
-| `employee-document-upload-system`                     | Signed upload intent, document review policy, security roles, infra docs.                                                                                       |
-| `dropbox-file-sync-demo`                              | Dropbox-style sync invariants with chunk upload, version commits, conflict copies, tombstones, and cursor replay.                                               |
-| `exchange-lite`                                       | Matching engine, risk checks, binary protocol, engine/sidecar/CLI runtime.                                                                                      |
-| `trading-risk-platform`                               | Venue-neutral risk platform plus live pre-trade risk engine demo.                                                                                               |
-| `mini-risk-management-platform`                       | Java 21 microservices risk platform with Docker/Kubernetes/observability.                                                                                       |
-| `exchange-connectivity-platform`                      | HLD 27 venue gateway: FIX/OUCH sessions, sequence recovery, throttling, failover, dedupe, and uncertain outcomes.                                               |
-| `market-data-platform`                                | HLD 28 feed plant: gap repair, normalization, order-book reconstruction, fan-out, and slow-consumer isolation.                                                  |
-| `electronic-trading-platform`                         | HLD 29 end-to-end order flow through gateway, risk, OMS, venue connectivity, executions, positions, recovery, and metrics.                                      |
-| `multi-service-aggregator`                            | HLD 30 concurrent three-service aggregation with deadlines, retry, partial results, HTTP, and idempotent persistence.                                           |
-| `reliable-order-platform`                             | Java 21 reliability project for idempotent order creation, transactional outbox, consumer dedupe, JWT, Redis, Kafka, and ops.                                   |
-| `real-time-inventory-platform`                        | Versioned retail inventory visibility, latest-state stream reduction, and exact/time-window transaction deduplication.                                          |
-| `amazon-order-tracking`                               | Event-first multi-carrier tracking with idempotent ingest, out-of-order replay, projections, caching, buyer/support authorization, audit, and a live dashboard. |
-| `cloud-ai-coding-agent`                               | Cloud coding-agent demo with React, Spring Boot, WebSockets, provider-neutral LLM boundary, and Docker sandboxing.                                              |
-| `java-concurrency-lab`                                | Java 21 backend concurrency lab with failure demos, bounded executors, locks, atomics, JMH, and JFR.                                                            |
-| `cache-lab`                                           | LRU plus TTL cache behavior and metrics.                                                                                                                        |
-| `message-queue-lab`                                   | Queue retry, acknowledgement, and dead-letter behavior.                                                                                                         |
-| `mini-kv-storage-engine`                              | WAL-backed key-value store with TTL and compaction.                                                                                                             |
-| `web-server-lab`                                      | Minimal blocking HTTP server.                                                                                                                                   |
+## High-ROI Paths
 
-## Documentation Standard
+### General backend
 
-Each active project now has Markdown learning support. For most projects, start with:
+`product-catalog-api` → `authentication-service` → `multi-service-aggregator` → `reliable-order-platform` → `ecommerce-backend`
 
-- `README.md`: business purpose, stack, run commands, and smoke test.
-- `docs/INTERVIEW_GUIDE.md`: two-minute pitch, tradeoffs, failure cases, and FAQ.
-- `docs/DIAGRAMS.md`: Mermaid architecture and request-flow diagrams.
-- `docs/DEMO_SCRIPT.md`: exact commands and talking points for a live interview demo.
+This path covers API design, security, concurrency, resilience, idempotency, events, and cross-service workflows.
 
-Flagship projects may include additional deeper material such as ADRs, incident drills, operations guides, technology deep dives, and appendices.
+### Distributed systems
 
-### Shared Mermaid tooling
+`cache-lab` → `message-queue-lab` → `mini-kv-storage-engine` → `distributed-database` → `reliable-order-platform` → `dropbox-file-sync-demo`
 
-The repository root contains one Mermaid CLI setup shared by every project. Install it once from `G:\TechStudyNotes\SystemDesignProjects`:
+This path progresses from local data structures to logs, replication, quorum behavior, replay, deduplication, and conflict handling.
+
+### Electronic trading and low latency
+
+`java-concurrency-lab` → `exchange-lite` → HLD learning order **30 → 28 → 26 → 27 → 29**
+
+For final trading-interview revision, switch to **29 → 26 → 27 → 28 → 30**. The reason and readiness gates live only in the [HLD roadmap](HLD-26-30-LEARNING-ROADMAP.md).
+
+### Payments, ledger, and risk
+
+`fraud-detection-platform` → `stripe-ledger-reconciliation` → `ai-risk-fraud-investigation-assistant`
+
+This separates deterministic scoring, financial correctness/reconciliation, and guarded analyst casework.
+
+### Crunch-time trading preparation
+
+If time and energy are limited:
+
+1. Draw and deliver HLD 29 as the complete system story.
+2. Deep-dive HLD 26 for low-latency state and atomic reservation.
+3. Learn HLD 27's disconnect-after-write/`UNKNOWN` outcome.
+4. Learn HLD 28's gap-recovery and slow-consumer rules.
+5. Use HLD 30 as the general-backend resilience fallback.
+
+Stop at interview readiness (R4) before adding production infrastructure.
+
+## Complete Portfolio Map
+
+The **Owns** column is the reason the project exists. If two projects touch the same technology, follow the owner rather than merging them.
+
+### Foundations and focused labs
+
+| Project                                                    | Owns                                                                       | Maven entry              |
+| ---------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------ |
+| [Web Server Lab](web-server-lab/README.md)                 | Minimal blocking HTTP parsing and response lifecycle                       | `web-server-lab`         |
+| [Cache Lab](cache-lab/README.md)                           | LRU, TTL, eviction, and cache metrics                                      | `cache-lab`              |
+| [Message Queue Lab](message-queue-lab/README.md)           | Acknowledgement, retry, and dead-letter behavior                           | `message-queue-lab`      |
+| [Mini KV Storage Engine](mini-kv-storage-engine/README.md) | WAL-backed key-value storage, TTL, and compaction                          | `mini-kv-storage-engine` |
+| [Java Concurrency Lab](java-concurrency-lab/README.md)     | Failure-first concurrency, bounded executors, locks, atomics, JMH, and JFR | `java-concurrency-lab`   |
+
+### APIs and business workflows
+
+| Project                                                            | Owns                                                                     | Maven entry                  |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------------ | ---------------------------- |
+| [Product Catalog API](product-catalog-api/README.md)               | CRUD lifecycle, validation, duplicate SKU handling, and schema migration | `product-catalog-api`        |
+| [Authentication Service](authentication-service/README.md)         | Registration, login, JWT, roles, and OAuth boundary                      | `authentication-service`     |
+| [URL Shortener](url-shortener/README.md)                           | Short-code generation, redirect reads, hit tracking, and rate limiting   | `url-shortener`              |
+| [Hotel Booking Service](hotel-booking-service/README.md)           | Search/read API, soft deletion, security, UI, OpenAPI, and metrics       | `hotel-booking-service`      |
+| [Notification Platform](notification-platform/README.md)           | Multi-channel delivery, provider failure, retry, and DLQ                 | `notification-platform`      |
+| [Distributed Task Scheduler](distributed-task-scheduler/README.md) | Scheduling, worker leases, retries, and leader/lock behavior             | `distributed-task-scheduler` |
+| [Ride-Sharing Backend](ride-sharing-backend/README.md)             | Driver location, nearby search, matching, and ride state                 | `ride-sharing-backend`       |
+| [E-Commerce Backend](ecommerce-backend/README.md)                  | Inventory reservation, order creation, payment, and order events         | `ecommerce-backend`          |
+
+### Distributed correctness and reliability
+
+| Project                                                                                    | Owns                                                                                | Maven entry                                                 |
+| ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| [Multi-Service Aggregator](multi-service-aggregator/README.md)                             | Concurrent fan-out, deadlines, retries, partial results, and idempotent persistence | `multi-service-aggregator`                                  |
+| [Reliable Order Platform](reliable-order-platform/README.md)                               | Idempotent commands, transactional outbox, consumer dedupe, and operations          | `reliable-order-platform`                                   |
+| [Distributed Database](distributed-database/README.md)                                     | TCP KV cluster, consistent hashing, replication, quorum, and recovery               | `distributed-database`                                      |
+| [Replicated Log Simulation](distributed-database/labs/replicated-log-simulation/)          | Focused partition and slow-replica log behavior                                     | `distributed-database/labs/replicated-log-simulation`       |
+| [Dropbox File Sync](dropbox-file-sync-demo/README.md)                                      | Chunk upload, version commit, conflict copies, tombstones, and cursor replay        | `dropbox-file-sync-demo`                                    |
+| [Real-Time Inventory](real-time-inventory-platform/real-time-inventory-platform/README.md) | Versioned latest-state reduction and exact/time-window transaction dedupe           | `real-time-inventory-platform/real-time-inventory-platform` |
+| [Amazon Order Tracking](amazon-order-tracking/README.md)                                   | Idempotent ingest, out-of-order replay, projections, authorization, and audit       | `amazon-order-tracking`                                     |
+| [Employee Document Upload](employee-document-upload-system/README.md)                      | Signed upload intent, document review policy, roles, and infrastructure boundary    | `employee-document-upload-system/app`                       |
+
+### Trading, payments, fraud, and risk
+
+| Project                                                                                    | Owns                                                                                       | Maven entry                             |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | --------------------------------------- |
+| [Fraud Detection Platform](fraud-detection-platform/README.md)                             | Deterministic transaction ingestion and risk scoring                                       | `fraud-detection-platform`              |
+| [AI Risk & Fraud Investigation Assistant](ai-risk-fraud-investigation-assistant/README.md) | Guarded casework, RAG citations, RBAC, approvals, audit, and outbox seams                  | `ai-risk-fraud-investigation-assistant` |
+| [Stripe Ledger Reconciliation](stripe-ledger-reconciliation/README.md)                     | Idempotent payments, immutable double-entry accounting, webhook dedupe, and reconciliation | `stripe-ledger-reconciliation`          |
+| [ExchangeLite](exchange-lite/README.md)                                                    | Matching-engine internals, binary protocol, IPC, sidecar, and CLI                          | `exchange-lite`                         |
+| [Trading Risk Platform](trading-risk-platform/README.md)                                   | Venue-neutral risk services and the HLD 26 pre-trade risk engine                           | `trading-risk-platform`                 |
+| [Mini Risk Management Platform](mini-risk-management-platform/README.md)                   | Broad Java 21 risk microservices, messaging, deployment, and observability                 | `mini-risk-management-platform`         |
+| [Exchange Connectivity Platform](exchange-connectivity-platform/README.md)                 | HLD 27 sessions, sequence recovery, throttling, failover, dedupe, and uncertain outcomes   | `exchange-connectivity-platform`        |
+| [Market Data Platform](market-data-platform/README.md)                                     | HLD 28 sequencing, gap repair, normalization, books, fan-out, and slow consumers           | `market-data-platform`                  |
+| [End-to-End Electronic Trading Platform](electronic-trading-platform/README.md)            | HLD 29 gateway-to-exchange lifecycle, executions, positions, recovery, and observability   | `electronic-trading-platform`           |
+
+### AI engineering
+
+| Project                                                  | Owns                                                                                     | Maven entry             |
+| -------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ----------------------- |
+| [Cloud AI Coding Agent](cloud-ai-coding-agent/README.md) | Agent orchestration, provider-neutral LLM boundary, WebSockets, React UI, and sandboxing | `cloud-ai-coding-agent` |
+
+## Trading Platform Ownership and Flow
+
+HLD 29 integrates the flow; HLD 26–28 own the detailed subsystems. HLD 30 is a reusable resilience pattern and remains independent.
+
+```mermaid
+flowchart LR
+    C["Client / Algo"] --> G["Gateway"]
+    G --> R["HLD 26<br/>Pre-Trade Risk"]
+    R --> O["HLD 29<br/>OMS lifecycle"]
+    O --> X["HLD 27<br/>Exchange Connectivity"]
+    X --> V["Exchange"]
+    V --> X
+    X --> E["Executions"]
+    E --> O
+    E --> P["Positions / P&L"]
+    V --> M["HLD 28<br/>Market Data"]
+    M --> R
+    M --> C
+    A["HLD 30<br/>Concurrent Aggregator"] -. "general resilience pattern" .-> G
+```
+
+| Capability                                                                    | Deep owner | Integration rule                                           |
+| ----------------------------------------------------------------------------- | ---------- | ---------------------------------------------------------- |
+| Synchronous limits, reservation, dynamic configuration, recovery, fencing     | HLD 26     | HLD 29 calls a thin risk contract                          |
+| FIX/OUCH sessions, protocol sequences, throttling, failover, unknown orders   | HLD 27     | HLD 29 consumes normalized venue outcomes                  |
+| Feed recovery, normalization, books, and fan-out                              | HLD 28     | HLD 29 consumes fresh market state                         |
+| OMS lifecycle, cross-service ownership, executions, positions, reconciliation | HLD 29     | Integrates the platform without cloning HLD 26–28          |
+| Generic concurrent downstream aggregation                                     | HLD 30     | Reuse the pattern; do not force it into the trading domain |
+
+## How to Work Through Any Project
+
+1. Read its `README.md` for scope and the smallest runnable path.
+2. Read `docs/INTERVIEW_GUIDE.md` or the project’s timed HLD guide.
+3. Draw the architecture and critical sequence without notes.
+4. Run `mvn test`, then execute the documented demo.
+5. Explain which invariant each important test protects.
+6. Practice one dependency failure, duplicate, timeout, recovery, or overload scenario.
+7. Record interview progress only in the owning roadmap or guide.
+8. Open `PRODUCTION_READINESS.md` only after the interview answer reaches R4.
+
+Reading code is not completion. The interview output is a coherent design you can draw, defend, and modify under a changed requirement.
+
+## Build and Tooling Conventions
+
+- **Maven is the only canonical Java build system.** There are no Gradle files in canonical project paths.
+- A multi-module project uses its root `pom.xml`; exceptions are listed in the portfolio map.
+- Root `package.json` is documentation tooling, not a second Java build.
+- Node is also used by the Cloud AI Coding Agent frontend.
+- Java 17 is the baseline; projects that declare Java 21 must be run with JDK 21 explicitly.
+
+For a typical project:
 
 ```powershell
+cd G:\TechStudyNotes\SystemDesignProjects\<project>
+mvn clean verify
+mvn exec:java        # when the project README provides an exec entry point
+mvn spring-boot:run  # when the project is a Spring Boot service
+```
+
+For a Java 21 project:
+
+```powershell
+$studyJdk = "C:\Program Files\Eclipse Adoptium\jdk-21.0.12.8-hotspot"
+$env:JAVA_HOME = $studyJdk
+$env:Path = "$studyJdk\bin;$env:Path"
+mvn clean verify
+```
+
+For the HLD 26 module:
+
+```powershell
+cd G:\TechStudyNotes\SystemDesignProjects\trading-risk-platform
+mvn -pl pretrade-risk-engine -am test
+mvn -pl pretrade-risk-engine spring-boot:run
+```
+
+For the nested employee-document application:
+
+```powershell
+cd G:\TechStudyNotes\SystemDesignProjects\employee-document-upload-system\app
+mvn clean verify
+```
+
+Always prefer the exact commands in a project README when they differ from these defaults.
+
+## Documentation Map
+
+### Repository-level sources of truth
+
+| Document                                                         | Owns                                                              |
+| ---------------------------------------------------------------- | ----------------------------------------------------------------- |
+| This `README.md`                                                 | Whole-repository navigation, project ownership, and learning flow |
+| [Common HLD interview flows](docs/COMMON_HLD_INTERVIEW_FLOWS.md) | Reusable 40–60 minute system-design method                        |
+| [HLD 26–30 roadmap](HLD-26-30-LEARNING-ROADMAP.md)               | Ranking, ROI, readiness gates, progress, and revision order       |
+| [HLD 26–30 runnable pack](HLD-26-30-INTERVIEW-PACK.md)           | Runnable locations and commands for HLD 26–30                     |
+| [Readiness levels](docs/READINESS_LEVELS.md)                     | Interview versus production evidence vocabulary                   |
+
+### Project-level convention
+
+- `README.md`: purpose, scope, prerequisites, run commands, and smoke test.
+- `docs/INTERVIEW_GUIDE.md`: pitch, timed answer, trade-offs, failures, and follow-ups.
+- `docs/DIAGRAMS.md`: context, architecture, sequence, state, and deployment views.
+- `docs/DEMO_SCRIPT.md`: exact live-demo steps and talking points.
+- `PRODUCTION_READINESS.md`: real adapters, SLOs, HA, security, load, DR, rollout, and remaining gaps.
+
+Flagships may add ADRs, operations guides, failure drills, API references, and technology deep dives. Those additions should not duplicate repository-level ranking.
+
+## Interview Scope Versus Production Scope
+
+| Track            | Good-enough boundary                                                                                                                    | Do not claim                                                         |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| Interview I1     | Requirements, estimates, architecture, ownership, core flows, one or two deep dives, failures, trade-offs, and a runnable key invariant | That local code or a Docker file proves production readiness         |
+| Production P0–P4 | SLOs, capacity, real adapters, security, HA/recovery, load/soak, fault injection, observability, DR, rollout, and real-traffic evidence | Completion without measured evidence in a representative environment |
+
+Use the labels `VERIFIED_LOCAL`, `IMPLEMENTED_UNVERIFIED`, `DESIGNED_ONLY`, and `EXTERNAL_DEPENDENCY`. A strong interview project is intentionally allowed to stop at I1.
+
+## Redundancy and Repository Boundaries
+
+- Keep separate learning stories separate; do not build one giant application.
+- HLD 29 integrates HLD 26–28 through contracts and does not own their detailed implementations.
+- `exchange-lite`, `trading-risk-platform`, and `mini-risk-management-platform` respectively own exchange internals, focused pre-trade risk, and broad microservice/platform architecture.
+- `fraud-detection-platform` owns deterministic scoring; `ai-risk-fraud-investigation-assistant` owns guarded investigation workflows.
+- `ecommerce-backend` owns the business workflow; `reliable-order-platform` owns delivery/idempotency correctness.
+- `java-concurrency-lab` is a reusable failure lab, not another trading product.
+- The canonical Real-Time Inventory application currently lives at `real-time-inventory-platform/real-time-inventory-platform`. Other project copies inside the outer wrapper are legacy mirror debt: do not edit or treat them as canonical. Flattening that wrapper is a separate destructive repository-maintenance task.
+
+Local-only `_archive` and `_meta` directories are ignored by Git and are not part of the tracked project map.
+
+## Shared Documentation Tooling
+
+Install the root documentation dependencies once:
+
+```powershell
+cd G:\TechStudyNotes\SystemDesignProjects
 npm install
 ```
 
-Render the included flowchart example:
-
-```powershell
-npm run diagram:example
-```
-
-Format and validate all tracked Markdown documentation, Mermaid blocks, JSON blocks, local links, and project HLD/LLD coverage:
+Format and audit tracked Markdown, Mermaid/JSON blocks, local links, and documentation coverage:
 
 ```powershell
 npm run docs:format
 npm run docs:audit
 ```
 
-Render any `.mmd` file from the root or a subdirectory. If `-Output` is omitted, an SVG is created next to the source file:
+Render the shared example or any `.mmd` file:
 
 ```powershell
+npm run diagram:example
 .\scripts\render-mermaid.ps1 -Source .\url-shortener\docs\architecture.mmd
-.\scripts\render-mermaid.ps1 -Source .\url-shortener\docs\architecture.mmd -Output .\url-shortener\docs\architecture.png
 ```
 
-Markdown files on GitHub can also display Mermaid without generating an image:
+## Verification Snapshot
 
-````markdown
-```mermaid
-flowchart LR
-    Client --> API --> Database
-```
-````
+Last repository-map refresh: **2026-08-22**.
 
-## Verification Notes
+- HLD 26 passed 13 tests and a local health check on JDK 21.
+- HLD 27–30 passed 16 tests; their CLI demonstrations passed, and HLD 30's HTTP path was exercised locally.
+- Canonical Java projects use Maven. Remaining Gradle files exist only in the non-canonical Real-Time Inventory mirror described above.
+- Docker/Compose and Kubernetes files are implementation evidence only until run against a responsive engine/cluster.
+- A local unit test, generated manifest, or static configuration check must not be reported as a production runtime proof.
 
-Last portfolio audit: 2026-08-05. Focused consolidation re-audit: 2026-08-13. Real-time inventory platform added and verified: 2026-08-16. HLD 26–30 interview pack added and verified: 2026-08-22.
+## Repository-Owner Checklist
 
-- Maven 3.9 currently uses Java 17 by default. Temurin JDK 21 is installed at `C:\Program Files\Eclipse Adoptium\jdk-21.0.12.8-hotspot`; set `JAVA_HOME` explicitly for Java 21 modules.
-- The HLD 26 pre-trade module passed 13 tests and a live health check on JDK 21. HLD 27–30 passed 15 tests plus CLI demos; the aggregator HTTP endpoint also passed a live request.
-- Docker, Docker Compose, and kubectl CLIs are on PATH, but the Docker daemon is not reachable from this terminal and kubectl has no current context. Full container and cluster smoke tests still require a responsive Docker Desktop engine and Kubernetes context.
-- The old `Booking` folder has been archived as `_archive/2026-08-05-flattened-wrappers/Booking-legacy`. Use `hotel-booking-service` as the active copy.
-- The 2026-08-13 re-audit found no project that should be merged immediately. It updated the active list and documentation standard for the newer tracked projects.
-- Docker Compose structural validation passed for 17 files. Kubernetes offline checks passed for four kustomization directories and 41 raw resource files, but Kubernetes runtime apply tests are not confirmed without a cluster.
-- Focused runtime checks passed for `dropbox-file-sync-demo`, `java-concurrency-lab`, `ai-risk-fraud-investigation-assistant`, `reliable-order-platform`, and the frontend part of `cloud-ai-coding-agent`. The cloud-agent backend now uses the canonical Maven build and passed all three backend tests on JDK 21; its Maven-based Docker image still requires a responsive Docker Desktop engine for runtime validation.
-- `real-time-inventory-platform` passed all six Maven unit/integration tests and a live H2-backed HTTP smoke test. Its PostgreSQL Compose topology is provided but was not runtime-validated in that check.
+When adding or materially changing a project:
 
-## Common Verification Commands
-
-For most Java 17 projects:
-
-```powershell
-mvn test
-mvn "-DskipTests" package
-```
-
-For `employee-document-upload-system`:
-
-```powershell
-cd app
-mvn test
-mvn "-DskipTests" package
-```
-
-For `mini-risk-management-platform` until a real JDK 21 is installed:
-
-```powershell
-$jdk = "C:\Users\Chiranjeev Jain\.jdks\openjdk-25"
-$env:JAVA_HOME = $jdk
-$env:Path = "$jdk\bin;$env:Path"
-mvn "-Dnet.bytebuddy.experimental=true" test
-mvn "-Dnet.bytebuddy.experimental=true" "-DskipTests" package
-```
-
-For the fast live pre-trade demo:
-
-```powershell
-cd G:\TechStudyNotes\SystemDesignProjects\trading-risk-platform
-mvn -pl pretrade-risk-engine spring-boot:run
-```
-
-Open `http://localhost:8090`.
-
-For the exchange engine demo:
-
-```powershell
-cd G:\TechStudyNotes\SystemDesignProjects\exchange-lite
-mvn test
-mvn package
-```
-
-Then follow the three-terminal engine, sidecar, and CLI commands in `exchange-lite/README.md`.
-
-For the Dropbox-style sync demo:
-
-```powershell
-cd G:\TechStudyNotes\SystemDesignProjects\dropbox-file-sync-demo
-mvn test
-powershell -ExecutionPolicy Bypass -File scripts\smoke-test.ps1
-mvn spring-boot:run
-```
-
-Open `http://127.0.0.1:8080`.
-
-For the Java concurrency lab:
-
-```powershell
-cd G:\TechStudyNotes\SystemDesignProjects\java-concurrency-lab
-$jdk = "C:\Users\Chiranjeev Jain\.jdks\openjdk-25"
-$env:JAVA_HOME = $jdk
-$env:Path = "$jdk\bin;$env:Path"
-mvn test
-mvn exec:java "-Dexec.args=safe 100000"
-mvn exec:java "-Dexec.args=failures"
-```
+1. Reuse the closest canonical project instead of creating a duplicate.
+2. Keep Java builds Maven-only.
+3. Give the project one explicit learning owner and add it to exactly one primary portfolio group here.
+4. Add or update its README, interview guide, diagrams, demo path, and readiness boundary in proportion to scope.
+5. Verify the smallest real execution path and state the evidence level honestly.
+6. Run `npm run docs:format` and `npm run docs:audit` from the repository root.
+7. Keep rankings in the HLD roadmap and technical detail in project documentation.
+8. Commit only the intended files and keep `main` aligned with `origin/main`.
